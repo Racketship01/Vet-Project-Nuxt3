@@ -8,21 +8,21 @@
     <div>
       <v-img
         class="mx-auto my-9"
-        max-width="200"
-        src="@/assets/images/logologin.png"
+        max-width="125"
+        src="@/assets/images/vueti.png"
       ></v-img>
 
       <h1 class="logh1">Login</h1>
 
       <!-- Email -->
-      <v-form v-model="form" @submit.prevent="onSubmit">
+      <v-form v-model="form" @submit.prevent="login">
         <v-text-field
           v-model="email"
           :readonly="loading"
           label="Your Email"
           persistent-hint
           variant="outlined"
-          :rules="emailRules"
+          :rules="emailRule"
         ></v-text-field>
 
         <!-- Password -->
@@ -32,7 +32,7 @@
           class="vfield"
           label="Enter Password"
           variant="outlined"
-          :rules="[passwordRules.required, passwordRules.min]"
+          :rule="passwordRule"
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
           :type="visible ? 'text' : 'password'"
           @click:append-inner="visible = !visible"
@@ -92,37 +92,53 @@
   </v-sheet>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const form = ref(false);
 const email = ref("");
 const password = ref("");
 const loading = ref(false);
 const visible = ref(false);
 
-const onSubmit = () => {
+//SignIn Auth
+const supabase = useSupabaseClient();
+const user = useSupabaseUser();
+
+const login = async () => {
   if (!form.value) return;
 
-  loading.value = true;
+  const redirectTo = navigateTo("/profile");
+  try {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.value,
+      password: password.value,
+    });
+    if (error) throw error;
+    return redirectTo;
+  } catch (error) {
+    console.error(error);
+  }
 
-  setTimeout(() => (loading.value = false), 2000);
+  if (user) {
+    !loading.value;
+    setTimeout(() => loading.value, 5000);
+  }
 };
 
-const emailRules = [
-  (value) => {
+const emailRule = [
+  (value: string) => {
     if (value) return true;
     return "E-mail is requred.";
   },
-  (value) => {
+  (value: string) => {
     if (/.+@.+\..+/.test(value)) return true;
     return "E-mail must be valid.";
   },
 ];
 
-const passwordRules = {
-  required: (value) => !!value || "This fiels is required.",
-  min: (v) => v.length >= 8 || "Min 8 characters",
-  emailMatch: () => `The email and password you entered don't match`,
-};
+const passwordRule = (value: string) => !!value || "This field is required.";
+
+// min: (v) => v.length >= 8 || "Min 8 characters",
+// emailMatch: () => `The email and password you entered don't match`,
 
 const shortcuts = [
   {

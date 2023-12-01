@@ -5,22 +5,19 @@
   text-align: center;
   margin-bottom: 10px;
   font-family: sans-serif;
-  font-size: 50px;
+  font-size: 45px;
 }
-
 .htxt {
   text-align: center;
   color: clr(link, link-2);
   font-size: 18px;
   margin-top: 15px;
 }
-
-.vcard1 {
+​ .vcard1 {
   height: 55px;
   width: 155px;
 }
-
-.captxt {
+​ .captxt {
   font-size: 15px !important;
   font-weight: 400;
   line-height: 1.25rem;
@@ -30,20 +27,25 @@
   display: inline-block;
   margin: 10px;
 }
-
-.alink {
+​ .alink {
   text-decoration: none;
   color: clr(link, link-1);
   margin-left: 10px;
 }
-
-.vfield {
+​ .vfield {
   margin-top: 15px;
   margin-bottom: 10px;
 }
-
-.inktext {
+​ .pad {
+  padding: 10px;
+}
+​ .inktext {
   font-size: 15px;
   margin-bottom: 15px;
   margin-top: 10px;
+}
+
+.success {
+  font-size: size(16) * 15;
+  color: green;
 }
