@@ -1,0 +1,12 @@
+@use "../abstracts/" as *;
+
+.pet {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.petInfo {
+  font-size: size(32);
+  margin-right: size(8);
+}

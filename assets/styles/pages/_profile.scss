@@ -1,0 +1,41 @@
+@use "../abstracts/" as *;
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 4vw auto;
+  width: 85%;
+  height: 85%;
+  min-height: 100vh;
+  background-color: fade-out(clr(primary, main-2), 0.6) !important;
+  overflow: hidden;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.record {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.profileForm {
+  width: 35%;
+
+  // display: flex;
+  // flex-direction: column;
+  background-color: #f1f1f1 !important;
+}
+
+.profile {
+  padding: 3rem;
+  //background-color: aqua;
+  width: 65%;
+}
