@@ -7,17 +7,18 @@
   >
     <div>
       <v-img
-        class="mx-auto my-5 mb-7"
+        class="mx-auto my-5"
         max-width="125"
         src="@/assets/images/vueti.png"
       ></v-img>
-      <h1 class="logh1">Sign Up</h1>
 
-      <!-- Email -->
-      <v-form v-model="form" ref="resetForm" @submit.prevent="signUp">
+      <v-form v-model="form" ref="resetForm" @submit.prevent="updateUser">
+        <h2 class="logh2">Update new password</h2>
+        <p class="pagh">Please enter email address and new password.</p>
+        <!-- Email -->
+
         <v-text-field
-          :readonly="loading"
-          label="Your Email"
+          label="Enter your email"
           persistent-hint
           variant="outlined"
           v-model="email"
@@ -26,9 +27,8 @@
 
         <!-- Password -->
         <v-text-field
-          :readonly="loading"
           class="vfield"
-          label="Enter Password"
+          label="Enter your new password"
           variant="outlined"
           v-model="password"
           :rules="[passwordRules.required, passwordRules.min]"
@@ -37,11 +37,11 @@
           @click:append-inner="visible = !visible"
         ></v-text-field>
 
-        <!-- <span class="success pagh">{{ successMsg }}</span> -->
+        <span class="success pagh">{{ successMsg }}</span>
 
         <!-- Button -->
         <v-row align="center" justify="center">
-          <v-col class="mx-auto mt-4" max-width="500">
+          <v-col class="mx-auto mt-3 mb-4" max-width="500">
             <v-btn
               type="submit"
               :disabled="!form"
@@ -51,84 +51,71 @@
               color="blue-darken-1"
               variant="flat"
             >
-              Sign up</v-btn
+              Update</v-btn
             >
+
+            <div class="inktext" align="center">
+              <NuxtLink v-if="login" class="n-link" to="/">Login</NuxtLink>
+            </div>
           </v-col>
         </v-row>
       </v-form>
-      <!-- register link -->
-      <div class="inktext" align="center">
-        <span>Already have an account?</span>
-        <NuxtLink class="n-link" to="/">Login Here</NuxtLink>
-      </div>
     </div>
   </v-sheet>
-
-  <OverlayMsg
-    v-if="msgShow"
-    :showMsg="msgShow"
-    successMsg="Please check your email to confirm your account."
-  >
-    <v-btn color="green-lighten-1" variant="flat" block @click="close">
-      Close
-    </v-btn>
-  </OverlayMsg>
 </template>
 
-<script setup lang="ts">
+<script setup>
 const form = ref(false);
-const email = ref("");
-const password = ref("");
 const loading = ref(false);
 const visible = ref(false);
+const email = ref("");
+const password = ref("");
+const login = ref(false);
 const resetForm = ref();
-const msgShow = ref(false);
 
-// SignUp Auth
+// Update Auth
+const successMsg = ref("");
 const supabase = useSupabaseClient();
 
-const signUp = async () => {
+const updateUser = async () => {
   if (!form.value) return;
   loading.value = true;
 
   try {
-    const { data, error } = await supabase.auth.signUp({
-      email: email.value,
+    const { data, error } = await supabase.auth.updateUser({
       password: password.value,
-      options: {
-        emailRedirectTo: "http://localhost:3000/",
-      },
     });
+
     if (error) throw error;
 
     if (data) {
+      successMsg.value = "Successfully updated new password";
       loading.value = false;
       resetForm.value.reset();
-      msgShow.value = true;
+      login.value = true;
     }
   } catch (error) {
     console.error(error);
   }
 };
 
+// const redirectToLogin = () => {
+//   return navigateTo("/");
+// };
+
 const emailRules = [
-  (value: string) => {
+  (value) => {
     if (value) return true;
     return "E-mail is requred.";
   },
-  (value: string) => {
+  (value) => {
     if (/.+@.+\..+/.test(value)) return true;
     return "E-mail must be valid.";
   },
 ];
 const passwordRules = {
-  required: (value: string) => !!value || "This fiels is required.",
-  min: (v: string) => v.length >= 8 || "Min 8 characters",
-};
-
-const close = (value: any) => {
-  if (value) msgShow.value = true;
-
-  return (msgShow.value = false);
+  required: (value) => !!value || "This fiels is required.",
+  min: (v) => v.length >= 8 || "Min 8 characters",
+  emailMatch: () => `The email and password you entered don't match`,
 };
 </script>

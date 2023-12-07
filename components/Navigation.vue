@@ -6,15 +6,35 @@
     </div>
 
     <div>
-      <v-btn icon>
-        <v-icon>mdi-export</v-icon>
-      </v-btn>
+      <v-btn @click="logout"> Logout </v-btn>
     </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import logo from "@/assets/images/logo1.png";
 
 const imgLogo = logo;
+
+const user = useSupabaseUser();
+const { auth } = useSupabaseClient();
+
+const logout = async () => {
+  const { error } = await auth.signOut();
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  try {
+    await $fetch("/api/_supabase/session", {
+      method: "POST",
+      body: { event: "SIGNED_OUT", session: null },
+    });
+    user.value = null;
+  } catch (e) {
+    console.error(error);
+  }
+  await navigateTo("/");
+};
 </script>

@@ -13,11 +13,20 @@
   font-size: 18px;
   margin-top: 15px;
 }
-​ .vcard1 {
-  height: 55px;
+
+// .fbtn {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between !important;
+// }
+.vcard1 {
+  height: 55px !important;
   width: 155px;
+  // margin-right: size(48);
+  // margin-left: size(48);
 }
-​ .captxt {
+
+.captxt {
   font-size: 15px !important;
   font-weight: 400;
   line-height: 1.25rem;
@@ -27,25 +36,29 @@
   display: inline-block;
   margin: 10px;
 }
-​ .alink {
-  text-decoration: none;
-  color: clr(link, link-1);
+
+.n-link {
+  text-decoration: none !important;
+  color: clr(link, link-1) !important;
   margin-left: 10px;
 }
-​ .vfield {
+
+.vfield {
   margin-top: 15px;
   margin-bottom: 10px;
 }
-​ .pad {
+
+.pad {
   padding: 10px;
 }
-​ .inktext {
+
+.inktext {
   font-size: 15px;
   margin-bottom: 15px;
   margin-top: 10px;
 }
 
 .success {
-  font-size: size(16) * 15;
+  font-size: size(16);
   color: green;
 }

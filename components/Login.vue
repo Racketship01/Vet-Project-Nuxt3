@@ -15,7 +15,7 @@
       <h1 class="logh1">Login</h1>
 
       <!-- Email -->
-      <v-form v-model="form" @submit.prevent="login">
+      <v-form v-model="form" @submit.prevent="loginWithEmail">
         <v-text-field
           v-model="email"
           :readonly="loading"
@@ -39,8 +39,9 @@
         ></v-text-field>
 
         <!-- Forget -->
-
-        <NuxtLink to="/recover" class="alink">Forgot login password?</NuxtLink>
+        <NuxtLink class="n-link" to="/resetPassword">
+          Forgot login password?</NuxtLink
+        >
 
         <!-- Button -->
 
@@ -60,24 +61,24 @@
           </v-col>
         </v-row>
       </v-form>
-      <!-- Auth Icon -->
 
+      <!-- Auth Icon -->
       <h3 class="htxt">OR</h3>
 
       <v-container class="text-center">
         <v-row justify="center" dense>
           <v-col align="center" v-for="(shortcut, i) in shortcuts" :key="i">
-            <v-card
-              :href="shortcut.href"
+            <v-btn
+              @click="shortcut.auth"
+              :loading="loading"
               class="vcard1 pa-2"
               variant="tonal"
               color="grey-darken-1"
-              target="_blank"
             >
               <Icon size="25" :name="shortcut.icon" />
 
               <div class="captxt" v-text="shortcut.title"></div>
-            </v-card>
+            </v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -86,7 +87,7 @@
 
       <div class="inktext" align="center">
         <span>Not yet register?</span>
-        <NuxtLink class="alink" to="/signUp">Signup Here</NuxtLink>
+        <NuxtLink class="n-link" to="/signUp">Signup Here</NuxtLink>
       </div>
     </div>
   </v-sheet>
@@ -99,11 +100,20 @@ const password = ref("");
 const loading = ref(false);
 const visible = ref(false);
 
-//SignIn Auth
+// Supabase
 const supabase = useSupabaseClient();
 const user = useSupabaseUser();
 
-const login = async () => {
+// watchEffect(async () => {
+//   if (user.value) {
+//     await navigateTo("/profile", {
+//       replace: true,
+//     });
+//   }
+// });
+
+// Email Auth
+const loginWithEmail = async () => {
   if (!form.value) return;
 
   const redirectTo = navigateTo("/profile");
@@ -113,14 +123,39 @@ const login = async () => {
       password: password.value,
     });
     if (error) throw error;
+    loading.value = true;
     return redirectTo;
   } catch (error) {
     console.error(error);
   }
+};
 
-  if (user) {
-    !loading.value;
-    setTimeout(() => loading.value, 5000);
+// Provider Auth
+const loginWithGoogle = async () => {
+  const redirectTo = navigateTo("/profile");
+  try {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    if (error) throw error;
+    loading.value = true;
+    return redirectTo;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const loginWithFacebook = async () => {
+  const redirectTo = navigateTo("/profile");
+  try {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "facebook",
+    });
+    if (error) throw error;
+    loading.value = true;
+    return redirectTo;
+  } catch (error) {
+    console.error(error);
   }
 };
 
@@ -137,19 +172,18 @@ const emailRule = [
 
 const passwordRule = (value: string) => !!value || "This field is required.";
 
-// min: (v) => v.length >= 8 || "Min 8 characters",
-// emailMatch: () => `The email and password you entered don't match`,
+//const handleClick = (method: any) => method;
 
 const shortcuts = [
   {
     icon: "logos:google-icon",
     title: "Google",
-    href: "https://github.com/vuetifyjs/vuetify/tree/dev",
+    auth: () => loginWithGoogle(),
   },
   {
     icon: "logos:facebook",
     title: "Facebook",
-    href: "https://github.com/vuetifyjs/vuetify/tree/v2-stable",
+    auth: () => loginWithFacebook(),
   },
 ];
 </script>
