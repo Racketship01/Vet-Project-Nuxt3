@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7.3.67",
+    "@nuxt/image": "^1.1.0",
     "@nuxtjs/supabase": "^1.1.4"
   }
 }

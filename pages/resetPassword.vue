@@ -28,7 +28,7 @@
           :rules="emailRules"
         ></v-text-field>
 
-        <span class="success pagh">{{ successMsg }}</span>
+        <!-- <span class="success pagh">{{ successMsg }}</span> -->
 
         <!-- Button -->
         <v-row align="center" justify="center">
@@ -48,10 +48,20 @@
         </v-row>
       </v-form>
     </div>
-    <div class="inktext" align="center">
+    <!-- <div class="inktext" align="center">
       <NuxtLink class="n-link" to="/">Cancel</NuxtLink>
-    </div>
+    </div> -->
   </v-sheet>
+
+  <OverlayMsg
+    v-if="msgShow"
+    :showMsg="msgShow"
+    successMsg="Please check your email to update your password."
+  >
+    <v-btn color="green-lighten-1" variant="flat" block @click="close">
+      Close
+    </v-btn>
+  </OverlayMsg>
 </template>
 
 <script setup lang="ts">
@@ -59,9 +69,10 @@ const form = ref(false);
 const loading = ref(false);
 const email = ref("");
 const resetForm = ref();
+const msgShow = ref(false);
 
 // Reset Auth
-const successMsg = ref("");
+// const successMsg = ref("");
 const supabase = useSupabaseClient();
 
 const resetPassword = async () => {
@@ -79,14 +90,21 @@ const resetPassword = async () => {
     if (error) throw error;
 
     if (data) {
-      successMsg.value =
-        "Successfully reset: Check your email to update password";
+      // successMsg.value =
+      //   "Successfully reset: Check your email to update password";
       loading.value = false;
       resetForm.value.reset();
+      msgShow.value = true;
     }
   } catch (error) {
     console.error(error);
   }
+};
+
+const close = (value: any) => {
+  if (value) msgShow.value = true;
+
+  return (msgShow.value = false);
 };
 
 const emailRules = [

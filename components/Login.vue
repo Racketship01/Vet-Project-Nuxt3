@@ -6,11 +6,7 @@
     class="pa-4 mx-auto ma-10"
   >
     <div>
-      <v-img
-        class="mx-auto my-9"
-        max-width="125"
-        src="@/assets/images/vueti.png"
-      ></v-img>
+      <LazyImages />
 
       <h1 class="logh1">Login</h1>
 
@@ -171,8 +167,6 @@ const emailRule = [
 ];
 
 const passwordRule = (value: string) => !!value || "This field is required.";
-
-//const handleClick = (method: any) => method;
 
 const shortcuts = [
   {

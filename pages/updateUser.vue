@@ -37,7 +37,7 @@
           @click:append-inner="visible = !visible"
         ></v-text-field>
 
-        <span class="success pagh">{{ successMsg }}</span>
+        <!-- <span class="success pagh">{{ successMsg }}</span> -->
 
         <!-- Button -->
         <v-row align="center" justify="center">
@@ -54,27 +54,35 @@
               Update</v-btn
             >
 
-            <div class="inktext" align="center">
+            <!-- <div class="inktext" align="center">
               <NuxtLink v-if="login" class="n-link" to="/">Login</NuxtLink>
-            </div>
+            </div> -->
           </v-col>
         </v-row>
       </v-form>
     </div>
   </v-sheet>
+  <OverlayMsg
+    v-if="msgShow"
+    :showMsg="msgShow"
+    successMsg="Successfully updated password. Login to continue."
+  >
+    <NuxtLink class="n-link" to="/">
+      <v-btn color="green-lighten-1" variant="flat" block> Login </v-btn>
+    </NuxtLink>
+  </OverlayMsg>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const form = ref(false);
 const loading = ref(false);
 const visible = ref(false);
 const email = ref("");
 const password = ref("");
-const login = ref(false);
+const msgShow = ref(false);
 const resetForm = ref();
 
 // Update Auth
-const successMsg = ref("");
 const supabase = useSupabaseClient();
 
 const updateUser = async () => {
@@ -89,33 +97,28 @@ const updateUser = async () => {
     if (error) throw error;
 
     if (data) {
-      successMsg.value = "Successfully updated new password";
       loading.value = false;
       resetForm.value.reset();
-      login.value = true;
+      msgShow.value = true;
     }
   } catch (error) {
     console.error(error);
   }
 };
 
-// const redirectToLogin = () => {
-//   return navigateTo("/");
-// };
-
 const emailRules = [
-  (value) => {
+  (value: string) => {
     if (value) return true;
     return "E-mail is requred.";
   },
-  (value) => {
+  (value: string) => {
     if (/.+@.+\..+/.test(value)) return true;
     return "E-mail must be valid.";
   },
 ];
 const passwordRules = {
-  required: (value) => !!value || "This fiels is required.",
-  min: (v) => v.length >= 8 || "Min 8 characters",
+  required: (value: string) => !!value || "This fiels is required.",
+  min: (v: string) => v.length >= 8 || "Min 8 characters",
   emailMatch: () => `The email and password you entered don't match`,
 };
 </script>

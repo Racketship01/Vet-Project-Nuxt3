@@ -21,8 +21,11 @@ export default defineNuxtConfig({
     },
     "@nuxtjs/supabase",
     "nuxt-icon",
+    "@nuxt/image",
   ],
-
+  image: {
+    dir: "@/assets/images",
+  },
   vite: {
     vue: {
       template: {
