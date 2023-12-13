@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     },
     "@nuxtjs/supabase",
     "nuxt-icon",
-    "@nuxt/image",
+    "@pinia/nuxt",
   ],
   image: {
     dir: "@/assets/images",

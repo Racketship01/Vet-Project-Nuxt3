@@ -1,5 +1,19 @@
 @use "../abstracts" as *;
 
+.vsheetlog {
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.vimglog {
+  height: 100px;
+  align-items: flex-start;
+  display: flex;
+  margin: auto;
+  margin-top: -55px !important;
+}
+
 .logh1 {
   font-family: unset;
   text-align: center;
@@ -14,16 +28,9 @@
   margin-top: 15px;
 }
 
-// .fbtn {
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between !important;
-// }
 .vcard1 {
   height: 55px !important;
   width: 155px;
-  // margin-right: size(48);
-  // margin-left: size(48);
 }
 
 .captxt {
@@ -58,7 +65,10 @@
   margin-top: 10px;
 }
 
-.success {
-  font-size: size(16);
-  color: green;
+.logtxtfld {
+  margin-bottom: 10px;
+}
+
+.vdiacard {
+  padding: 10px !important;
 }

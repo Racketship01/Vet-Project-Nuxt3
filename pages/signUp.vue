@@ -6,15 +6,23 @@
     class="pa-4 mx-auto ma-15"
   >
     <div>
-      <v-img
-        class="mx-auto my-5 mb-7"
-        max-width="125"
-        src="@/assets/images/vueti.png"
-      ></v-img>
+      <div>
+        <img :src="logo" class="vimglog" />
+      </div>
+
       <h1 class="logh1">Sign Up</h1>
 
       <!-- Email -->
       <v-form v-model="form" ref="resetForm" @submit.prevent="signUp">
+        <v-text-field
+          :readonly="loading"
+          label="Enter Full Name"
+          persistent-hint
+          variant="outlined"
+          v-model="username"
+          :rules="userNameRule"
+        ></v-text-field>
+
         <v-text-field
           :readonly="loading"
           label="Your Email"
@@ -31,7 +39,7 @@
           label="Enter Password"
           variant="outlined"
           v-model="password"
-          :rules="[passwordRules.required, passwordRules.min]"
+          :rules="passwordSign"
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
           :type="visible ? 'text' : 'password'"
           @click:append-inner="visible = !visible"
@@ -76,13 +84,20 @@
 </template>
 
 <script setup lang="ts">
+import logo from "@/assets/images/vueh.png";
+
 const form = ref(false);
+const username = ref("");
 const email = ref("");
 const password = ref("");
 const loading = ref(false);
 const visible = ref(false);
 const resetForm = ref();
 const msgShow = ref(false);
+
+const userNameRule = userRule();
+const emailRules = emailRule();
+const { passwordSign } = passwordRule();
 
 // SignUp Auth
 const supabase = useSupabaseClient();
@@ -96,7 +111,10 @@ const signUp = async () => {
       email: email.value,
       password: password.value,
       options: {
-        emailRedirectTo: "http://localhost:3000/",
+        data: {
+          full_name: username.value,
+        },
+        emailRedirectTo: "http://localhost:3000/profile",
       },
     });
     if (error) throw error;
@@ -109,21 +127,6 @@ const signUp = async () => {
   } catch (error) {
     console.error(error);
   }
-};
-
-const emailRules = [
-  (value: string) => {
-    if (value) return true;
-    return "E-mail is requred.";
-  },
-  (value: string) => {
-    if (/.+@.+\..+/.test(value)) return true;
-    return "E-mail must be valid.";
-  },
-];
-const passwordRules = {
-  required: (value: string) => !!value || "This fiels is required.",
-  min: (v: string) => v.length >= 8 || "Min 8 characters",
 };
 
 const close = (value: any) => {

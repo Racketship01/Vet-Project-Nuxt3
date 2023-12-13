@@ -1,7 +1,9 @@
 <template>
-  <nuxt-img
-    class="mx-auto my-5"
-    max-width="125"
-    src="@/assets/images/vueti.png"
-  />
+  <div>
+    <img :src="logo" class="vimglog" />
+  </div>
 </template>
+
+<script>
+import logo from "@/assets/images/vueh.png";
+</script>

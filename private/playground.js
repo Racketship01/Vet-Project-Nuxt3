@@ -1,3 +1,31 @@
+// let initials = "";
+// const fullName = "Racket ship";
+// console.log(fullName.split(" "));
+
+const [firstName, lastName] = "Jonas Schmedtmann".split(" ");
+
+console.log(firstName, lastName);
+
+const initials = () => {
+  const combine = [
+    firstName.slice(0, 1).toUpperCase(),
+    lastName.slice(0, 1).toUpperCase(),
+  ].join("");
+
+  return combine;
+};
+
+console.log(initials());
+
+const initial = [
+  firstName.slice(0, 1).toUpperCase(),
+  lastName.slice(0, 1).toUpperCase(),
+].join("");
+console.log(initial);
+
+/*
+setTimeout(() => (this.loading = false), 2000);
+
 <template>
   <v-card class="ml-px-6 py-8" max-width="344">
     <v-form v-model="form" @submit.prevent="onSubmit">
@@ -63,3 +91,4 @@ export default {
   },
 };
 </script>
+*/

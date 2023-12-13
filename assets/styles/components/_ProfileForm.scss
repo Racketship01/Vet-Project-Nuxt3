@@ -1,12 +1,25 @@
 @use "../abstracts/" as *;
 
 .pet {
-  display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  margin-top: 10px;
+  text-align: center;
 }
 
-.petInfo {
-  font-size: size(32);
-  margin-right: size(8);
+.SpetInfo {
+  font-size: size(24);
+  font-family: monospace !important;
+  text-align: center !important;
+}
+
+.form {
+  margin-top: 15px !important;
+}
+
+.btnform {
+  margin-bottom: 10px;
+}
+.v-imgf {
+  margin-bottom: 10px;
 }

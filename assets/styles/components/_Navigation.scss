@@ -1,18 +1,15 @@
 @use "../abstracts/" as *;
+
 .title {
   color: clr(neutral, 900);
-  margin: size(16);
+  font-size: size(24) !important;
+  line-height: size(36) !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: size(8);
-}
 .cover {
   background-color: clr(neutral, 500) !important;
-  height: size(48) * 2;
+  height: size(48) * 2 !important;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -20,7 +17,37 @@
 }
 
 .logo {
-  height: 3.5rem;
-  width: 3.5rem;
-  margin-inline-start: 10px;
+  height: 2rem;
+  width: 2rem;
+  margin-inline-start: 20px;
+}
+
+.nav1 {
+  background-color: clr(neutral, 500) !important;
+  position: unset !important;
+  box-shadow: unset !important;
+}
+
+.rownav {
+  justify-content: flex-end;
+  margin-right: 40px !important;
+}
+
+.vcardnav {
+  margin-top: 10px;
+  right: 20px !important;
+}
+
+.vspanav {
+  font-size: 18px !important;
+  margin-top: 8px;
+}
+
+.pnav {
+  color: clr(link, link-1) !important;
+  margin-top: 5px;
+}
+
+.temp {
+  position: unset !important;
 }
