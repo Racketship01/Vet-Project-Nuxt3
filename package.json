@@ -12,9 +12,11 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@pinia/nuxt": "^0.5.1",
+    "@prisma/client": "^5.7.0",
     "eslint": "^8.53.0",
     "nuxt": "^3.8.1",
     "nuxt-icon": "^0.6.6",
+    "prisma": "^5.7.0",
     "sass": "^1.69.5",
     "sass-loader": "^13.3.2",
     "vite-plugin-vuetify": "^1.0.2",

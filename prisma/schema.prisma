@@ -1,0 +1,58 @@
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64"]
+  output        = "../node_modules/.prisma/client"
+}
+
+model Clinic {
+    id        Int       @id @default(autoincrement())
+    title     String
+    categories Category[]
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+}
+
+model Category {
+    id        Int       @id @default(autoincrement())
+    type      String
+    slug      String
+    pets      Pet[]
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    Clinic     Clinic   @relation(fields: [clinicId], references: [id])
+    clinicId Int
+
+}
+
+model Pet {
+  id        Int       @id @default(autoincrement())
+  petName   String
+  slug      String
+  petAge    Int
+  breed     String
+  birth     Int
+  gender    String
+  owner     Owner[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Category  Category  @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+}
+
+model Owner {
+  id        Int       @id @default(autoincrement())
+  firstName String
+  lastName  String
+  ownerAge  Int
+  contact   Int
+  address   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Pet       Pet       @relation(fields: [petId], references: [id])
+  petId     Int
+}

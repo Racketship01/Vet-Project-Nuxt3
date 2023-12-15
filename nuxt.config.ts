@@ -23,9 +23,9 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "@pinia/nuxt",
   ],
-  image: {
-    dir: "@/assets/images",
-  },
+  // image: {
+  //   dir: "@/assets/images",
+  // },
   vite: {
     vue: {
       template: {

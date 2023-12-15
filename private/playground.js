@@ -1,7 +1,44 @@
+prisma.clinic.create({
+  data: {
+    title: "Vueti-Vet",
+    categories: {
+      create: [
+        {
+          type: "category.value",
+          slug: "category.value.slice(0,1).number.random()",
+          pets: {
+            create: [
+              {
+                petName: "petName.value",
+                slug: "petName.value.slice(0,1).number.math.random()",
+                age: "petAge.value",
+                breed: "breed.value",
+                birth: "birth.value",
+                gender: "gender.value",
+                owner: {
+                  create: [
+                    {
+                      firstName: "firstName.value",
+                      lastName: "lastName.value",
+                      ownerAge: "ownerAge.value",
+                      contact: "contact.value",
+                      address: "address.value",
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  },
+});
+
 // let initials = "";
 // const fullName = "Racket ship";
 // console.log(fullName.split(" "));
-
+/*
 const [firstName, lastName] = "Jonas Schmedtmann".split(" ");
 
 console.log(firstName, lastName);
