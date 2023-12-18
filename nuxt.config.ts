@@ -41,4 +41,5 @@ export default defineNuxtConfig({
   supabase: {
     redirect: false,
   },
+  buildModules: ["@pinia/nuxt"],
 });

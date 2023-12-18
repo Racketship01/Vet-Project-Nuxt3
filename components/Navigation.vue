@@ -66,12 +66,12 @@ const { auth } = useSupabaseClient();
 
 const name = computed(() => user.value?.user_metadata.full_name);
 const [firstName, lastName] = name.value.split(" ");
-console.log(firstName, lastName);
+//console.log(firstName, lastName);
 const initials = firstName.slice(0, 1) + lastName.slice(0, 1);
 
 const profile = computed(() => user.value?.user_metadata.avatar_url);
 const email = computed(() => user.value?.user_metadata.email);
-console.log(email.value);
+// console.log(email.value);
 
 const logout = async () => {
   const { error } = await auth.signOut();

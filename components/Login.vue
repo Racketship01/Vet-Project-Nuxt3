@@ -122,15 +122,16 @@ watchEffect(async () => {
 // Email
 const loginWithEmail = async () => {
   if (!form.value) return;
+  console.log(email.value);
 
   const redirectTo = navigateTo("/profile");
   try {
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: email.value,
       password: password.value,
     });
+    if (data) loading.value = true;
     if (error) throw error;
-    loading.value = true;
     return redirectTo;
   } catch (error) {
     console.error(error);

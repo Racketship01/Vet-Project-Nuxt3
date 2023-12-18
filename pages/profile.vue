@@ -9,7 +9,6 @@
         <ProfileForm />
       </div>
       <div class="profile">
-        <!-- <ProfileForm /> -->
         <NuxtPage />
       </div>
     </div>

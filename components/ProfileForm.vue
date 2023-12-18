@@ -1,3 +1,4 @@
+.
 <template>
   <div>
     <div class="pet">
@@ -5,32 +6,27 @@
       <span class="SpetInfo">Pet Information</span>
     </div>
 
-    <v-form
-      class="form"
-      v-model="form"
-      ref="resetForm"
-      @submit.prevent="petFormSubmit"
-    >
+    <v-form v-model="form" class="form" ref="myForm">
       <v-container>
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="petname"
+              v-model="pet.petName"
               :rules="petRule"
-              :counter="10"
               label="Pet name"
+              persistent-hint
+              :readonly="loading"
               required
-              hide-details
             ></v-text-field>
           </v-col>
 
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="breed"
+              v-model="pet.breed"
               :rules="petRule"
-              :counter="10"
               label="Breed"
-              hide-details
+              persistent-hint
+              :readonly="loading"
               required
             >
             </v-text-field>
@@ -39,28 +35,26 @@
           <v-col cols="12" md="6">
             <v-text-field
               type="date"
-              v-model="birth"
+              v-model="pet.birth"
               :rules="petRule"
-              :counter="10"
               label="Date of Birth"
-              hide-details
-              required
+              persistent-hint
+              :readonly="loading"
             >
             </v-text-field>
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="petAge"
+              v-model.number="pet.petAge"
               :rules="petRule"
-              :counter="10"
               label="Age"
-              hide-details
-              required
+              persistent-hint
+              :readonly="loading"
             ></v-text-field>
           </v-col>
           <v-col cols="12" md="6">
             <v-select
-              v-model="gender"
+              v-model="pet.gender"
               :items="genderItems"
               :rules="[(v) => !!v || 'Item is required']"
               label="Gender"
@@ -70,7 +64,7 @@
 
           <v-col cols="12" md="6">
             <v-select
-              v-model="category"
+              v-model="category.type"
               :items="categoryItems"
               :rules="[(v) => !!v || 'Item is required']"
               label="Category"
@@ -90,56 +84,51 @@
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="firstName"
+              v-model="owner.firstName"
               :rules="petRule"
-              :counter="10"
               label="First name"
-              required
-              hide-details
+              persistent-hint
+              :readonly="loading"
             ></v-text-field>
           </v-col>
 
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="lastName"
+              v-model="owner.lastName"
               :rules="petRule"
-              :counter="10"
               label="Last name"
-              hide-details
-              required
+              persistent-hint
+              :readonly="loading"
             ></v-text-field>
           </v-col>
 
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="ownerAge"
+              v-model.number="owner.ownerAge"
               :rules="petRule"
-              :counter="10"
               label="Age"
-              hide-details
-              required
+              persistent-hint
+              :readonly="loading"
             ></v-text-field>
           </v-col>
 
           <v-col cols="12" md="6">
             <v-text-field
-              v-model="contact"
+              v-model.number="owner.contact"
               :rules="petRule"
-              :counter="10"
               label="Contact number"
-              hide-details
-              required
+              persistent-hint
+              :readonly="loading"
             ></v-text-field>
           </v-col>
 
           <v-col>
             <v-text-field
-              v-model="address"
+              v-model="owner.address"
               :rules="petRule"
-              :counter="10"
               label="Address"
-              hide-details
-              required
+              persistent-hint
+              :readonly="loading"
             ></v-text-field>
           </v-col>
         </v-row>
@@ -156,6 +145,7 @@
           size="x-large"
           color="blue-darken-1"
           variant="flat"
+          @click="formSubmit"
         >
           Submit
         </v-btn>
@@ -168,26 +158,46 @@
 import profileHeader from "@/assets/images/head1.png";
 import profileHeader2 from "@/assets/images/head2.png";
 
+import { useProfileForm } from "@/stores/profileForm";
+import { storeToRefs } from "pinia";
+const store = useProfileForm();
+const { pet, category, owner } = storeToRefs(store);
+const { initialize } = store;
+
+initialize();
+
 const form = ref(false);
 const loading = ref(false);
+const myForm = ref();
 
 // Pet ----------------------------------------------------------------------
-const petname = ref("");
-const breed = ref("");
-const birth = ref("");
-const petAge = ref("");
-const gender = ref("");
+// const petName = ref("");
+// const breed = ref("");
+// const birth = ref("");
+// const petAge = ref("");
+// const gender = ref("");
 const genderItems = ["Female", "Male"];
-const category = ref("");
+// const category = ref("");
 const categoryItems = ["Avian", "Canine", "Feline", "Herd", "Piscine"];
 const petRule = fieldRule();
 
 // Owner ----------------------------------------------------------------------
-const firstName = ref("");
-const lastName = ref("");
-const ownerAge = ref("");
-const contact = ref("");
-const address = ref("");
+// const firstName = ref("");
+// const lastName = ref("");
+// const ownerAge = ref("");
+// const contact = ref("");
+// const address = ref("");
 
-const petFormSubmit = () => {};
+const formSubmit = async () => {
+  loading.value = true;
+  form.value = true;
+  console.log(pet.value, category.value, owner.value);
+
+  const { valid } = await myForm.value.validate();
+  if (valid) {
+    alert("Form is submitted");
+    myForm.value.reset();
+    loading.value = false;
+  }
+};
 </script>

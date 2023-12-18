@@ -35,6 +35,9 @@ prisma.clinic.create({
   },
 });
 
+required;
+hide - details;
+
 // let initials = "";
 // const fullName = "Racket ship";
 // console.log(fullName.split(" "));
