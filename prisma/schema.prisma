@@ -20,7 +20,8 @@ model Clinic {
 model Category {
     id        Int       @id @default(autoincrement())
     type      String
-    slug      String
+    slugCategory      String
+    petID     String
     pets      Pet[]
     createdAt DateTime  @default(now())
     updatedAt DateTime  @updatedAt
@@ -32,10 +33,10 @@ model Category {
 model Pet {
   id        Int       @id @default(autoincrement())
   petName   String
-  slug      String
+  slugPet      String
   petAge    Int
   breed     String
-  birth     Int
+  birth     String
   gender    String
   owner     Owner[]
   createdAt DateTime  @default(now())

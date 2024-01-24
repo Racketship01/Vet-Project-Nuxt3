@@ -1,6 +1,9 @@
 {
   "name": "nuxt-app",
   "private": true,
+  "prisma": {
+    "seed": "node prisma/seed.mjs"
+  },
   "type": "module",
   "scripts": {
     "build": "nuxt build",
@@ -19,6 +22,7 @@
     "prisma": "^5.7.0",
     "sass": "^1.69.5",
     "sass-loader": "^13.3.2",
+    "typescript": "^5.2.2",
     "vite-plugin-vuetify": "^1.0.2",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5",

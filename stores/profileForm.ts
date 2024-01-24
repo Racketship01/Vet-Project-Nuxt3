@@ -1,66 +1,67 @@
 import { defineStore } from "pinia";
-//import { Category, Pet, Owner } from "@prisma/client";
+import { Category, Pet, Owner } from "@/types/profile";
 
 export const useProfileForm = defineStore("profileForm", () => {
-  const initialized = ref(false);
-  async function initialize() {
-    if (initialized.value) return;
-    initialized.value = true;
-  }
+  // const initialized = ref(false);
+  // async function initialize() {
+  //   if (initialized.value) return;
+  //   initialized.value = true;
+  // }
 
-  const category = ref({
+  const category = ref<Category>({
     type: "",
-    slug: "",
+    slugCategory: "",
+    petID: "",
   });
-  //console.log(category.value);
 
-  const pet = ref({
+  const pet = ref<Pet>({
     petName: "",
-    slug: "",
+    slugPet: "",
     petAge: "",
     breed: "",
     birth: "",
     gender: "",
   });
-  //console.log(pet.value.petName);
 
-  const owner = ref({
+  const owner = ref<Owner>({
     firstName: "",
     lastName: "",
     ownerAge: "",
     contact: "",
     address: "",
   });
-  //console.log(owner.value);
 
-  // const categoryData = (type, slug) => {
-  //   category.type = type;
-  //   category.slug = slug;
-  // };
-
-  // const petData = (name, breed, birth, age, gender) => {
-  //   pet.petName = name;
-  //   pet.breed = breed;
-  //   pet.birth = birth;
-  //   pet.petAge = age;
-  //   pet.gender = gender;
-  // };
-
-  // const ownerData = (firstName, lastName, age, contact, address) => {
-  //   owner.firstName = firstName;
-  //   owner.lastName = lastName;
-  //   owner.ownerAge = age;
-  //   owner.contact = contact;
-  //   owner.address = address;
-  // };
+  const postForm = async () => {
+    try {
+      await $fetch("/api/profile/profileForm/form", {
+        method: "POST",
+        body: {
+          petName: pet.value.petName,
+          slugPet: pet.value.slugPet,
+          petAge: pet.value.petAge,
+          breed: pet.value.breed,
+          birth: pet.value.birth,
+          gender: pet.value.gender,
+          type: category.value.type,
+          slugCategory: category.value.slugCategory,
+          petID: category.value.petID,
+          firstName: owner.value.firstName,
+          lastName: owner.value.lastName,
+          ownerAge: owner.value.ownerAge,
+          contact: owner.value.contact,
+          address: owner.value.address,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return {
-    initialize,
+    //initialize,
     category,
     pet,
     owner,
-    // categoryData,
-    // petData,
-    // ownerData,
+    postForm,
   };
 });

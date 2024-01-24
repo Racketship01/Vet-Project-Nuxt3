@@ -1,4 +1,3 @@
-.
 <template>
   <div>
     <div class="pet">
@@ -17,7 +16,8 @@
               persistent-hint
               :readonly="loading"
               required
-            ></v-text-field>
+            >
+            </v-text-field>
           </v-col>
 
           <v-col cols="12" md="6">
@@ -145,7 +145,7 @@
           size="x-large"
           color="blue-darken-1"
           variant="flat"
-          @click="formSubmit"
+          @click.prevent="formSubmit"
         >
           Submit
         </v-btn>
@@ -162,42 +162,59 @@ import { useProfileForm } from "@/stores/profileForm";
 import { storeToRefs } from "pinia";
 const store = useProfileForm();
 const { pet, category, owner } = storeToRefs(store);
-const { initialize } = store;
-
-initialize();
+const { postForm } = store;
 
 const form = ref(false);
 const loading = ref(false);
 const myForm = ref();
 
-// Pet ----------------------------------------------------------------------
-// const petName = ref("");
-// const breed = ref("");
-// const birth = ref("");
-// const petAge = ref("");
-// const gender = ref("");
 const genderItems = ["Female", "Male"];
-// const category = ref("");
 const categoryItems = ["Avian", "Canine", "Feline", "Herd", "Piscine"];
 const petRule = fieldRule();
 
-// Owner ----------------------------------------------------------------------
-// const firstName = ref("");
-// const lastName = ref("");
-// const ownerAge = ref("");
-// const contact = ref("");
-// const address = ref("");
+// Slug ------------------------------------------
+const randomNum = Math.trunc(Math.random() * 1000000) + 1;
 
 const formSubmit = async () => {
   loading.value = true;
   form.value = true;
-  console.log(pet.value, category.value, owner.value);
+
+  const petSlug =
+    pet.value.petName.split("").slice(0, 3).join("").toUpperCase() + randomNum;
+
+  const categorySlug = category.value.type
+    .split("")
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
+  const petID = categorySlug + "-" + petSlug;
+
+  pet.value.slugPet = petSlug;
+  category.value.slugCategory = categorySlug;
+  category.value.petID = petID;
+  //pet.value.birth = Number(pet);
+  console.log(typeof pet.value.birth);
+  postForm();
 
   const { valid } = await myForm.value.validate();
   if (valid) {
     alert("Form is submitted");
     myForm.value.reset();
     loading.value = false;
+    pet.value.slugPet = "";
+    category.value.slugCategory = "";
+    category.value.petID = "";
   }
 };
+
+watch(pet.value, () => {
+  console.log("PET", pet.value);
+});
+watch(category.value, () => {
+  console.log("CATEGORY", category.value);
+});
+watch(owner.value, () => {
+  console.log("OWNER", owner.value);
+});
 </script>
