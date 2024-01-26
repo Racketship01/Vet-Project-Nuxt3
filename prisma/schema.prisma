@@ -57,3 +57,4 @@ model Owner {
   Pet       Pet       @relation(fields: [petId], references: [id])
   petId     Int
 }
+

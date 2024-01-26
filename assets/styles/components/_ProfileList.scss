@@ -1,0 +1,27 @@
+@use "../abstracts/" as *;
+
+.vcardsearch {
+  padding: 1rem !important;
+  margin-top: 10px;
+}
+
+.vcardlist {
+  padding: 10px !important;
+  height: 100%;
+}
+
+.vcardivider {
+  margin-right: 50px;
+  margin-top: -3px;
+  border-top-width: 2px !important;
+}
+
+.vlistem {
+  margin-bottom: 5px;
+  padding-top: 5px;
+}
+
+.vpagin {
+  text-align: center !important;
+  margin-top: 50px !important;
+}

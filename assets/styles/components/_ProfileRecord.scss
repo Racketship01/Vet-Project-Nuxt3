@@ -1,0 +1,155 @@
+@use "../abstracts/" as *;
+
+.picover {
+  height: 8rem;
+  width: 100%;
+  //   border-bottom: 1px solid rgb(222, 222, 222);
+}
+
+.dpwrapper {
+  display: flex;
+  height: 130px;
+  width: 130px;
+  margin-left: 30px;
+  margin-top: -66px;
+  position: relative;
+}
+
+.petdp {
+  border: 6px solid #fff;
+  border-radius: 10px;
+  display: block;
+}
+
+.btnupload {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  color: clr(link, link-2) !important;
+  size: 20% !important;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transition: 0.3s ease;
+  border-radius: 10px;
+  background-color: rgb(221, 221, 221);
+  background-color: rgba(221, 221, 221, 0.4);
+}
+
+.dpwrapper:hover .overlay {
+  opacity: 1;
+}
+
+.headtitle {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 25%;
+  margin-top: -10%;
+  height: 65px;
+}
+
+.head1 {
+  width: 65%;
+  margin-top: 10px;
+}
+
+.ptcheck {
+  margin-right: 15px;
+  width: 30%;
+
+  .vcheck1 {
+    margin-top: -10px;
+  }
+  .vcheck2 {
+    margin-top: -45px;
+  }
+}
+
+.head2 {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px;
+  margin-top: 30px;
+  row-gap: 20px;
+}
+
+.head3 {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 15px;
+}
+
+.pgap {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.head4 {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.head5 {
+  display: flex;
+  gap: 90px;
+}
+.actionbtn {
+  margin-top: -20px;
+}
+
+.btn {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 10px;
+  margin-top: 5px;
+  padding: 10px;
+}
+
+// Table Container
+
+.tbdvder {
+  display: grid;
+  grid-template-columns: auto;
+  gap: 30px;
+}
+
+// .vBar {
+//   color: clr(primary, brown-1) !important;
+// }
+
+.tblebck {
+  background-color: clr(neutral, 500) !important;
+}
+
+@media (min-width: 1500px) {
+  .head1 {
+    width: 50%;
+    margin-top: 20px;
+    margin-left: 12px;
+  }
+
+  .ptcheck {
+    width: auto;
+    margin-top: 15px;
+    display: flex;
+
+    .vcheck1 {
+      margin-top: 0px;
+    }
+    .vcheck2 {
+      margin-top: 0px;
+    }
+  }
+}

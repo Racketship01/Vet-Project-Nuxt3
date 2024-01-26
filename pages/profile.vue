@@ -9,7 +9,9 @@
         <ProfileForm />
       </div>
       <div class="profile">
-        <NuxtPage />
+        <!-- <PetRecord /> -->
+        <ProfileList />
+        <!-- <NuxtPage /> -->
       </div>
     </div>
   </v-sheet>

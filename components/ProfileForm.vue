@@ -1,8 +1,7 @@
 <template>
   <div>
     <div class="pet">
-      <img class="v-imgf" :src="profileHeader" />
-      <span class="SpetInfo">Pet Information</span>
+      <img class="formimg" :src="PetImg" />
     </div>
 
     <v-form v-model="form" class="form" ref="myForm">
@@ -76,8 +75,7 @@
 
       <!-- Owner----------------------------------------------------- -->
       <div class="pet">
-        <img class="v-imgf" :src="profileHeader2" />
-        <span class="SpetInfo">Owner Information</span>
+        <img class="formimg" :src="OwnerImg" />
       </div>
 
       <v-container>
@@ -155,9 +153,10 @@
 </template>
 
 <script setup lang="ts">
-import profileHeader from "@/assets/images/head1.png";
-import profileHeader2 from "@/assets/images/head2.png";
+import PetImg from "@/assets/images/petImg.png";
+import OwnerImg from "@/assets/images/ownImg.png";
 
+import profileHeader2 from "@/assets/images/head2.png";
 import { useProfileForm } from "@/stores/profileForm";
 import { storeToRefs } from "pinia";
 const store = useProfileForm();

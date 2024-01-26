@@ -3,23 +3,28 @@ $gradient: linear-gradient(to right bottom, #f1ecfe, #ebfefd);
 $colors: (
   neutral: (
     900: #212121,
-    500: #d4c7fb,
     400: #5c5c5c,
-    300: #615551,
-    //normal text
-    200: #918581,
-    // lighter text
-    100: #f8f8f8,
-    50: #ffffff,
+    200: #f8f8f8,
+    100: #ffffff,
+    500: #f9f9f9fe,
   ),
   link: (
     link-1: #64b5f6,
     link-2: #1e88e5,
+    link-3: #bee1ff,
   ),
   primary: (
     main-1: #ebfefd,
     main-2: #f1ecfe,
+    brown-1: #915f28,
+    brown-2: #a68052,
+    brown-3: #fff8f0,
   ),
+
+  success: (
+    100: #50af50,
+  ),
+
   accent: (
     gradient: $gradient,
   ),

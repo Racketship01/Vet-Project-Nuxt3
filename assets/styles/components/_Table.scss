@@ -1,0 +1,24 @@
+@use "../abstracts/" as *;
+
+.tBar {
+  background-color: clr(link, link-3) !important;
+}
+
+.headers {
+  font-weight: 300;
+}
+
+//CompleteButton.vue
+.btnComplete {
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-right: 12px;
+  border-radius: 5px;
+  border: 1px solid clr(success, 100);
+  color: clr(success, 100);
+  cursor: pointer;
+}
+
+.hidden {
+  visibility: hidden;
+}

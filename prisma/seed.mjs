@@ -19,7 +19,7 @@ async function seed() {
                   slugPet: "SNO123456",
                   petAge: 1,
                   breed: "Aspin",
-                  birth: 1 / 7 / 2023,
+                  birth: "01-07-2023",
                   gender: "Female",
                   owner: {
                     create: [
