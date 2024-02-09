@@ -1,9 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
+
 // import { liveDesigner } from "@pinegrow/nuxt-module";
 
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+    timeline: {
+      enabled: true,
+    },
+  },
   css: [
     //"vuetify/styles/main.sass",
     "@mdi/font/css/materialdesignicons.css",

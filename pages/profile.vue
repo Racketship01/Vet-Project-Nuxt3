@@ -8,10 +8,10 @@
       <div class="profileForm">
         <ProfileForm />
       </div>
+
       <div class="profile">
-        <!-- <PetRecord /> -->
-        <ProfileList />
-        <!-- <NuxtPage /> -->
+        <NuxtPage v-if="categorySlug && petSlug" />
+        <ProfileList v-else />
       </div>
     </div>
   </v-sheet>
@@ -21,4 +21,6 @@
 definePageMeta({
   middleware: ["auth"],
 });
+
+const { categorySlug, petSlug } = useRoute().params;
 </script>

@@ -21,7 +21,31 @@
   padding-top: 5px;
 }
 
+.listLink {
+  text-decoration: none;
+  color: black;
+}
+
 .vpagin {
   text-align: center !important;
   margin-top: 50px !important;
+}
+
+.item {
+  width: 350px;
+  margin: 0 auto 10px auto;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.name {
+  background-color: rgb(97, 62, 252);
+  cursor: pointer;
+}
+
+.error {
+  background-color: tomato;
 }
