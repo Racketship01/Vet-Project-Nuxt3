@@ -1,90 +1,97 @@
 <template>
-  <!--  List line -->
-  <v-card>
-    <template v-slot:text>
-      <v-text-field
-        class="vcardsearch"
-        v-model="searchName"
-        density="comfortable"
-        label="Search pet name.."
-        prepend-inner-icon="mdi-magnify"
-        single-line
-        rounded
-        theme="light"
-        variant="solo"
-        hide-details
-      ></v-text-field>
-      <div class="item error" v-if="searchName && !filteredList().length">
-        <p>No results found!</p>
-      </div>
-    </template>
-  </v-card>
+  <div>
+    <!-- <List
+      :lists="filteredLists"
+      :model-value="searchName"
+      @update:model-value="filtersChanged"
+    ></List> -->
 
-  <v-list class="vcardlist" lines="two">
-    <!-- <v-list-subheader>List of Patient</v-list-subheader> -->
-
-    <div class="vlistemcon">
-      <div
-        class="vlistem"
-        v-for="category in meta.categories"
-        :key="category.slugCategory"
-      >
-        <NuxtLink
-          class="listLink"
-          v-for="pet in category.pets"
-          :key="pet.slugPet"
-          :to="pet.path"
+    <v-list class="vcardlist" lines="two">
+      <div class="vlistemcon">
+        <v-text-field
+          class="vcardsearch"
+          v-model="searchName"
+          @keyup="filtersChanged"
+          density="comfortable"
+          label="Search pet name.."
+          prepend-inner-icon="mdi-magnify"
+          single-line
+          rounded
+          theme="light"
+          variant="solo"
+          hide-details
+          ><div class="item error" v-if="searchName && !filteredLists.length">
+            <p>No results found!</p>
+          </div></v-text-field
         >
-          <v-list-item :prepend-avatar="dp" :title="pet.petName">
-            <template v-slot:subtitle>
-              <span class="font-weight-bold">{{
-                category.petID + "" + "|" + pet.breed
-              }}</span>
-            </template>
-          </v-list-item>
-          <v-divider :thickness="2" class="vcardivider" inset></v-divider>
-        </NuxtLink>
+        <div>
+          <div
+            class="vlistem"
+            v-for="category in filteredLists"
+            :key="category.slugCategory"
+          >
+            <NuxtLink
+              class="listLink"
+              v-for="pet in category.pets"
+              :key="pet.slugPet"
+              :to="pet.path"
+            >
+              <v-list-item :prepend-avatar="dp" :title="pet.petName">
+                <template v-slot:subtitle>
+                  <span class="font-weight-bold">{{
+                    category.petID + " " + "|" + pet.breed
+                  }}</span>
+                </template>
+              </v-list-item>
+              <v-divider :thickness="2" class="vcardivider" inset></v-divider>
+            </NuxtLink>
+          </div>
+        </div>
+        <div class="vpagin">
+          <v-pagination :length="3" rounded="circle"></v-pagination>
+        </div>
       </div>
-
-      <div class="vpagin">
-        <v-pagination :length="3" rounded="circle"></v-pagination>
-      </div>
-    </div>
-  </v-list>
+    </v-list>
+  </div>
 </template>
 
 <script setup>
 import dp from "@/assets/images/corgi.jpeg";
 
-const meta = await useMeta();
-//const meta = ref(metaData);
-
-console.log(meta.value.categories);
-
-const categories = meta.value.categories;
-
-console.log(categories);
-
-// const searchNames = meta.value.categories.map((category) => {
-//   return category.pets.map((pet) => {
-//     const pets = pet.petName;
-//     return pets;
-//   });
-// });
-
-// const searchNames = ["Snoopy", "Tagpi", "Cara"];
-
-// console.log(searchNames);
-
-const filteredList = computed(() => {
-  return categories.filter((category) => {
-    return category.pets.petName
-      .toLowerCase()
-      .includes(searchName.value.toLowerCase());
-  });
+const searchName = ref("");
+const allLists = ref([]);
+const filteredLists = ref([]);
+const filters = ref({
+  search: "",
 });
 
-console.log(filteredList);
+onMounted(async () => {
+  try {
+    const meta = await useMeta();
+    allLists.value = meta.value.categories;
+    console.log(allLists.value);
+    filteredLists.value = meta.value.categories;
+  } catch (e) {
+    console.log(e);
+  }
+});
 
-const searchName = ref("");
+const filtersChanged = () => {
+  filters.value.search = searchName.value;
+
+  let search = allLists.value.map((category) => {
+    return category.pets.filter(
+      (pet) =>
+        pet.petName
+          ?.toLowerCase()
+          .indexOf(filters.value.search.toLocaleLowerCase()) >= 0
+    );
+    //return category.pets.petName?.toLowerCase().indexOf(searchName.value.toLocaleLowerCase()) >= 0
+  });
+
+  const searching = computed(() => (filteredLists.value = search));
+  //console.log(filteredLists.value);
+  console.log(searching.value);
+  return searching.value;
+};
 </script>

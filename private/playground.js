@@ -274,3 +274,61 @@ export default {
 };
 </script>
 */
+
+
+const filteredLists = computed(() => {
+  return categories.map((category) => {
+    return category.pets.filter(pet => 
+      (pet.petName.toLowerCase().includes(searchName.value.toLowerCase()))
+    )
+  })
+});
+
+
+const categories =  meta.value.categories.map((category) => ({
+  ...category,
+  pets: category.pets.map((pet) => ({
+    ...pet,
+  })),
+}));
+
+console.log(categories)
+
+
+
+
+
+const filteredLists = computed(() => {
+return categories.filter((category) => {
+  return category.pets.map(pet => (pet.petName.toLowerCase().includes(searchName.value.toLowerCase())));
+})
+});
+
+
+
+
+console.log(filteredLists.value)
+
+
+
+<NuxtLink
+              class="listLink"
+              v-for="pet in category.pets"
+              :key="pet.slugPet"
+              :to="pet.path"
+            >
+              <v-list-item :prepend-avatar="dp" :title="pet.petName">
+                <template v-slot:subtitle>
+                  <span class="font-weight-bold">{{
+                    category.petID + " " + "|" + pet.breed
+                  }}</span>
+                </template>
+              </v-list-item>
+              <v-divider :thickness="2" class="vcardivider" inset></v-divider>
+            </NuxtLink>
+
+
+            let search = allLists.value.categories.filter((category) => {
+             
+              return category.pets.petName?.toLowerCase().indexOf(filters.value.search.toLocaleLowerCase()) >= 0;
+            });

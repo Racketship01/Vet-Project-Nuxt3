@@ -1,8 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
-// import { liveDesigner } from "@pinegrow/nuxt-module";
-
 export default defineNuxtConfig({
   devtools: {
     enabled: true,
@@ -29,9 +27,6 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "@pinia/nuxt",
   ],
-  // image: {
-  //   dir: "@/assets/images",
-  // },
   vite: {
     vue: {
       template: {
