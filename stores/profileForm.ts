@@ -11,12 +11,12 @@ export const useProfileForm = defineStore("profileForm", () => {
   const category = ref<Category>({
     type: "",
     slugCategory: "",
-    petID: "",
   });
 
   const pet = ref<Pet>({
     petName: "",
     slugPet: "",
+    petID: "",
     petAge: "",
     breed: "",
     birth: "",
@@ -38,13 +38,13 @@ export const useProfileForm = defineStore("profileForm", () => {
         body: {
           petName: pet.value.petName,
           slugPet: pet.value.slugPet,
+          petID: pet.value.petID,
           petAge: pet.value.petAge,
           breed: pet.value.breed,
           birth: pet.value.birth,
           gender: pet.value.gender,
           type: category.value.type,
           slugCategory: category.value.slugCategory,
-          petID: category.value.petID,
           firstName: owner.value.firstName,
           lastName: owner.value.lastName,
           ownerAge: owner.value.ownerAge,

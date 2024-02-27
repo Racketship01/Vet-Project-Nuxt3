@@ -48,3 +48,16 @@ export const passwordRule = () => {
     passwordLog,
   };
 };
+
+export const rules = () => {
+  [
+    (value: any) => {
+      return (
+        !value ||
+        !value.length ||
+        value[0].size < 2000000 ||
+        "Avatar size should be less than 2 MB!"
+      );
+    },
+  ];
+};

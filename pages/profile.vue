@@ -10,7 +10,7 @@
       </div>
 
       <div class="profile">
-        <NuxtPage v-if="categorySlug && petSlug" />
+        <NuxtPage v-if="slugCategory && slugPet" />
         <ProfileList v-else />
       </div>
     </div>
@@ -20,7 +20,9 @@
 <script setup lang="ts">
 definePageMeta({
   middleware: ["auth"],
+  key: (route: any) => route.fullPath,
 });
 
-const { categorySlug, petSlug } = useRoute().params;
+const route = useRoute();
+const { slugCategory, slugPet } = route.params;
 </script>

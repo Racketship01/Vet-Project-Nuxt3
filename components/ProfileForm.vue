@@ -191,7 +191,7 @@ const formSubmit = async () => {
 
   pet.value.slugPet = petSlug;
   category.value.slugCategory = categorySlug;
-  category.value.petID = petID;
+  pet.value.petID = petID;
   //pet.value.birth = Number(pet);
   console.log(typeof pet.value.birth);
   postForm();
@@ -203,7 +203,7 @@ const formSubmit = async () => {
     loading.value = false;
     pet.value.slugPet = "";
     category.value.slugCategory = "";
-    category.value.petID = "";
+    pet.value.petID = "";
   }
 };
 

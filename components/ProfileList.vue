@@ -20,14 +20,15 @@
           theme="light"
           variant="solo"
           hide-details
-          ><div class="item error" v-if="searchName && !filteredLists.length">
-            <p>No results found!</p>
-          </div></v-text-field
         >
+        </v-text-field>
+        <div class="item error" v-if="searchName && !filteredLists.length">
+          <p>No results found!</p>
+        </div>
         <div>
           <div
             class="vlistem"
-            v-for="category in filteredLists"
+            v-for="category in displayedLists"
             :key="category.slugCategory"
           >
             <NuxtLink
@@ -39,7 +40,7 @@
               <v-list-item :prepend-avatar="dp" :title="pet.petName">
                 <template v-slot:subtitle>
                   <span class="font-weight-bold">{{
-                    category.petID + " " + "|" + pet.breed
+                    pet.petID + " " + "|" + pet.breed
                   }}</span>
                 </template>
               </v-list-item>
@@ -48,7 +49,26 @@
           </div>
         </div>
         <div class="vpagin">
-          <v-pagination :length="3" rounded="circle"></v-pagination>
+          <div class="pagination"></div>
+          <p class="pageText">Page {{ currentPage }}</p>
+
+          <div class="pages">
+            <NuxtLink
+              v-if="previousPage"
+              :to="{ path: '/profile', query: { page: previousPage } }"
+              class="linkPagination"
+              >Previous
+            </NuxtLink>
+
+            <NuxtLink
+              v-if="nextPage"
+              :to="{ path: '/profile', query: { page: nextPage } }"
+              class="linkPagination"
+            >
+              Next</NuxtLink
+            >
+          </div>
+          <!-- <v-pagination :length="3" rounded="circle"></v-pagination> -->
         </div>
       </div>
     </v-list>
@@ -61,37 +81,57 @@ import dp from "@/assets/images/corgi.jpeg";
 const searchName = ref("");
 const allLists = ref([]);
 const filteredLists = ref([]);
-const filters = ref({
-  search: "",
-});
+
+// search
+const meta = await useMeta();
+const categories = meta.value.categories;
+//console.log(categories);
+
+// pagination
+const currentPage = useCurrentPage();
+const maxPage = computed(() => Math.ceil(filteredLists.value.length / 10));
+const { previousPage, nextPage } = usePreviousAndNextPages(
+  currentPage,
+  maxPage
+);
 
 onMounted(async () => {
   try {
-    const meta = await useMeta();
-    allLists.value = meta.value.categories;
-    console.log(allLists.value);
-    filteredLists.value = meta.value.categories;
+    allLists.value = categories;
+    filteredLists.value = categories;
+    await refreshNuxtData();
   } catch (e) {
     console.log(e);
   }
 });
 
+// If the search content in the pet is blank, the original data is returned.
+watch(searchName, async () => {
+  if (searchName.value.length <= 0) {
+    filteredLists.value = allLists.value;
+  }
+});
+
 const filtersChanged = () => {
-  filters.value.search = searchName.value;
+  if (searchName.value.length > 0) {
+    // get text field
+    const findText = searchName.value.toLocaleLowerCase();
+    // find text
+    const result = allLists.value.filter((pet) => {
+      const petName = pet.pets[0]["petName"].toLowerCase();
+      return petName.includes(findText);
+    });
 
-  let search = allLists.value.map((category) => {
-    return category.pets.filter(
-      (pet) =>
-        pet.petName
-          ?.toLowerCase()
-          .indexOf(filters.value.search.toLocaleLowerCase()) >= 0
-    );
-    //return category.pets.petName?.toLowerCase().indexOf(searchName.value.toLocaleLowerCase()) >= 0
-  });
-
-  const searching = computed(() => (filteredLists.value = search));
-  //console.log(filteredLists.value);
-  console.log(searching.value);
-  return searching.value;
+    filteredLists.value = result;
+    //console.log(filteredLists.value);
+  }
 };
+
+const displayedLists = computed(() => {
+  const pageNumber = currentPage.value;
+  const firstListIndex = (pageNumber - 1) * 10;
+  const lastListIndex = pageNumber * 10;
+  return filteredLists.value.slice(firstListIndex, lastListIndex);
+});
+//console.log(displayedLists.value);
 </script>

@@ -7,7 +7,7 @@
     <img cover class="petdp" :src="dp" />
     <div class="overlay">
       <v-btn
-        :rules="rules"
+        :rules="rulesImage"
         accept="image/png, image/jpeg, image/bmp"
         class="btnupload"
         icon="mdi-camera"
@@ -18,13 +18,13 @@
 
   <div class="headtitle">
     <div class="head1">
-      <h1>Petmalu-Pet</h1>
+      <h1>{{ pet.petName }}</h1>
     </div>
 
-    <div class="ptcheck">
+    <!-- <div class="ptcheck">
       <v-checkbox class="vcheck1" label="Medical"></v-checkbox>
       <v-checkbox class="vcheck2" label="Vaccination"></v-checkbox>
-    </div>
+    </div> -->
   </div>
 
   <div class="head2">
@@ -56,8 +56,8 @@
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="petname"
-                    :rules="nameRules"
+                    v-model="petName"
+                    :rules="fieldRule"
                     :counter="10"
                     label="Pet name"
                     required
@@ -67,7 +67,7 @@
                 <v-col cols="12" md="6">
                   <v-text-field
                     v-model="breed"
-                    :rules="nameRules"
+                    :rules="fieldRule"
                     :counter="10"
                     label="Breed"
                     hide-details
@@ -76,8 +76,8 @@
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="DOB"
-                    :rules="nameRules"
+                    v-model="birth"
+                    :rules="fieldRule"
                     :counter="10"
                     label="Date of Birth"
                     hide-details
@@ -87,8 +87,8 @@
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="age"
-                    :rules="nameRules"
+                    v-model="petAge"
+                    :rules="fieldRule"
                     :counter="10"
                     label="Age"
                     hide-details
@@ -123,8 +123,8 @@
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="Ownername"
-                    :rules="nameRules"
+                    v-model="ownerFirstName"
+                    :rules="fieldRule"
                     :counter="10"
                     label="Name"
                     required
@@ -134,8 +134,8 @@
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="Lastname"
-                    :rules="nameRules"
+                    v-model="ownerLastName"
+                    :rules="fieldRule"
                     :counter="10"
                     label="Last name"
                     hide-details
@@ -145,8 +145,8 @@
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="Age"
-                    :rules="nameRules"
+                    v-model="ownerAge"
+                    :rules="fieldRule"
                     :counter="10"
                     label="Age"
                     hide-details
@@ -156,8 +156,8 @@
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="number"
-                    :rules="nameRules"
+                    v-model="contact"
+                    :rules="fieldRule"
                     :counter="10"
                     label="Contact number"
                     hide-details
@@ -168,7 +168,7 @@
                 <v-col>
                   <v-text-field
                     v-model="address"
-                    :rules="nameRules"
+                    :rules="fieldRule"
                     label="Address"
                     hide-details
                     required
@@ -192,28 +192,28 @@
 
     <div class="pgap">
       <p>Breed:</p>
-      <span>Corgi</span>
+      <span>{{ pet.breed }}</span>
       <p>Date of Birth:</p>
-      <span>10/10/23</span>
+      <span>{{ pet.birth }}</span>
       <p>Age:</p>
-      <span>2 Months</span>
+      <span>{{ pet.petAge }}</span>
       <p>Gender:</p>
-      <span>Male</span>
+      <span>{{ pet.gender }}</span>
       <p>Category:</p>
-      <span>Canine</span>
+      <span>{{ categoryOutline.type }}</span>
     </div>
     <div class="pgap">
       <p>Owner name:</p>
-      <span>Welson</span>
+      <span>{{ owner.firstName }}</span>
       <p>Last name:</p>
-      <span>Lee</span>
+      <span>{{ owner.lastName }}</span>
       <p>Age:</p>
-      <span>28 years old</span>
+      <span>{{ owner.ownerAge }} years old</span>
       <p>Contact no:</p>
-      <span>09990451635</span>
+      <span>{{ owner.contact }}</span>
       <p>Adress:</p>
       <span class="d-inline-block text-truncate" style="max-width: 100px">
-        Unit 320 Cedar crest Acacia Estate brgy. Bambang, Taguig City.
+        {{ owner.address }}
       </span>
     </div>
   </div>
@@ -225,10 +225,10 @@
         :rotate="360"
         :size="30"
         :width="3"
-        :model-value="value"
+        :model-value="vaxProgress"
         color="teal"
       >
-        <template v-slot:default> {{ value }} % </template>
+        <template v-slot:default> {{ vaxProgress }} % </template>
       </v-progress-circular>
     </div>
 
@@ -295,15 +295,6 @@
 
     <v-col cols="auto" class="overflow-auto">
       <v-card width="1050" height="220" class="overflow-auto">
-        <!-- <v-expansion-panels>
-          <v-expansion-panel >
-            
-          </v-expansion-panel>
-        </v-expansion-panels> -->
-
-        <!-- <Table1 /><Table2 /><NuxtPage />
-          -->
-
         <div class="tbdvder">
           <div>
             <PrimaryVaxTable />
@@ -326,21 +317,32 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import cover from "@/assets/images/coverprof.jpg";
 import dp from "@/assets/images/corgi.jpeg";
+import type { QueryCategoryPet } from "~/types/queries";
+import { rules } from "~/composables/rules";
 
-const rules = [
-  (value) => {
-    return (
-      !value ||
-      !value.length ||
-      value[0].size < 2000000 ||
-      "Avatar size should be less than 2 MB!"
-    );
-  },
-];
+definePageMeta({
+  middleware: ["auth"],
+  //key: (route: any) => route.fullPath,
+});
 
+// REST APIs
+const route = useRoute();
+const { slugCategory, slugPet } = route.params as QueryCategoryPet;
+const meta = await useMeta();
+const categories = meta.value.categories;
+const pet = await usePet(slugCategory, slugPet);
+const owner = await useOwner(slugCategory, slugPet);
+
+const categoryOutline = computed(() =>
+  categories.find(
+    (category: any) => category.slugCategory === route.params.slugCategory
+  )
+);
+
+// profile reactive state
 const visible = ref(false);
 const dialog = ref(false);
 const dialogMed = ref(false);
@@ -351,5 +353,17 @@ const genderItems = ["Female", "Male"];
 const category = ref("");
 const categoryItems = ["Mammal", "Reptile", "Amphibian", "Bird", "Fish"];
 
-// const items = ref([annualTable, petVax]);
+const rulesImage = rules();
+
+// edit pet and owner information
+const petName = ref("");
+const breed = ref("");
+const birth = ref("");
+const petAge = ref("");
+
+const ownerFirstName = ref("");
+const ownerLastName = ref("");
+const ownerAge = ref("");
+const contact = ref("");
+const address = ref("");
 </script>

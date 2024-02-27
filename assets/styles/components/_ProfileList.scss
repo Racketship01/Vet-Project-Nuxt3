@@ -26,11 +26,6 @@
   color: black;
 }
 
-.vpagin {
-  text-align: center !important;
-  margin-top: 50px !important;
-}
-
 .item {
   width: 350px;
   margin: 0 auto 10px auto;
@@ -41,11 +36,50 @@
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
-.name {
-  background-color: rgb(97, 62, 252);
-  cursor: pointer;
-}
+// .name {
+//   background-color: rgb(97, 62, 252);
+//   cursor: pointer;
+// }
 
 .error {
   background-color: tomato !important;
+}
+
+// PAGINATION
+.vpagin {
+  // text-align: center !important;
+  // margin-top: 50px !important;
+
+  margin-top: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.pageText {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  flex-grow: 1;
+}
+
+.pages {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+
+.linkPagination {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgba(147, 197, 253, var(--tw-text-opacity));
+  text-decoration: none;
 }

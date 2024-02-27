@@ -18,13 +18,13 @@
 
   <div class="headtitle">
     <div class="head1">
-      <h1>Petmalu-Pet</h1>
+      <h1>{{ pet.petName }}</h1>
     </div>
 
-    <div class="ptcheck">
+    <!-- <div class="ptcheck">
       <v-checkbox class="vcheck1" label="Medical"></v-checkbox>
       <v-checkbox class="vcheck2" label="Vaccination"></v-checkbox>
-    </div>
+    </div> -->
   </div>
 
   <div class="head2">
@@ -295,15 +295,6 @@
 
     <v-col cols="auto" class="overflow-auto">
       <v-card width="1050" height="220" class="overflow-auto">
-        <!-- <v-expansion-panels>
-          <v-expansion-panel >
-            
-          </v-expansion-panel>
-        </v-expansion-panels> -->
-
-        <!-- <Table1 /><Table2 /><NuxtPage />
-          -->
-
         <div class="tbdvder">
           <div>
             <PrimaryVaxTable />
@@ -326,21 +317,29 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import cover from "@/assets/images/coverprof.jpg";
 import dp from "@/assets/images/corgi.jpeg";
+import type { QueryCategoryPet } from "~/types/queries";
 
-const rules = [
-  (value) => {
-    return (
-      !value ||
-      !value.length ||
-      value[0].size < 2000000 ||
-      "Avatar size should be less than 2 MB!"
-    );
-  },
-];
+definePageMeta({
+  middleware: ["abort", "auth"],
+});
 
+const route = useRoute();
+const { slugCategory, slugPet } = route.params as QueryCategoryPet;
+const meta = useMeta();
+const categories = meta.value.categories;
+const pet = usePet(slugCategory, slugPet);
+const owner = useOwner(slugCategory, slugPet);
+
+const categoryMeta = computed(() =>
+  categories.find(
+    (category: any) => category.slugCategory === route.params.slugCategory
+  )
+);
+
+// profile state
 const visible = ref(false);
 const dialog = ref(false);
 const dialogMed = ref(false);
@@ -351,5 +350,14 @@ const genderItems = ["Female", "Male"];
 const category = ref("");
 const categoryItems = ["Mammal", "Reptile", "Amphibian", "Bird", "Fish"];
 
-// const items = ref([annualTable, petVax]);
+const rules = [
+  (value: any) => {
+    return (
+      !value ||
+      !value.length ||
+      value[0].size < 2000000 ||
+      "Avatar size should be less than 2 MB!"
+    );
+  },
+];
 </script>

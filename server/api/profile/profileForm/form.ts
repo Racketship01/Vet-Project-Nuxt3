@@ -1,23 +1,23 @@
 import { PrismaClient } from "@prisma/client";
-import protectRoute from "~/server/utils/protectRoute";
+// import protectRoute from "~/server/utils/protectRoute";
 
 const prisma = new PrismaClient();
 
 export default defineEventHandler(async (event) => {
   // protectRoute(event);
   try {
-    assertMethod(event, ["POST"]);
+    assertMethod(event, ["PUT", "POST", "PATCH"]);
 
     const {
       petName,
       slugPet,
+      petID,
       petAge,
       breed,
       birth,
       gender,
       type,
       slugCategory,
-      petID,
       firstName,
       lastName,
       ownerAge,
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
 
     const clinic = await prisma.clinic.findFirst({
       where: {
-        id: 1,
+        title: "Vueti-Vet",
       },
     });
 
@@ -35,7 +35,6 @@ export default defineEventHandler(async (event) => {
       data: {
         type,
         slugCategory,
-        petID,
         Clinic: {
           connect: {
             id: clinic.id,
@@ -49,6 +48,7 @@ export default defineEventHandler(async (event) => {
         petName,
         slugPet,
         petAge,
+        petID,
         breed,
         birth,
         gender,

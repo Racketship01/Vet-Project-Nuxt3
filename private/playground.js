@@ -332,3 +332,106 @@ console.log(filteredLists.value)
              
               return category.pets.petName?.toLowerCase().indexOf(filters.value.search.toLocaleLowerCase()) >= 0;
             });
+
+const pets = categories.map((category) => {
+  return category.pets
+})
+
+const { data, error } = await useFetch<T>(url, {
+  headers: useRequestHeaders(["cookie"]),
+});
+
+if (error.value) {
+  throw createError({
+    ...error.value,
+    statusMessage: `Could not fetch data from ${url}`,
+  });
+}
+
+
+
+const currentPage = useCurrentPage();
+    const maxPage = computed(() => Math.ceil(filteredJobs.value.length / 10));
+    const { previousPage, nextPage } = usePreviousAndNextPages(
+      currentPage,
+      maxPage
+    );
+
+    /*
+    const previousPage = computed(() => {
+      const previousPage = currentPage.value - 1;
+      const firstPage = 1;
+      return previousPage >= firstPage ? previousPage : undefined;
+    });
+    const nextPage = computed(() => {
+      const nextPage = currentPage.value + 1;
+      const maxPage = Math.ceil(filteredJobs.value.length / 10);
+      return nextPage <= maxPage ? nextPage : undefined;
+    });
+    */
+
+    const displayedJobs = computed(() => {
+      const pageNumber = currentPage.value;
+      const firstJobIndex = (pageNumber - 1) * 10;
+      const lastJobIndex = pageNumber * 10;
+      return filteredJobs.value.slice(firstJobIndex, lastJobIndex);
+    });
+
+
+    reloadNuxtApp({
+      path: "/profile",
+      query: {
+        page: previousPage || nextPage,
+      },
+      ttl: 1000, // default 10000
+    });
+
+
+// const category = await prisma.category.findFirst({
+  //   where: {
+  //     slugCategory: slugCategory,
+  //     pets: {
+  //       slugPet: pet.slugPet,
+  //     },
+  //   },
+  // });
+
+  // if (!category) {
+  //   throw createError({
+  //     statusCode: 404,
+  //     message: "Category not found",
+  //   });
+  // }
+
+  // const owner = await prisma.owner.findFirst({
+  //   where: {
+  //     Pet: {
+  //       slugPet: slugPet,
+  //       Category: {
+  //         slugCategory: slugCategory,
+  //       },
+  //     },
+  //   },
+  // });
+
+  // if (!owner) {
+  //   throw createError({
+  //     statusCode: 404,
+  //     message: "Owner not found",
+  //   });
+  // }
+
+  // const {
+  //   petName,
+  //   petID,
+  //   petAge,
+  //   breed,
+  //   birth,
+  //   gender,
+  //   type,
+  //   firstName,
+  //   lastName,
+  //   ownerAge,
+  //   contact,
+  //   address,
+  // } = await readBody(event);
