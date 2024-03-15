@@ -27,7 +27,7 @@
     <div class="head3">
       <h3 class="vBar">Owner Information</h3>
 
-      <!-- --------UPDATE------------- -->
+      <!-- --------UPDATE INFORMATION------------- -->
       <v-dialog v-model="state.dialogEdit" persistent width="550">
         <template v-slot:activator="{ props }">
           <v-btn
@@ -41,113 +41,120 @@
           </v-btn>
         </template>
         <v-card>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="10">
-                  <v-card-title>
-                    <span class="vBar">Pet information</span>
-                  </v-card-title>
-                </v-col>
+          <v-form ref="validate">
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="10">
+                    <v-card-title>
+                      <span class="vBar">Pet information</span>
+                    </v-card-title>
+                  </v-col>
 
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="state.petName"
-                    label="Petname"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="state.breed"
-                    label="Breed"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    type="date"
-                    v-model="state.birth"
-                    label="Birthdate"
-                  ></v-text-field>
-                </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="state.petName"
+                      label="Petname"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="state.breed"
+                      label="Breed"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      type="date"
+                      v-model="state.birth"
+                      label="Birthdate"
+                    ></v-text-field>
+                  </v-col>
 
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="state.petAge"
-                    label="Age"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" md="6">
-                  <v-select
-                    v-model="state.gender"
-                    :items="genderItems"
-                    label="Gender"
-                  ></v-select>
-                </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="state.petAge"
+                      label="Age"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-select
+                      v-model="state.gender"
+                      :items="genderItems"
+                      label="Gender"
+                    ></v-select>
+                  </v-col>
 
-                <v-col cols="12" md="6">
-                  <v-select
-                    v-model="state.type"
-                    :items="categoryItems"
-                    label="Category"
-                  ></v-select>
-                </v-col>
+                  <v-col cols="12" md="6">
+                    <v-select
+                      v-model="state.type"
+                      :items="categoryItems"
+                      label="Category"
+                    ></v-select>
+                  </v-col>
 
-                <v-col cols="12">
-                  <v-card-title>
-                    <span class="vBar">Owner Information</span>
-                  </v-card-title>
-                </v-col>
+                  <v-col cols="12">
+                    <v-card-title>
+                      <span class="vBar">Owner Information</span>
+                    </v-card-title>
+                  </v-col>
 
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="state.firstName"
-                    label="First name"
-                  ></v-text-field>
-                </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="state.firstName"
+                      label="First name"
+                    ></v-text-field>
+                  </v-col>
 
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="state.lastName"
-                    label="Last name"
-                  ></v-text-field>
-                </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="state.lastName"
+                      label="Last name"
+                    ></v-text-field>
+                  </v-col>
 
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="state.ownerAge"
-                    label="Age"
-                  ></v-text-field>
-                </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="state.ownerAge"
+                      label="Age"
+                    ></v-text-field>
+                  </v-col>
 
-                <v-col cols="12" md="6">
-                  <v-text-field
-                    v-model="state.contact"
-                    label="Contact number"
-                  ></v-text-field>
-                </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="state.contact"
+                      label="Contact number"
+                    ></v-text-field>
+                  </v-col>
 
-                <v-col>
-                  <v-text-field
-                    v-model="state.address"
-                    label="Address"
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="blue-darken-1"
-              variant="text"
-              @click="state.dialogEdit = false"
-            >
-              Close
-            </v-btn>
-            <v-btn color="blue-darken-1" variant="text" @click="updateSave">
-              Save
-            </v-btn>
-          </v-card-actions>
+                  <v-col>
+                    <v-text-field
+                      v-model="state.address"
+                      label="Address"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="blue-darken-1"
+                variant="text"
+                @click="state.dialogEdit = false"
+              >
+                Close
+              </v-btn>
+              <v-btn
+                :loading="loadingEditInfo"
+                color="blue-darken-1"
+                variant="text"
+                @click.prevent="updateInfoSave"
+              >
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-form>
         </v-card>
       </v-dialog>
     </div>
@@ -276,7 +283,43 @@
   <div class="btn">
     <v-btn color="blue-darken-1" variant="flat" size="large"> Update </v-btn>
 
-    <v-btn color="blue-darken-1" variant="flat" size="large"> Delete </v-btn>
+    <v-dialog v-model="state.dialogDelete" persistent width="550">
+      <template v-slot:activator="{ props }">
+        <v-btn color="blue-darken-1" variant="flat" size="large" v-bind="props">
+          Delete
+        </v-btn>
+      </template>
+
+      <v-card>
+        <v-container>
+          <div
+            class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
+          >
+            Are you sure you want to DELETE this record?
+          </div>
+        </v-container>
+        <v-card-actions class="actionbtn">
+          <v-spacer></v-spacer>
+          <v-btn
+            class="actionbtn"
+            color="blue-darken-1"
+            variant="text"
+            @click="state.dialogDelete = false"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            class="actionbtn"
+            color="blue-darken-1"
+            variant="text"
+            :loading="loadingDel"
+            @click="deleteRecord"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -304,6 +347,7 @@ const meta = await useMeta();
 const categories = meta.value.categories;
 const petAPI = await usePet(slugCategory, slugPet);
 const ownerAPI = await useOwner(slugCategory, slugPet);
+
 const categoryOutline = computed(() =>
   categories.find(
     (category: any) => category.slugCategory === route.params.slugCategory
@@ -332,14 +376,19 @@ onMounted(async () => {
     console.log(e);
   }
 });
-//console.log(typeof petAPI.value?.petAge);
 
 // profile reactive state
+const validate = ref();
+
 const state = reactive({
   visible: false,
   dialog: false,
   dialogEdit: false,
   dialogMed: false,
+  dialogDelete: false,
+
+  loadingEditInfo: false,
+  loadingDel: false,
 
   //pet
   petName: "",
@@ -358,14 +407,15 @@ const state = reactive({
   contact: 0,
   address: "",
 });
-//console.log(petAPI.value.birth);
-// console.log(typeof state.petAge);
 
 const genderItems = ["Female", "Male"];
 const categoryItems = ["Avian", "Canine", "Feline", "Herd", "Piscine"];
 const rulesImage = rules();
 
-const updateSave = () => {
+// Method
+const updateInfoSave = async () => {
+  state.loadingEditInfo = true;
+
   pet.value.petName = state.petName;
   pet.value.breed = state.breed;
   pet.value.birth = state.birth;
@@ -382,6 +432,25 @@ const updateSave = () => {
 
   updateRecordInfo();
 
-  console.log(typeof pet.value.petAge);
+  const { valid } = await validate.value.validate();
+  if (valid) {
+    alert("Updating was successfull");
+    state.loadingEditInfo = false;
+    state.dialogEdit = false;
+  }
+};
+
+const deleteRecord = async () => {
+  try {
+    await $fetch(
+      `/api/profile/category/${slugCategory}/pet/${slugPet}/deleteRecord`,
+      {
+        method: "DELETE",
+      }
+    );
+    state.loadingDel = false;
+  } catch (err) {
+    console.log(err);
+  }
 };
 </script>

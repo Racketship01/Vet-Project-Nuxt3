@@ -103,6 +103,13 @@ export default defineEventHandler(async (event) => {
       },
     });
 
+    if (!result) {
+      throw createError({
+        statusCode: 404,
+        message: "Record not found",
+      });
+    }
+
     return result;
   } catch (e) {
     console.log(e);
