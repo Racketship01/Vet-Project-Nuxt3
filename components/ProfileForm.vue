@@ -191,7 +191,7 @@ const formSubmit = async () => {
 
   pet.value.slugPet = petSlug;
   category.value.slugCategory = categorySlug;
-  pet.value.petID = petID;
+  category.value.petID = petID;
   //pet.value.birth = Number(pet);
   console.log(typeof pet.value.birth);
   postForm();
@@ -203,17 +203,17 @@ const formSubmit = async () => {
     loading.value = false;
     pet.value.slugPet = "";
     category.value.slugCategory = "";
-    pet.value.petID = "";
+    category.value.petID = "";
   }
 };
 
-watch(pet.value, () => {
-  console.log("PET", pet.value);
-});
-watch(category.value, () => {
-  console.log("CATEGORY", category.value);
-});
-watch(owner.value, () => {
-  console.log("OWNER", owner.value);
-});
+// watch(pet.value, () => {
+//   console.log("PET", pet.value);
+// });
+// watch(category.value, () => {
+//   console.log("CATEGORY", category.value);
+// });
+// watch(owner.value, () => {
+//   console.log("OWNER", owner.value);
+// });
 </script>

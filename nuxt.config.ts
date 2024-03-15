@@ -14,7 +14,7 @@ export default defineNuxtConfig({
     "@/assets/styles/main.scss",
   ],
   build: {
-    transpile: ["vuetify"],
+    transpile: ["vuetify", "vue-awesome-paginate"],
   },
   modules: [
     (_options, nuxt) => {

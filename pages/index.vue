@@ -2,4 +2,8 @@
   <Login />
 </template>
 
-<script></script>
+<script setup lang="ts">
+definePageMeta({
+  key: (route: any) => route.fullPath,
+});
+</script>

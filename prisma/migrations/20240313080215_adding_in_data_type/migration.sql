@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Owner" ALTER COLUMN "ownerAge" DROP NOT NULL,
+ALTER COLUMN "contact" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Pet" ALTER COLUMN "petAge" DROP NOT NULL;

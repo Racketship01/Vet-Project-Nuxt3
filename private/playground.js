@@ -435,3 +435,277 @@ const currentPage = useCurrentPage();
   //   contact,
   //   address,
   // } = await readBody(event);
+
+
+
+  /* eslint-disable quotes */
+import { PrismaClient } from "@prisma/client";
+import { QueryCategoryPet } from "~/types/queries";
+
+const prisma = new PrismaClient();
+
+export default defineEventHandler(async (event) => {
+  try {
+    // Only allow PUT, PATCH, or POST requests
+    //assertMethod(event, ["PUT", "PATCH", "POST"]);
+
+    // Get the route params
+    const { slugCategory, slugPet } = event.context.params as QueryCategoryPet;
+
+    const {
+      petName,
+      petID,
+      petAge,
+      breed,
+      birth,
+      gender,
+      type,
+      firstName,
+      lastName,
+      ownerAge,
+      contact,
+      address,
+    } = await readBody(event);
+
+    const pet = await prisma.pet.findFirst({
+      where: {
+        slugPet: slugPet,
+        Category: {
+          slugCategory: slugCategory,
+        },
+      },
+    });
+
+    if (!pet) {
+      throw createError({
+        statusCode: 404,
+        message: "Pet not found",
+      });
+    }
+
+    const category = await prisma.category.findFirst({
+      where: {
+        slugCategory: slugCategory,
+        pets: {
+          slugPet: pet.slugPet,
+        },
+      },
+    });
+
+    if (!category) {
+      throw createError({
+        statusCode: 404,
+        message: "Category not found",
+      });
+    }
+
+    const owner = await prisma.owner.findFirst({
+      where: {
+        Pet: {
+          slugPet: slugPet,
+          Category: {
+            slugCategory: slugCategory,
+          },
+        },
+      },
+    });
+
+    if (!owner) {
+      throw createError({
+        statusCode: 404,
+        message: "Owner not found",
+      });
+    }
+
+    return { ...pet };
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+
+datasource db {
+  url      = env("DATABASE_URL")
+  provider = "postgresql"
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin-arm64"]
+  output        = "../node_modules/.prisma/client"
+}
+
+model Clinic {
+    id        Int       @id @default(autoincrement())
+    title     String
+    categories Category[]
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+}
+
+model Category {
+    id        Int       @id @default(autoincrement())
+    type      String
+    slugCategory      String
+    pets      Pet[]
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    Clinic     Clinic   @relation(fields: [clinicId], references: [id])
+    clinicId Int
+
+    
+
+}
+
+model Pet {
+  id        Int       @id @default(autoincrement())
+  petName   String
+  slugPet      String
+  petID     String
+  petAge    Int
+  breed     String
+  birth     String
+  gender    String
+  owner     Owner[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Category  Category  @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+
+  @@unique([categoryId, slugPet])
+
+}
+
+model Owner {
+  id        Int       @id @default(autoincrement())
+  firstName String
+  lastName  String
+  ownerAge  Int
+  contact   Int
+  address   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Pet       Pet       @relation(fields: [petId], references: [id])
+  petId     Int
+
+   @@unique([petId, id])
+}
+
+
+
+/* eslint-disable quotes */
+import { PrismaClient } from "@prisma/client";
+import { QueryCategoryPet } from "~/types/queries";
+
+const prisma = new PrismaClient();
+
+export default defineEventHandler(async (event) => {
+  try {
+    // Only allow PUT, PATCH, or POST requests
+    assertMethod(event, ["PUT", "PATCH", "POST"]);
+
+    // Get the route params
+    const { slugCategory, slugPet } = event.context.params as QueryCategoryPet;
+
+    const {
+      petName,
+      petAge,
+      breed,
+      birth,
+      gender,
+      type,
+      firstName,
+      lastName,
+      ownerAge,
+      contact,
+      address,
+    } = await readBody(event);
+
+    // const petAgeUpdate =
+    //   typeof petAge === "number" ? petAge : Number.parseInt(petAge);
+
+    const category = await prisma.category.findFirst({
+      where: {
+        slugCategory: slugCategory,
+      },
+      include: {
+        pets: true,
+      },
+    });
+
+    const pet = await prisma.pet.findFirst({
+      where: {
+        slugPet: slugPet,
+        Category: {
+          slugCategory: slugCategory,
+        },
+      },
+    });
+    console.log(pet);
+
+    const petUpdate = await prisma.pet.update({
+      where: {
+        id: pet?.id,
+      },
+      data: {
+        petName,
+        petAge,
+        breed,
+        birth,
+        gender,
+        Category: {
+          update: {
+            data: {
+              type,
+            },
+          },
+        },
+      },
+      // include: {
+      //   Category: true,
+      // },
+    });
+
+    if (!petUpdate) {
+      throw createError({
+        statusCode: 404,
+        message: "Pet not found",
+      });
+    }
+
+    const owner = await prisma.owner.findFirst({
+      where: {
+        Pet: {
+          slugPet: slugPet,
+          Category: {
+            slugCategory: slugCategory,
+          },
+        },
+      },
+    });
+
+    const ownerUpdate = await prisma.owner.update({
+      where: {
+        id: owner?.id,
+      },
+      data: {
+        firstName,
+        lastName,
+        ownerAge,
+        contact,
+        address,
+      },
+    });
+
+    if (!ownerUpdate) {
+      throw createError({
+        statusCode: 404,
+        message: "Owner not found",
+      });
+    }
+
+    return { petUpdate, ownerUpdate };
+  } catch (e) {
+    console.log(e);
+  }
+});

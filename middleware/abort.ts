@@ -1,16 +1,22 @@
 /* eslint-disable space-before-function-paren */
 export default defineNuxtRouteMiddleware(async (to) => {
-  //const meta = await $fetch("/api/profile/meta");
+  // const meta = await $fetch("/api/profile/meta", {
+  //     method: "GET",
+  //   });
 
-  let meta;
-  const { data } = await useAsyncData("middleware", () =>
-    $fetch("/api/profile/meta")
-  );
+  // let meta;
+  // const { data: meta } = await useAsyncData("middleware", () =>
+  //   $fetch("/api/profile/meta", {
+  //     method: "GET",
+  //   })
+  // );
 
-  meta = data;
+  // meta = data;
 
-  const category = meta.categories.find(
-    (category) => category.slugCategory === to.params.slugCategory
+  const meta = useMeta();
+
+  const category = meta.value.categories.find(
+    (category: any) => category.slugCategory === to.params.slugCategory
   );
 
   if (!category) {
@@ -22,7 +28,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
     );
   }
 
-  const pet = category.pets.find((pet) => pet.slugPet === to.params.slugPet);
+  const pet = category.pets.find(
+    (pet: any) => pet.slugPet === to.params.slugPet
+  );
 
   if (!pet) {
     return abortNavigation(

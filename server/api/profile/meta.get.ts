@@ -6,7 +6,6 @@ const petSelect = Prisma.validator<Prisma.PetArgs>()({
   select: {
     petName: true,
     slugPet: true,
-    petID: true,
     breed: true,
   },
 });
@@ -19,6 +18,7 @@ const categorySelect = Prisma.validator<Prisma.CategoryArgs>()({
   select: {
     type: true,
     slugCategory: true,
+    petID: true,
     pets: petSelect,
   },
 });

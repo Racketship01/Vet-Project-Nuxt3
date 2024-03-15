@@ -35,9 +35,10 @@ export default defineEventHandler(async (event) => {
       data: {
         type,
         slugCategory,
+        petID,
         Clinic: {
           connect: {
-            id: clinic.id,
+            id: clinic?.id,
           },
         },
       },
@@ -48,7 +49,6 @@ export default defineEventHandler(async (event) => {
         petName,
         slugPet,
         petAge,
-        petID,
         breed,
         birth,
         gender,

@@ -11,15 +11,15 @@ async function seed() {
           {
             type: "Canine",
             slugCategory: "CA",
+            petID: "CA-SNO123456",
             pets: {
               create: [
                 {
                   petName: "Snoopy",
                   slugPet: "SNO123456",
-                  petID: "CA-SNO123456",
                   petAge: 1,
                   breed: "Aspin",
-                  birth: "01-07-2023",
+                  birth: "2023-01-07",
                   gender: "Female",
                   owner: {
                     create: [

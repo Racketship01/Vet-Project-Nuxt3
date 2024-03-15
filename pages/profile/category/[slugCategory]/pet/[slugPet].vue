@@ -18,13 +18,8 @@
 
   <div class="headtitle">
     <div class="head1">
-      <h1>{{ pet.petName }}</h1>
+      <h1>{{ petAPI.petName }}</h1>
     </div>
-
-    <!-- <div class="ptcheck">
-      <v-checkbox class="vcheck1" label="Medical"></v-checkbox>
-      <v-checkbox class="vcheck2" label="Vaccination"></v-checkbox>
-    </div> -->
   </div>
 
   <div class="head2">
@@ -32,7 +27,8 @@
     <div class="head3">
       <h3 class="vBar">Owner Information</h3>
 
-      <v-dialog v-model="dialog" persistent width="550">
+      <!-- --------UPDATE------------- -->
+      <v-dialog v-model="state.dialogEdit" persistent width="550">
         <template v-slot:activator="{ props }">
           <v-btn
             color="blue-darken-1"
@@ -56,62 +52,43 @@
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="petName"
-                    :rules="fieldRule"
-                    :counter="10"
-                    label="Pet name"
-                    required
-                    hide-details
+                    v-model="state.petName"
+                    label="Petname"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="breed"
-                    :rules="fieldRule"
-                    :counter="10"
+                    v-model="state.breed"
                     label="Breed"
-                    hide-details
-                    required
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="birth"
-                    :rules="fieldRule"
-                    :counter="10"
-                    label="Date of Birth"
-                    hide-details
-                    required
+                    type="date"
+                    v-model="state.birth"
+                    label="Birthdate"
                   ></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="petAge"
-                    :rules="fieldRule"
-                    :counter="10"
+                    v-model="state.petAge"
                     label="Age"
-                    hide-details
-                    required
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-select
-                    v-model="gender"
+                    v-model="state.gender"
                     :items="genderItems"
-                    :rules="[(v) => !!v || 'Item is required']"
                     label="Gender"
-                    required
                   ></v-select>
                 </v-col>
 
                 <v-col cols="12" md="6">
                   <v-select
-                    v-model="category"
+                    v-model="state.type"
                     :items="categoryItems"
-                    :rules="[(v) => !!v || 'Item is required']"
                     label="Category"
-                    required
                   ></v-select>
                 </v-col>
 
@@ -123,55 +100,36 @@
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="ownerFirstName"
-                    :rules="fieldRule"
-                    :counter="10"
-                    label="Name"
-                    required
-                    hide-details
+                    v-model="state.firstName"
+                    label="First name"
                   ></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="ownerLastName"
-                    :rules="fieldRule"
-                    :counter="10"
+                    v-model="state.lastName"
                     label="Last name"
-                    hide-details
-                    required
                   ></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="ownerAge"
-                    :rules="fieldRule"
-                    :counter="10"
+                    v-model="state.ownerAge"
                     label="Age"
-                    hide-details
-                    required
                   ></v-text-field>
                 </v-col>
 
                 <v-col cols="12" md="6">
                   <v-text-field
-                    v-model="contact"
-                    :rules="fieldRule"
-                    :counter="10"
+                    v-model="state.contact"
                     label="Contact number"
-                    hide-details
-                    required
                   ></v-text-field>
                 </v-col>
 
                 <v-col>
                   <v-text-field
-                    v-model="address"
-                    :rules="fieldRule"
+                    v-model="state.address"
                     label="Address"
-                    hide-details
-                    required
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -179,10 +137,14 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue-darken-1" variant="text" @click="dialog = false">
+            <v-btn
+              color="blue-darken-1"
+              variant="text"
+              @click="state.dialogEdit = false"
+            >
               Close
             </v-btn>
-            <v-btn color="blue-darken-1" variant="text" @click="dialog = false">
+            <v-btn color="blue-darken-1" variant="text" @click="updateSave">
               Save
             </v-btn>
           </v-card-actions>
@@ -192,32 +154,33 @@
 
     <div class="pgap">
       <p>Breed:</p>
-      <span>{{ pet.breed }}</span>
+      <span>{{ petAPI.breed }}</span>
       <p>Date of Birth:</p>
-      <span>{{ pet.birth }}</span>
+      <span>{{ petAPI.birth }}</span>
       <p>Age:</p>
-      <span>{{ pet.petAge }}</span>
+      <span>{{ petAPI.petAge }}</span>
       <p>Gender:</p>
-      <span>{{ pet.gender }}</span>
+      <span>{{ petAPI.gender }}</span>
       <p>Category:</p>
       <span>{{ categoryOutline.type }}</span>
     </div>
     <div class="pgap">
       <p>Owner name:</p>
-      <span>{{ owner.firstName }}</span>
+      <span>{{ ownerAPI.firstName }}</span>
       <p>Last name:</p>
-      <span>{{ owner.lastName }}</span>
+      <span>{{ ownerAPI.lastName }}</span>
       <p>Age:</p>
-      <span>{{ owner.ownerAge }} years old</span>
+      <span>{{ ownerAPI.ownerAge }} years old</span>
       <p>Contact no:</p>
-      <span>{{ owner.contact }}</span>
+      <span>{{ ownerAPI.contact }}</span>
       <p>Adress:</p>
       <span class="d-inline-block text-truncate" style="max-width: 100px">
-        {{ owner.address }}
+        {{ ownerAPI.address }}
       </span>
     </div>
   </div>
 
+  <!-- --------MEDICAL------------- -->
   <div class="head4">
     <div class="head5">
       <h3 class="vBar">Basic Vaccination</h3>
@@ -233,7 +196,7 @@
     </div>
 
     <div>
-      <v-dialog v-model="dialogMed" persistent width="550">
+      <v-dialog v-model="state.dialogMed" persistent width="550">
         <template v-slot:activator="{ props }">
           <v-btn
             color="blue-darken-1"
@@ -254,14 +217,14 @@
               Password
             </div>
             <v-text-field
-              :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-              :type="visible ? 'text' : 'password'"
+              :append-inner-icon="state.visible ? 'mdi-eye-off' : 'mdi-eye'"
+              :type="state.visible ? 'text' : 'password'"
               density="compact"
               placeholder="Enter your password"
               prepend-inner-icon="mdi-lock-outline"
               color="blue-darken-1"
               variant="outlined"
-              @click:append-inner="visible = !visible"
+              @click:append-inner="state.visible = !state.visible"
             ></v-text-field>
           </v-container>
           <v-card-actions class="actionbtn">
@@ -270,7 +233,7 @@
               class="actionbtn"
               color="blue-darken-1"
               variant="text"
-              @click="dialogMed = false"
+              @click="state.dialogMed = false"
             >
               Cancel
             </v-btn>
@@ -278,7 +241,7 @@
               class="actionbtn"
               color="blue-darken-1"
               variant="text"
-              @click="dialogMed = false"
+              @click="state.dialogMed = false"
             >
               Confirm
             </v-btn>
@@ -322,48 +285,103 @@ import cover from "@/assets/images/coverprof.jpg";
 import dp from "@/assets/images/corgi.jpeg";
 import type { QueryCategoryPet } from "~/types/queries";
 import { rules } from "~/composables/rules";
+import { useUpdateRecord } from "~/stores/updateRecord";
+import { storeToRefs } from "pinia";
 
 definePageMeta({
   middleware: ["auth"],
-  //key: (route: any) => route.fullPath,
 });
+
+// store pinia state
+const store = useUpdateRecord();
+const { pet, category, owner } = storeToRefs(store);
+const { updateRecordInfo } = store;
 
 // REST APIs
 const route = useRoute();
 const { slugCategory, slugPet } = route.params as QueryCategoryPet;
 const meta = await useMeta();
 const categories = meta.value.categories;
-const pet = await usePet(slugCategory, slugPet);
-const owner = await useOwner(slugCategory, slugPet);
-
+const petAPI = await usePet(slugCategory, slugPet);
+const ownerAPI = await useOwner(slugCategory, slugPet);
 const categoryOutline = computed(() =>
   categories.find(
     (category: any) => category.slugCategory === route.params.slugCategory
   )
 );
 
+onMounted(async () => {
+  try {
+    //pet
+    state.petName = petAPI.value.petName;
+    state.breed = petAPI.value.breed;
+    state.birth = petAPI.value.birth;
+    state.petAge = petAPI.value.petAge;
+    state.gender = petAPI.value.gender;
+
+    //category
+    state.type = categoryOutline.value.type;
+
+    //owner
+    state.firstName = ownerAPI.value.firstName;
+    state.lastName = ownerAPI.value.lastName;
+    state.ownerAge = ownerAPI.value.ownerAge;
+    state.contact = ownerAPI.value.contact;
+    state.address = ownerAPI.value.address;
+  } catch (e) {
+    console.log(e);
+  }
+});
+//console.log(typeof petAPI.value?.petAge);
+
 // profile reactive state
-const visible = ref(false);
-const dialog = ref(false);
-const dialogMed = ref(false);
+const state = reactive({
+  visible: false,
+  dialog: false,
+  dialogEdit: false,
+  dialogMed: false,
 
-const gender = ref("");
+  //pet
+  petName: "",
+  breed: "",
+  birth: "",
+  petAge: 0,
+  gender: "",
+
+  //category
+  type: "",
+
+  //owner
+  firstName: "",
+  lastName: "",
+  ownerAge: 0,
+  contact: 0,
+  address: "",
+});
+//console.log(petAPI.value.birth);
+// console.log(typeof state.petAge);
+
 const genderItems = ["Female", "Male"];
-
-const category = ref("");
-const categoryItems = ["Mammal", "Reptile", "Amphibian", "Bird", "Fish"];
-
+const categoryItems = ["Avian", "Canine", "Feline", "Herd", "Piscine"];
 const rulesImage = rules();
 
-// edit pet and owner information
-const petName = ref("");
-const breed = ref("");
-const birth = ref("");
-const petAge = ref("");
+const updateSave = () => {
+  pet.value.petName = state.petName;
+  pet.value.breed = state.breed;
+  pet.value.birth = state.birth;
+  pet.value.petAge = +state.petAge;
+  pet.value.gender = state.gender;
 
-const ownerFirstName = ref("");
-const ownerLastName = ref("");
-const ownerAge = ref("");
-const contact = ref("");
-const address = ref("");
+  category.value.type = state.type;
+
+  owner.value.firstName = state.firstName;
+  owner.value.lastName = state.lastName;
+  owner.value.ownerAge = +state.ownerAge;
+  owner.value.contact = +state.contact;
+  owner.value.address = state.address;
+
+  updateRecordInfo();
+
+  console.log(typeof pet.value.petAge);
+};
 </script>
