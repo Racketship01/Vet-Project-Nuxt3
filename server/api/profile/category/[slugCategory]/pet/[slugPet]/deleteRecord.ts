@@ -21,11 +21,19 @@ export default defineEventHandler(async (event) => {
       },
     });
 
-    const result = await prisma.pet.delete({
-      where: {
-        id: pet?.id,
-      },
-    });
+    // const result = await prisma.pet.delete({
+    //   where: {
+    //     id: pet?.id,
+    //   },
+    // });
+
+    const [result] = await prisma.$transaction([
+      prisma.pet.delete({
+        where: {
+          id: pet?.id,
+        },
+      }),
+    ]);
 
     if (!result) {
       throw createError({

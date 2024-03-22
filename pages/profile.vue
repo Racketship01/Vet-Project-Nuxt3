@@ -6,7 +6,8 @@
 
     <div class="record">
       <div class="profileForm">
-        <ProfileForm />
+        <!-- <ProfileForm /> -->
+        <primary-vax-table />
       </div>
 
       <div class="profile">

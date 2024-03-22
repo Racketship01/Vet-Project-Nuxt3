@@ -3,14 +3,13 @@
 .picover {
   height: 8rem;
   width: 100%;
-  //   border-bottom: 1px solid rgb(222, 222, 222);
 }
 
 .dpwrapper {
   display: flex;
   height: 130px;
   width: 130px;
-  margin-left: 30px;
+  margin-left: 10px;
   margin-top: -66px;
   position: relative;
 }
@@ -58,7 +57,6 @@
 
 .head1 {
   width: 65%;
-  margin-top: 10px;
 }
 
 .ptcheck {
@@ -113,7 +111,7 @@
   display: flex;
   justify-content: space-between;
   margin-right: 10px;
-  margin-top: 5px;
+  margin-top: 10px;
   padding: 10px;
 }
 
@@ -133,23 +131,30 @@
   background-color: clr(neutral, 500) !important;
 }
 
-@media (min-width: 1500px) {
-  .head1 {
-    width: 50%;
-    margin-top: 20px;
-    margin-left: 12px;
-  }
+// @media (max-width: 1600px) {
+//   .headtitle {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     height: 65px;
+// }
+//  .head1 {
+//     margin-top: 10px;
+//     width: 38%;
+//     margin-left: 15px;
+//     font-size: small;
+//  }
 
-  .ptcheck {
-    width: auto;
-    margin-top: 15px;
-    display: flex;
+//  .ptcheck {
+//     width: auto;
+//     margin-top: 10px;
+//     display:flex;
 
-    .vcheck1 {
-      margin-top: 0px;
-    }
-    .vcheck2 {
-      margin-top: 0px;
-    }
-  }
-}
+//   .vcheck1 {
+//     margin-top: 0px;
+//   }
+//   .vcheck2 {
+//     margin-top: 0px;
+//   }
+//  }
+// }

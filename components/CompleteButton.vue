@@ -1,19 +1,18 @@
 <script setup>
 defineProps({
-    modelValue: {
+  modelValue: {
     type: Boolean,
-    default: false
+    default: false,
   },
 });
 defineEmits(["update:modelValue"]);
 </script>
 <template>
   <label
-    class= "btnComplete"
-                    
+    class="btnComplete"
     :class="{
       'bg-green': modelValue,
-      'bg': !modelValue,
+      bg: !modelValue,
     }"
   >
     <input

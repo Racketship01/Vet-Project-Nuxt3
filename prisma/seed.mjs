@@ -32,6 +32,43 @@ async function seed() {
                       },
                     ],
                   },
+                  primaryVax: {
+                    create: [
+                      {
+                        age: 1,
+                        date: "2023-01-07",
+                        weight: 10,
+                        description: "5in1 vaccine",
+                        followUp: "2023-01-07",
+                        veterinarian: "Doc Jacob",
+                        remarks: true,
+                      },
+                    ],
+                  },
+                  annualVax: {
+                    create: [
+                      {
+                        age: 1,
+                        date: "2023-01-07",
+                        weight: 10,
+                        description: "anti-rabies vaccine",
+                        followUp: "2023-01-07",
+                        veterinarian: "Doc Jacob",
+                      },
+                    ],
+                  },
+                  medicalHx: {
+                    create: [
+                      {
+                        age: 1,
+                        date: "2023-01-07",
+                        weight: 10,
+                        description: "Cough and flu consultation",
+                        followUp: "2023-01-07",
+                        veterinarian: "Doc Jacob",
+                      },
+                    ],
+                  },
                 },
               ],
             },

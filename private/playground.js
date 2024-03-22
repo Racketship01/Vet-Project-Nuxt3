@@ -709,3 +709,12 @@ export default defineEventHandler(async (event) => {
     console.log(e);
   }
 });
+
+
+// primaryVax.value.age = +editedItem.value.age;
+  // primaryVax.value.date = editedItem.value.date;
+  // primaryVax.value.weight = +editedItem.value.weight;
+  // primaryVax.value.description = editedItem.value.description;
+  // primaryVax.value.followUp = editedItem.value.followUp;
+  // primaryVax.value.veterinarian = editedItem.value.veterinarian;
+  // primaryVax.value.remarks = editedItem.value.remarks;

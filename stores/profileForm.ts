@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import type { Category, Pet, Owner } from "@/types/profile";
-import type { QueryCategoryPet } from "~/types/queries";
+//import type { QueryCategoryPet } from "~/types/queries";
 
 export const useProfileForm = defineStore("profileForm", () => {
   // const initialized = ref(false);
@@ -9,7 +9,7 @@ export const useProfileForm = defineStore("profileForm", () => {
   //   initialized.value = true;
   // }
 
-  const { slugCategory, slugPet } = useRoute().params as QueryCategoryPet;
+  //const { slugCategory, slugPet } = useRoute().params as QueryCategoryPet;
 
   const category = reactive<Category>({
     type: "",

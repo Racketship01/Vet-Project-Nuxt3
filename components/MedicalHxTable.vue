@@ -6,7 +6,7 @@
   >
     <template v-slot:top>
       <v-toolbar flat class="tBar">
-        <v-toolbar-title>Medical History</v-toolbar-title>
+        <v-toolbar-title>{{ props.title }}</v-toolbar-title>
 
         <!-- <v-btn icon="mdi-chevron-right" ></v-btn> -->
 
@@ -111,6 +111,13 @@
 </template>
 
 <script setup>
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+});
+
 const dialog = ref(false);
 const dialogDelete = ref(false);
 
@@ -123,7 +130,7 @@ const headers = [
     key: "name",
   },
   { title: "DATE", key: "date" },
-  { title: "WEIGHT", key: "weight" },
+  { title: "WEIGHT(lbs)", key: "weight" },
   { title: "DESCRIPTION", key: "description" },
   { title: "FOLLOWUP CHECKUP", key: "followupCheckup" },
   { title: "VETERINARIAN", key: "veterinarian" },

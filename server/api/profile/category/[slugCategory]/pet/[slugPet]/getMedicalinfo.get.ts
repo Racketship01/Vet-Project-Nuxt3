@@ -8,26 +8,25 @@ const prisma = new PrismaClient();
 export default defineEventHandler(async (event) => {
   const { slugCategory, slugPet } = event.context.params as QueryCategoryPet;
 
-  const [pet] = await prisma.$transaction([
-    prisma.pet.findFirst({
-      where: {
+  const primaryVax = await prisma.primaryVax.findMany({
+    where: {
+      Pet: {
         slugPet: slugPet,
         Category: {
           slugCategory: slugCategory,
         },
       },
-    }),
-  ]);
+    },
+  });
 
-  if (!pet) {
+  if (!primaryVax) {
     throw createError({
       statusCode: 404,
-      message: "Pet not found",
+      message: "Primary vaccine info not found",
     });
   }
 
   return {
-    ...pet,
-    path: `/profile/category/${slugCategory}/pet/${slugPet}`,
-  }; // return fetched pet with path
+    ...primaryVax,
+  };
 });

@@ -188,100 +188,140 @@
   </div>
 
   <!-- --------MEDICAL------------- -->
-  <div class="head4">
-    <div class="head5">
-      <h3 class="vBar">Basic Vaccination</h3>
-      <v-progress-circular
-        :rotate="360"
-        :size="30"
-        :width="3"
-        :model-value="vaxProgress"
-        color="teal"
-      >
-        <template v-slot:default> {{ vaxProgress }} % </template>
-      </v-progress-circular>
-    </div>
+  <v-col cols="12" md="8">
+    <h3 class="vBar">Medical Information</h3>
+  </v-col>
 
-    <div>
-      <v-dialog v-model="state.dialogMed" persistent width="550">
-        <template v-slot:activator="{ props }">
+  <v-col cols="12" md="6">
+    <v-card>
+      <h3 class="remark_h">Remarks:</h3>
+      <v-divider class="border-opacity-75" color="info"></v-divider>
+      <p class="rmp">Take clidkem once a day</p>
+      <v-divider class="border-opacity-75" color="info"></v-divider>
+      <p class="rmp">Take clidkem once a day</p>
+      <v-divider class="border-opacity-75" color="info"></v-divider>
+      <p class="rmp">Take clidkem once a day</p>
+      <v-divider class="border-opacity-75" color="info"></v-divider>
+      <p class="rmp">Take clidkem once a day</p>
+      <v-divider class="border-opacity-75" color="info"></v-divider>
+      <p class="rmp">Take clidkem once a day</p>
+    </v-card>
+  </v-col>
+  <v-col class="med_InfoD" cols="12" md="5">
+    <!-- <img height="150" width="170" cover :src="img" /> -->
+
+    <v-dialog v-model="state.dialogMedical" width="auto" scrollable>
+      <template v-slot:activator="{ props: activatorProps }">
+        <v-btn
+          color="blue-lighten-1"
+          text="Medical History"
+          variant="outlined"
+          v-bind="activatorProps"
+        ></v-btn>
+      </template>
+
+      <v-card>
+        <v-card-actions>
+          <div class="medialog">Medical History</div>
+          <v-spacer></v-spacer>
+          <div>
+            <v-dialog v-model="state.dialogMed" persistent width="550">
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  class="btn_medialog"
+                  color="blue-darken-1"
+                  prepend-icon="$edit"
+                  variant="outlined"
+                  v-bind="props"
+                >
+                  Medical Update
+                </v-btn>
+              </template>
+
+              <v-card>
+                <v-container>
+                  <div
+                    class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
+                  >
+                    Password
+                  </div>
+                  <v-text-field
+                    v-model="state.password"
+                    :append-inner-icon="
+                      state.visible ? 'mdi-eye-off' : 'mdi-eye'
+                    "
+                    :type="state.visible ? 'text' : 'password'"
+                    density="compact"
+                    placeholder="Enter your password"
+                    prepend-inner-icon="mdi-lock-outline"
+                    color="blue-darken-1"
+                    variant="outlined"
+                    @click:append-inner="state.visible = !state.visible"
+                  ></v-text-field>
+                </v-container>
+                <v-card-actions class="actionbtn">
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    class="actionbtn"
+                    color="blue-darken-1"
+                    variant="text"
+                    @click="state.dialogMed = false"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    class="actionbtn"
+                    color="blue-darken-1"
+                    variant="text"
+                    @click="medicalPassword"
+                  >
+                    Confirm
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </div>
+        </v-card-actions>
+        <v-divider class="mt-3"></v-divider>
+        <v-col cols="auto" class="overflow-auto">
+          <v-card
+            width="auto"
+            height="500"
+            class="overflow-auto"
+            v-if="state.showTable"
+          >
+            <div class="tbdvder">
+              <div>
+                <PrimaryVaxTable />
+              </div>
+              <div>
+                <AnnualVaxTable />
+              </div>
+              <div>
+                <MedicalHxTable title="Medical History" />
+              </div>
+            </div>
+          </v-card>
+        </v-col>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
           <v-btn
             color="blue-darken-1"
-            density="comfortable"
-            prepend-icon="$edit"
-            variant="outlined"
-            v-bind="props"
-          >
-            Medical Update
-          </v-btn>
-        </template>
-
-        <v-card>
-          <v-container>
-            <div
-              class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
-            >
-              Password
-            </div>
-            <v-text-field
-              :append-inner-icon="state.visible ? 'mdi-eye-off' : 'mdi-eye'"
-              :type="state.visible ? 'text' : 'password'"
-              density="compact"
-              placeholder="Enter your password"
-              prepend-inner-icon="mdi-lock-outline"
-              color="blue-darken-1"
-              variant="outlined"
-              @click:append-inner="state.visible = !state.visible"
-            ></v-text-field>
-          </v-container>
-          <v-card-actions class="actionbtn">
-            <v-spacer></v-spacer>
-            <v-btn
-              class="actionbtn"
-              color="blue-darken-1"
-              variant="text"
-              @click="state.dialogMed = false"
-            >
-              Cancel
-            </v-btn>
-            <v-btn
-              class="actionbtn"
-              color="blue-darken-1"
-              variant="text"
-              @click="state.dialogMed = false"
-            >
-              Confirm
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
-  </div>
-
-  <div class="tblebck">
-    <v-toolbar>
-      <v-toolbar-title>Medical History</v-toolbar-title>
-    </v-toolbar>
-
-    <v-col cols="auto" class="overflow-auto">
-      <v-card width="1050" height="220" class="overflow-auto">
-        <div class="tbdvder">
-          <div>
-            <PrimaryVaxTable />
-          </div>
-          <div>
-            <AnnualVaxTable />
-          </div>
-          <div>
-            <MedicalHxTable />
-          </div>
-        </div>
+            text="Close"
+            variant="text"
+            @click="closeMedicalHistory"
+          ></v-btn>
+        </v-card-actions>
       </v-card>
-    </v-col>
-  </div>
-
+    </v-dialog>
+    <img height="150" width="170" cover :src="img" />
+  </v-col>
   <div class="btn">
-    <v-btn color="blue-darken-1" variant="flat" size="large"> Update </v-btn>
+    <v-btn color="blue-darken-1" variant="flat" size="large" @click="backBtn">
+      Back
+    </v-btn>
 
     <v-dialog v-model="state.dialogDelete" persistent width="550">
       <template v-slot:activator="{ props }">
@@ -291,33 +331,35 @@
       </template>
 
       <v-card>
-        <v-container>
-          <div
-            class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
-          >
-            Are you sure you want to DELETE this record?
-          </div>
-        </v-container>
-        <v-card-actions class="actionbtn">
-          <v-spacer></v-spacer>
-          <v-btn
-            class="actionbtn"
-            color="blue-darken-1"
-            variant="text"
-            @click="state.dialogDelete = false"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            class="actionbtn"
-            color="blue-darken-1"
-            variant="text"
-            :loading="loadingDel"
-            @click="deleteRecord"
-          >
-            Confirm
-          </v-btn>
-        </v-card-actions>
+        <v-form ref="validate">
+          <v-container>
+            <div
+              class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
+            >
+              Are you sure you want to DELETE this record?
+            </div>
+          </v-container>
+          <v-card-actions class="actionbtn">
+            <v-spacer></v-spacer>
+            <v-btn
+              class="actionbtn"
+              color="blue-darken-1"
+              variant="text"
+              @click="state.dialogDelete = false"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              class="actionbtn"
+              color="blue-darken-1"
+              variant="text"
+              :loading="loadingDel"
+              @click="deleteRecord"
+            >
+              Confirm
+            </v-btn>
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-dialog>
   </div>
@@ -382,13 +424,16 @@ const validate = ref();
 
 const state = reactive({
   visible: false,
-  dialog: false,
   dialogEdit: false,
   dialogMed: false,
   dialogDelete: false,
+  dialogMedical: false,
 
   loadingEditInfo: false,
   loadingDel: false,
+
+  password: "",
+  showTable: false,
 
   //pet
   petName: "",
@@ -448,9 +493,33 @@ const deleteRecord = async () => {
         method: "DELETE",
       }
     );
-    state.loadingDel = false;
+
+    const { valid } = await validate.value.validate();
+    if (valid) {
+      alert("Deleting was successfull");
+      state.loadingDel = false;
+      await refreshNuxtData();
+      // navigateTo("/profile");
+    }
   } catch (err) {
     console.log(err);
   }
+};
+
+const backBtn = () => {
+  navigateTo("/profile");
+};
+
+const medicalPassword = () => {
+  if (state.password === "Star@1155") {
+    state.showTable = true;
+    state.dialogMed = false;
+  }
+};
+
+const closeMedicalHistory = () => {
+  state.dialogMedical = false;
+  state.showTable = false;
+  state.password = "";
 };
 </script>

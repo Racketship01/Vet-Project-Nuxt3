@@ -94,13 +94,14 @@ onMounted(async () => {
 });
 
 const filtersChanged = () => {
-  if (searchName.value.length > 0 || route.query.page) {
+  if (searchName.value.length > 0) {
     // get text field
-    const findText = searchName.value.toLocaleLowerCase();
+    const findText = searchName.value.toLowerCase();
     // find text
     const result = allLists.value.filter((pet) => {
-      const petName = pet.pets[0]["petName"].toLowerCase();
-      return petName.includes(findText);
+      const namePet = pet?.pets[0]["petName"].toLowerCase();
+
+      return namePet.includes(findText);
     });
 
     updatePage(result);
@@ -129,5 +130,4 @@ const displayedLists = computed(() => {
     return filteredLists.value.slice(firstListIndex, lastListIndex);
   }
 });
-//console.log(displayedLists.value);
 </script>

@@ -5,8 +5,9 @@ datasource db {
 
 generator client {
   provider      = "prisma-client-js"
- binaryTargets = ["native", "darwin-arm64"]
+binaryTargets = ["native", "darwin-arm64"]
   output        = "../node_modules/.prisma/client"
+ 
 }
 
 model Clinic {
@@ -28,7 +29,7 @@ model Category {
     Clinic     Clinic   @relation(fields: [clinicId], references: [id])
     clinicId Int
 
-     @@unique([clinicId, id])
+    
 }
 
 model Pet {
@@ -40,12 +41,15 @@ model Pet {
   birth     String
   gender    String
   owner     Owner[]
+  primaryVax PrimaryVax[]
+  annualVax AnnualVax[]
+  medicalHx  MedicalHx[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   Category  Category  @relation(fields: [categoryId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   categoryId  Int
 
-   @@unique([categoryId, id])
+  
 }
 
 model Owner {
@@ -60,6 +64,54 @@ model Owner {
   Pet       Pet       @relation(fields: [petId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   petId     Int
 
-   @@unique([petId, id])
+  
 }
 
+model PrimaryVax {
+  id        Int       @id @default(autoincrement()) @unique
+  age       Int?
+  date      String
+  weight    Int?
+  description String
+  followUp   String
+  veterinarian String
+  remarks     Boolean  @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Pet       Pet       @relation(fields: [petId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  petId     Int
+
+  @@unique([petId, id])
+}
+
+model AnnualVax {
+  id        Int       @id @default(autoincrement())
+  age       Int?
+  date      String
+  weight    Int?
+  description String
+  followUp   String
+  veterinarian String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Pet       Pet       @relation(fields: [petId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  petId     Int
+
+  @@unique([petId, id])
+}
+
+model MedicalHx {
+  id        Int       @id @default(autoincrement())
+  age       Int?
+  date      String
+  weight    Int?
+  description String
+  followUp   String
+  veterinarian String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Pet       Pet       @relation(fields: [petId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  petId     Int
+
+  @@unique([petId, id])
+}

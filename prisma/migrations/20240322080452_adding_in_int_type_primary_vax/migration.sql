@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "AnnualVax" ALTER COLUMN "age" DROP NOT NULL,
+ALTER COLUMN "weight" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "MedicalHx" ALTER COLUMN "age" DROP NOT NULL,
+ALTER COLUMN "weight" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "PrimaryVax" ALTER COLUMN "age" DROP NOT NULL,
+ALTER COLUMN "weight" DROP NOT NULL;
