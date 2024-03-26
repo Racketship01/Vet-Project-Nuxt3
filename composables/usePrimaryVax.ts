@@ -2,7 +2,7 @@ import type { PrimaryVax } from "~~/types/pet";
 
 export default async (slugCategory: string, slugPet: string) => {
   const { data, error } = await useFetch<PrimaryVax>(
-    `/api/profile/category/${slugCategory}/pet/${slugPet}/getMedicalinfo`
+    `/api/profile/category/${slugCategory}/pet/${slugPet}/getPrimaryVax`
   );
 
   if (error.value) {

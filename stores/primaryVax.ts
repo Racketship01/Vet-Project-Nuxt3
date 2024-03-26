@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import type { PrimaryVax, AnnualVax, MedicalHx } from "@/types/profile";
 import type { QueryCategoryPet } from "~/types/queries";
 
-export const useMedicalHistory = defineStore("medicalHistory", () => {
+export const usePrimary = defineStore("primaryVax", () => {
   //   const initialized = ref(false);
   //   async function initialize() {
   //     if (initialized.value) return;
@@ -23,28 +23,28 @@ export const useMedicalHistory = defineStore("medicalHistory", () => {
 
   // const primaryProgress = ref();
 
-  const annualVax = reactive<AnnualVax>({
-    age: "",
-    date: "",
-    weight: "",
-    description: "",
-    followUp: "",
-    veterinarian: "",
-  });
+  // const annualVax = reactive<AnnualVax>({
+  //   age: "",
+  //   date: "",
+  //   weight: "",
+  //   description: "",
+  //   followUp: "",
+  //   veterinarian: "",
+  // });
 
-  const medicalHx = reactive<MedicalHx>({
-    age: "",
-    date: "",
-    weight: "",
-    description: "",
-    followUp: "",
-    veterinarian: "",
-  });
+  // const medicalHx = reactive<MedicalHx>({
+  //   age: "",
+  //   date: "",
+  //   weight: "",
+  //   description: "",
+  //   followUp: "",
+  //   veterinarian: "",
+  // });
 
-  const upsertMedical = async () => {
+  const upsertPrimary = async () => {
     try {
       await $fetch(
-        `/api/profile/category/${slugCategory}/pet/${slugPet}/medicalHistory`,
+        `/api/profile/category/${slugCategory}/pet/${slugPet}/primaryVax`,
         {
           method: "POST",
           body: {
@@ -62,8 +62,8 @@ export const useMedicalHistory = defineStore("medicalHistory", () => {
   return {
     // initialize,
     primaryVax,
-    annualVax,
-    medicalHx,
-    upsertMedical,
+    // annualVax,
+    // medicalHx,
+    upsertPrimary,
   };
 });

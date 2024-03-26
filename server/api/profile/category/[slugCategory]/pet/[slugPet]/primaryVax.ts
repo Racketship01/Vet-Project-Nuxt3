@@ -12,16 +12,8 @@ export default defineEventHandler(async (event) => {
     // Get the route params
     const { slugCategory, slugPet } = event.context.params as QueryCategoryPet;
 
-    const {
-      id,
-      age,
-      date,
-      weight,
-      description,
-      followUp,
-      veterinarian,
-      remarks,
-    } = await readBody(event);
+    const { age, date, weight, description, followUp, veterinarian, remarks } =
+      await readBody(event);
 
     // ------QUERIES
     const pet = await prisma.pet.findFirst({
@@ -40,81 +32,125 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    const primary = await prisma.primaryVax.findUnique({
-      where: {
-        id,
-        Pet: {
-          slugPet: slugPet,
-          Category: {
-            slugCategory: slugCategory,
-          },
-        },
-      },
-    });
+    // const annual = await prisma.annualVax.findFirst({
+    //   where: {
+    //     Pet: {
+    //       slugPet: slugPet,
+    //       Category: {
+    //         slugCategory: slugCategory,
+    //       },
+    //     },
+    //   },
+    // });
 
-    const annual = await prisma.annualVax.findFirst({
-      where: {
-        Pet: {
-          slugPet: slugPet,
-          Category: {
-            slugCategory: slugCategory,
-          },
-        },
-      },
-    });
-
-    const medical = await prisma.medicalHx.findFirst({
-      where: {
-        Pet: {
-          slugPet: slugPet,
-          Category: {
-            slugCategory: slugCategory,
-          },
-        },
-      },
-    });
+    // const medical = await prisma.medicalHx.findFirst({
+    //   where: {
+    //     Pet: {
+    //       slugPet: slugPet,
+    //       Category: {
+    //         slugCategory: slugCategory,
+    //       },
+    //     },
+    //   },
+    // });
 
     // ------ INSERT AND UPDATE
 
-    const primaryVax = async () => {
-      try {
-        if (primary) {
-          await prisma.primaryVax.update({
-            where: {
-              id: primary?.id,
+    const [primaryCreate] = await prisma.$transaction([
+      prisma.primaryVax.create({
+        data: {
+          age: +age,
+          date,
+          weight: +weight,
+          description,
+          followUp,
+          veterinarian,
+          remarks,
+          Pet: {
+            connect: {
+              id: pet?.id,
             },
-            data: {
-              age: +age,
-              date,
-              weight: +weight,
-              description,
-              followUp,
-              veterinarian,
-              remarks,
-            },
-          });
-        } else {
-          await prisma.primaryVax.create({
-            data: {
-              age: +age,
-              date,
-              weight: +weight,
-              description,
-              followUp,
-              veterinarian,
-              remarks,
-              Pet: {
-                connect: {
-                  id: pet?.id,
-                },
-              },
-            },
-          });
-        }
-      } catch (e) {
-        console.log(e);
+          },
+        },
+      }),
+    ]);
+
+    const primary = await prisma.primaryVax.findUnique({
+      where: {
+        id: primaryCreate.id,
+        Pet: {
+          slugPet: slugPet,
+          Category: {
+            slugCategory: slugCategory,
+          },
+        },
+      },
+    });
+
+    const [primaryUpdate] = await prisma.$transaction([
+      prisma.primaryVax.update({
+        where: {
+          id: primary?.id,
+        },
+        data: {
+          age: +age,
+          date,
+          weight: +weight,
+          description,
+          followUp,
+          veterinarian,
+          remarks,
+        },
+      }),
+    ]);
+
+    const result = () => {
+      if (primary) {
+        return primaryUpdate;
+      } else {
+        return primaryCreate;
       }
     };
+
+    // const primaryVax = async () => {
+    //   try {
+    //     if (primary) {
+    //       await prisma.primaryVax.update({
+    //         where: {
+    //           id: primary?.id,
+    //         },
+    //         data: {
+    //           age: +age,
+    //           date,
+    //           weight: +weight,
+    //           description,
+    //           followUp,
+    //           veterinarian,
+    //           remarks,
+    //         },
+    //       });
+    //     } else {
+    //       await prisma.primaryVax.create({
+    //         data: {
+    //           age: +age,
+    //           date,
+    //           weight: +weight,
+    //           description,
+    //           followUp,
+    //           veterinarian,
+    //           remarks,
+    //           Pet: {
+    //             connect: {
+    //               id: pet?.id,
+    //             },
+    //           },
+    //         },
+    //       });
+    //     }
+    //   } catch (e) {
+    //     console.log(e);
+    //   }
+    // };
 
     // const annualVax = async () => {
     //   if (annual) {
@@ -185,7 +221,7 @@ export default defineEventHandler(async (event) => {
     // };
 
     //return [primaryVax(), annualVax(), medicalHx()];
-    return primaryVax();
+    return result();
   } catch (e) {
     console.log(e);
   }

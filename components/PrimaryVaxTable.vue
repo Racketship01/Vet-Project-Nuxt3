@@ -100,19 +100,19 @@
 </template>
 
 <script setup>
-import { useMedicalHistory } from "~/stores/medicalHistory";
+import { usePrimary } from "~/stores/primaryVax";
 import { storeToRefs } from "pinia";
 
 //REST Apis
 const route = useRoute();
 const { slugCategory, slugPet } = route.params;
-const getPrimaryVax = await useVaccine(slugCategory, slugPet);
+const getPrimaryVax = await usePrimaryVax(slugCategory, slugPet);
 console.log(getPrimaryVax.value);
 
 // store pinia state
-const store = useMedicalHistory();
+const store = usePrimary();
 const { primaryVax } = storeToRefs(store);
-const { upsertMedical } = store;
+const { upsertPrimary } = store;
 
 onMounted(async () => {
   initialize();
@@ -182,7 +182,7 @@ const close = () => {
 const postMedical = () => {
   primaryVax.value.age = +primaryVax.value.age;
   primaryVax.value.weight = +primaryVax.value.weight;
-  upsertMedical();
+  upsertPrimary();
 };
 //console.log(records.value);
 
@@ -202,6 +202,11 @@ const save = () => {
 };
 
 const initialize = () => {
-  records.value = [{ ...getPrimaryVax.value[0] }];
+  const primaryVaxApi = ref(Object.values(getPrimaryVax.value));
+
+  primaryVaxApi.value.forEach((vax) => {
+    records.value.push(vax);
+  });
 };
 </script>
+~/stores/primaryVax
