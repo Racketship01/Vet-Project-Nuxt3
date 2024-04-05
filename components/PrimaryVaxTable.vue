@@ -28,40 +28,40 @@
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         type="age"
-                        v-model="primaryVax.age"
+                        v-model="state.age"
                         label="Age"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         type="date"
-                        v-model="primaryVax.date"
+                        v-model="state.date"
                         label="Date"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="4">
                       <v-text-field
                         type="weight"
-                        v-model="primaryVax.weight"
+                        v-model="state.weight"
                         label="Weight"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="12">
                       <v-text-field
-                        v-model="primaryVax.description"
+                        v-model="state.description"
                         label="Description"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
                       <v-text-field
                         type="date"
-                        v-model="primaryVax.followUp"
+                        v-model="state.followUp"
                         label="Followup Checkup"
                       ></v-text-field>
                     </v-col>
                     <v-col cols="12" sm="6" md="6">
                       <v-text-field
-                        v-model="primaryVax.veterinarian"
+                        v-model="state.veterinarian"
                         label="Veterinarian"
                       ></v-text-field>
                     </v-col>
@@ -88,6 +88,14 @@
       <v-icon size="small" class="me-2" @click="editItem(item)">
         mdi-pencil
       </v-icon>
+      <!-- <NuxtLink
+        :to="{
+          path: `/profile/category/${slugCategory}/pet/${slugPet}`,
+          query: {
+            medTableID: medID,
+          },
+        }"
+        ></NuxtLink -->
     </template>
 
     <template v-slot:[`item.remarks`]="{ item }">
@@ -112,7 +120,7 @@ console.log(getPrimaryVax.value);
 // store pinia state
 const store = usePrimary();
 const { primaryVax } = storeToRefs(store);
-const { upsertPrimary } = store;
+const { insertPrimary, updatePrimary } = store;
 
 onMounted(async () => {
   initialize();
@@ -137,6 +145,15 @@ const headers = [
 ];
 const records = ref([]);
 const editedIndex = ref(-1);
+const state = reactive({
+  name: "",
+  date: "",
+  weight: "",
+  description: "",
+  followUp: "",
+  veterinarian: "",
+  remarks: false,
+});
 const defaultItem = ref({
   age: 0,
   date: "",
@@ -146,6 +163,7 @@ const defaultItem = ref({
   veterinarian: "",
   remarks: false,
 });
+const primaryID = ref();
 
 // ------METHOD
 const formTitle = computed(() => {
@@ -160,45 +178,58 @@ watch(() => {
 
 const editItem = (item) => {
   editedIndex.value = records.value.indexOf(item);
-  primaryVax.value = Object.assign(records.value[editedIndex.value], item);
+  state.value = reactive(Object.assign(records.value[editedIndex.value], item));
+  primaryID.value = records.value[editedIndex.value]["id"];
   dialog.value = true;
+  //primaryVax.value = state.value;
 };
 
 const progress = ref(false);
 const toggleComplete = (item) => {
   editedIndex.value = records.value.indexOf(item);
-  primaryVax.value = Object.assign({}, item);
-  return (progress.value = !progress.value);
+  state.value = reactive(Object.assign(records.value[editedIndex.value], item));
+  progress.value = !progress.value;
 };
 
 const close = () => {
   dialog.value = false;
   nextTick(() => {
-    primaryVax.value = Object.assign({}, defaultItem.value);
+    state.value = Object.assign({}, defaultItem.value);
     editedIndex.value = -1;
   });
 };
 
 const postMedical = () => {
-  primaryVax.value.age = +primaryVax.value.age;
-  primaryVax.value.weight = +primaryVax.value.weight;
-  upsertPrimary();
+  primaryVax.value.age = +state.age;
+  primaryVax.value.date = state.date;
+  primaryVax.value.weight = +state.weight;
+  primaryVax.value.description = state.description;
+  primaryVax.value.followUp = state.followUp;
+  primaryVax.value.veterinarian = state.veterinarian;
+  insertPrimary();
+};
+const putMedical = () => {
+  primaryVax.value.age = +state.age;
+  primaryVax.value.date = state.date;
+  primaryVax.value.weight = +state.weight;
+  primaryVax.value.description = state.description;
+  primaryVax.value.followUp = state.followUp;
+  primaryVax.value.veterinarian = state.veterinarian;
+  primaryVax.value.id = +primaryID.value;
+  updatePrimary();
 };
 //console.log(records.value);
 
 const save = () => {
   if (editedIndex.value > -1) {
-    Object.assign(records.value[editedIndex.value], primaryVax.value);
-    postMedical();
+    Object.assign(records.value[editedIndex.value], state);
+    putMedical();
+    close();
   } else {
-    records.value.push(primaryVax.value);
+    records.value.push(state);
     postMedical();
+    close();
   }
-
-  close();
-  //console.log(editedItem.value);
-  console.log(primaryVax.value);
-  console.log(records.value);
 };
 
 const initialize = () => {
@@ -209,4 +240,3 @@ const initialize = () => {
   });
 };
 </script>
-~/stores/primaryVax

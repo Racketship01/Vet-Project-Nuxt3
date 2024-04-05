@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { PrimaryVax, AnnualVax, MedicalHx } from "@/types/profile";
+import type { PrimaryVax } from "@/types/profile";
 import type { QueryCategoryPet } from "~/types/queries";
 
 export const usePrimary = defineStore("primaryVax", () => {
@@ -12,6 +12,7 @@ export const usePrimary = defineStore("primaryVax", () => {
   const { slugCategory, slugPet } = useRoute().params as QueryCategoryPet;
 
   const primaryVax = reactive<PrimaryVax>({
+    id: undefined,
     age: undefined,
     date: "",
     weight: undefined,
@@ -21,27 +22,7 @@ export const usePrimary = defineStore("primaryVax", () => {
     remarks: undefined,
   });
 
-  // const primaryProgress = ref();
-
-  // const annualVax = reactive<AnnualVax>({
-  //   age: "",
-  //   date: "",
-  //   weight: "",
-  //   description: "",
-  //   followUp: "",
-  //   veterinarian: "",
-  // });
-
-  // const medicalHx = reactive<MedicalHx>({
-  //   age: "",
-  //   date: "",
-  //   weight: "",
-  //   description: "",
-  //   followUp: "",
-  //   veterinarian: "",
-  // });
-
-  const upsertPrimary = async () => {
+  const insertPrimary = async () => {
     try {
       await $fetch(
         `/api/profile/category/${slugCategory}/pet/${slugPet}/primaryVax`,
@@ -49,8 +30,22 @@ export const usePrimary = defineStore("primaryVax", () => {
           method: "POST",
           body: {
             ...primaryVax,
-            // ...annualVax,
-            // ...medicalHx,
+          },
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const updatePrimary = async () => {
+    try {
+      await $fetch(
+        `/api/profile/category/${slugCategory}/pet/${slugPet}/primaryVax`,
+        {
+          method: "PUT",
+          body: {
+            ...primaryVax,
           },
         }
       );
@@ -62,8 +57,7 @@ export const usePrimary = defineStore("primaryVax", () => {
   return {
     // initialize,
     primaryVax,
-    // annualVax,
-    // medicalHx,
-    upsertPrimary,
+    insertPrimary,
+    updatePrimary,
   };
 });
