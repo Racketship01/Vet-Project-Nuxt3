@@ -27,8 +27,8 @@
           >
             <NuxtLink
               class="listLink"
-              v-for="pet in category.pets"
-              :key="pet.slugPet"
+              v-for="(pet, index) in category.pets"
+              :key="index"
               :to="pet.path"
             >
               <v-list-item :prepend-avatar="dp" :title="pet.petName">

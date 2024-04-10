@@ -22,6 +22,11 @@ export const usePrimary = defineStore("primaryVax", () => {
     remarks: undefined,
   });
 
+  const progress = reactive({
+    id: undefined,
+    remarks: undefined,
+  });
+
   const insertPrimary = async () => {
     try {
       await $fetch(
@@ -54,10 +59,29 @@ export const usePrimary = defineStore("primaryVax", () => {
     }
   };
 
+  const progressPrimary = async () => {
+    try {
+      await $fetch(
+        `/api/profile/category/${slugCategory}/pet/${slugPet}/primaryProgress`,
+        {
+          method: "PUT",
+          body: {
+            ...progress,
+          },
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return {
     // initialize,
     primaryVax,
     insertPrimary,
     updatePrimary,
+
+    progress,
+    progressPrimary,
   };
 });

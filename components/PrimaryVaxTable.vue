@@ -84,25 +84,17 @@
       </v-toolbar>
     </template>
 
+    <template v-slot:[`item.remarks`]="{ item }">
+      <CompleteButton
+        :model-value="item.remarks"
+        @update:model-value="toggleComplete(item)"
+      />
+    </template>
+
     <template v-slot:[`item.actions`]="{ item }">
       <v-icon size="small" class="me-2" @click="editItem(item)">
         mdi-pencil
       </v-icon>
-      <!-- <NuxtLink
-        :to="{
-          path: `/profile/category/${slugCategory}/pet/${slugPet}`,
-          query: {
-            medTableID: medID,
-          },
-        }"
-        ></NuxtLink -->
-    </template>
-
-    <template v-slot:[`item.remarks`]="{ item }">
-      <CompleteButton
-        :model-value="progress"
-        @update:model-value="toggleComplete(item)"
-      />
     </template>
   </v-data-table>
 </template>
@@ -119,8 +111,8 @@ console.log(getPrimaryVax.value);
 
 // store pinia state
 const store = usePrimary();
-const { primaryVax } = storeToRefs(store);
-const { insertPrimary, updatePrimary } = store;
+const { primaryVax, progress } = storeToRefs(store);
+const { insertPrimary, updatePrimary, progressPrimary } = store;
 
 onMounted(async () => {
   initialize();
@@ -145,7 +137,7 @@ const headers = [
 ];
 const records = ref([]);
 const editedIndex = ref(-1);
-const state = reactive({
+const state = ref({
   name: "",
   date: "",
   weight: "",
@@ -184,11 +176,16 @@ const editItem = (item) => {
   //primaryVax.value = state.value;
 };
 
-const progress = ref(false);
 const toggleComplete = (item) => {
   editedIndex.value = records.value.indexOf(item);
-  state.value = reactive(Object.assign(records.value[editedIndex.value], item));
-  progress.value = !progress.value;
+
+  primaryID.value = records.value[editedIndex.value]["id"];
+  console.log(primaryID.value);
+
+  item.remarks = !item.remarks;
+  progress.value.id = +primaryID.value;
+  progress.value.remarks = item.remarks;
+  progressPrimary();
 };
 
 const close = () => {
@@ -196,25 +193,26 @@ const close = () => {
   nextTick(() => {
     state.value = Object.assign({}, defaultItem.value);
     editedIndex.value = -1;
+    reloadNuxtApp();
   });
 };
 
 const postMedical = () => {
-  primaryVax.value.age = +state.age;
-  primaryVax.value.date = state.date;
-  primaryVax.value.weight = +state.weight;
-  primaryVax.value.description = state.description;
-  primaryVax.value.followUp = state.followUp;
-  primaryVax.value.veterinarian = state.veterinarian;
+  primaryVax.value.age = +state.value.age;
+  primaryVax.value.date = state.value.date;
+  primaryVax.value.weight = +state.value.weight;
+  primaryVax.value.description = state.value.description;
+  primaryVax.value.followUp = state.value.followUp;
+  primaryVax.value.veterinarian = state.value.veterinarian;
   insertPrimary();
 };
 const putMedical = () => {
-  primaryVax.value.age = +state.age;
-  primaryVax.value.date = state.date;
-  primaryVax.value.weight = +state.weight;
-  primaryVax.value.description = state.description;
-  primaryVax.value.followUp = state.followUp;
-  primaryVax.value.veterinarian = state.veterinarian;
+  primaryVax.value.age = +state.value.age;
+  primaryVax.value.date = state.value.date;
+  primaryVax.value.weight = +state.value.weight;
+  primaryVax.value.description = state.value.description;
+  primaryVax.value.followUp = state.value.followUp;
+  primaryVax.value.veterinarian = state.value.veterinarian;
   primaryVax.value.id = +primaryID.value;
   updatePrimary();
 };
@@ -222,11 +220,11 @@ const putMedical = () => {
 
 const save = () => {
   if (editedIndex.value > -1) {
-    Object.assign(records.value[editedIndex.value], state);
+    Object.assign(records.value[editedIndex.value], state.value);
     putMedical();
     close();
   } else {
-    records.value.push(state);
+    records.value.push(state.value);
     postMedical();
     close();
   }
