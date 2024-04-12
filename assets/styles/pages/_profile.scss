@@ -6,18 +6,16 @@
   justify-content: center;
   flex-wrap: wrap;
   margin: 4vw auto;
-  border-radius: 7px !important;
-  width: 85%;
-  // height: 100;
-  min-height: 100vh;
-  background-color: fade-out(clr(primary, main-2), 0.6) !important;
+  border-radius: size(4) !important;
+  width: 75%;
+  height: auto;
+  background-color: clr(accent, gradient1) !important;
   overflow: hidden;
 }
 
 .navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  height: auto;
+  width: auto;
 }
 
 .record {
@@ -29,10 +27,21 @@
 
 .profileForm {
   width: 45%;
-  background-color: #fffbff !important;
+  // background-color: #fffbff !important;
+  background: clr(accent, gradient) !important;
 }
 
 .profile {
-  background-color: #ffffff;
+  // background-image: url("/assets/images/bck.jpeg");
+  // background-repeat: no-repeat;
+  // background-size: cover;
+  // background-color: #ffffff;
+  background: clr(accent, gradient1) !important;
   width: 55%;
+}
+
+@media (min-width: 1600px) {
+  .container {
+    width: 65%;
+  }
 }

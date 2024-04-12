@@ -93,19 +93,19 @@
 </template>
 
 <script setup>
-import { usePrimary } from "~/stores/primaryVax";
+import { useAnnual } from "~/stores/annualVax";
 import { storeToRefs } from "pinia";
 
 //REST Apis
 const route = useRoute();
 const { slugCategory, slugPet } = route.params;
-const getPrimaryVax = await usePrimaryVax(slugCategory, slugPet);
-console.log(getPrimaryVax.value);
+const getAnnualVax = await useAnnualVax(slugCategory, slugPet);
+console.log(getAnnualVax.value);
 
 // store pinia state
-const store = usePrimary();
-const { primaryVax, progress } = storeToRefs(store);
-const { insertPrimary, updatePrimary, progressPrimary } = store;
+const store = useAnnual();
+const { annualVax } = storeToRefs(store);
+const { insertAnnual, updateAnnual } = store;
 
 onMounted(async () => {
   initialize();
@@ -125,7 +125,6 @@ const headers = [
   { title: "DESCRIPTION", key: "description" },
   { title: "FOLLOWUP CHECKUP", key: "followUp" },
   { title: "VETERINARIAN", key: "veterinarian" },
-  { title: "REMARKS", key: "remarks", sortable: false },
   { title: "ACTIONS", key: "actions", sortable: false },
 ];
 const records = ref([]);
@@ -137,7 +136,6 @@ const state = ref({
   description: "",
   followUp: "",
   veterinarian: "",
-  remarks: false,
 });
 const defaultItem = ref({
   age: 0,
@@ -146,9 +144,8 @@ const defaultItem = ref({
   description: "",
   followUp: "",
   veterinarian: "",
-  remarks: false,
 });
-const primaryID = ref();
+const annualID = ref();
 
 // ------METHOD
 const formTitle = computed(() => {
@@ -164,21 +161,9 @@ watch(() => {
 const editItem = (item) => {
   editedIndex.value = records.value.indexOf(item);
   state.value = reactive(Object.assign(records.value[editedIndex.value], item));
-  primaryID.value = records.value[editedIndex.value]["id"];
+  annualID.value = records.value[editedIndex.value]["id"];
   dialog.value = true;
   //primaryVax.value = state.value;
-};
-
-const toggleComplete = (item) => {
-  editedIndex.value = records.value.indexOf(item);
-
-  primaryID.value = records.value[editedIndex.value]["id"];
-  console.log(primaryID.value);
-
-  item.remarks = !item.remarks;
-  progress.value.id = +primaryID.value;
-  progress.value.remarks = item.remarks;
-  progressPrimary();
 };
 
 const close = () => {
@@ -186,30 +171,29 @@ const close = () => {
   nextTick(() => {
     state.value = Object.assign({}, defaultItem.value);
     editedIndex.value = -1;
-    reloadNuxtApp();
+    // reloadNuxtApp();
   });
 };
 
 const postMedical = () => {
-  primaryVax.value.age = +state.value.age;
-  primaryVax.value.date = state.value.date;
-  primaryVax.value.weight = +state.value.weight;
-  primaryVax.value.description = state.value.description;
-  primaryVax.value.followUp = state.value.followUp;
-  primaryVax.value.veterinarian = state.value.veterinarian;
-  insertPrimary();
+  annualVax.value.age = +state.value.age;
+  annualVax.value.date = state.value.date;
+  annualVax.value.weight = +state.value.weight;
+  annualVax.value.description = state.value.description;
+  annualVax.value.followUp = state.value.followUp;
+  annualVax.value.veterinarian = state.value.veterinarian;
+  insertAnnual();
 };
 const putMedical = () => {
-  primaryVax.value.age = +state.value.age;
-  primaryVax.value.date = state.value.date;
-  primaryVax.value.weight = +state.value.weight;
-  primaryVax.value.description = state.value.description;
-  primaryVax.value.followUp = state.value.followUp;
-  primaryVax.value.veterinarian = state.value.veterinarian;
-  primaryVax.value.id = +primaryID.value;
-  updatePrimary();
+  annualVax.value.age = +state.value.age;
+  annualVax.value.date = state.value.date;
+  annualVax.value.weight = +state.value.weight;
+  annualVax.value.description = state.value.description;
+  annualVax.value.followUp = state.value.followUp;
+  annualVax.value.veterinarian = state.value.veterinarian;
+  annualVax.value.id = +annualID.value;
+  updateAnnual();
 };
-//console.log(records.value);
 
 const save = () => {
   if (editedIndex.value > -1) {
@@ -224,9 +208,9 @@ const save = () => {
 };
 
 const initialize = () => {
-  const primaryVaxApi = ref(Object.values(getPrimaryVax.value));
+  const annualVaxApi = ref(Object.values(getAnnualVax.value));
 
-  primaryVaxApi.value.forEach((vax) => {
+  annualVaxApi.value.forEach((vax) => {
     records.value.push(vax);
   });
 };

@@ -1,60 +1,47 @@
 @use "../abstracts/" as *;
 
-.title {
-  color: clr(neutral, 900);
-  font-size: size(24) !important;
-  line-height: size(36) !important;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+.space_bar {
+  padding: size(3);
+
+  .v_bar {
+    border-radius: size(4) !important;
+  }
 }
 
-// .nav {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   padding: size(8);
-// }
-
-.cover {
-  background-color: clr(neutral, 500) !important;
-  height: size(48) * 2 !important;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.avtr_icon {
+  margin-right: size(20) !important;
 }
 
-.logo {
-  height: 2rem;
-  width: 2rem;
+.profile_icon {
+  background-color: clr(link, link-3) !important;
+}
+
+.Nicon_logo {
+  height: size(12);
+  width: size(13);
   margin-inline-start: 20px;
 }
 
-.nav1 {
-  background-color: clr(neutral, 500) !important;
-  position: unset !important;
-  box-shadow: unset !important;
+.Logo_name {
+  font-family: $ff-base;
+  font-weight: $fw-7 !important;
+  font-size: size(10) !important;
+  margin-left: size(3) !important;
 }
 
-.rownav {
-  justify-content: flex-end;
-  margin-right: 40px !important;
+.v_card {
+  margin-top: size(5);
+  right: size(20) !important;
+  width: auto !important;
 }
 
-.vcardnav {
-  margin-top: 10px;
-  right: 20px !important;
+.title_text {
+  font-size: size(20) !important;
+  margin-top: size(16);
+  margin-bottom: size(1);
+  font-weight: $fw-6;
 }
 
-.vspanav {
-  font-size: 18px !important;
-  margin-top: 8px;
-}
-
-.pnav {
-  color: clr(link, link-1) !important;
-  margin-top: 5px;
-}
-
-.temp {
-  position: unset !important;
+.sub_text {
+  color: clr(link, link-2);
 }

@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-list class="vcardlist" lines="two">
+    <v-list class="vcard_list" lines="two">
       <div class="vlistemcon">
         <v-text-field
-          class="vcardsearch"
+          class="vcard_search"
           v-model="searchName"
           @keyup="filtersChanged"
           density="comfortable"
@@ -19,7 +19,7 @@
         <div class="item error" v-if="searchName && !filteredLists.length">
           <p>No results found!</p>
         </div>
-        <div>
+        <div class="vlist_cont">
           <div
             class="vlistem"
             v-for="(category, index) in displayedLists"
@@ -125,8 +125,8 @@ const displayedLists = computed(() => {
   } else {
     updatePage();
     const pageNumber = currentPage.value;
-    const firstListIndex = (pageNumber - 1) * 10;
-    const lastListIndex = pageNumber * 10;
+    const firstListIndex = (pageNumber - 1) * 9;
+    const lastListIndex = pageNumber * 9;
     return filteredLists.value.slice(firstListIndex, lastListIndex);
   }
 });

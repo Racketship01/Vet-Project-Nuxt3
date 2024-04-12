@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     "@nuxtjs/supabase",
     "nuxt-icon",
     "@pinia/nuxt",
+    "@nuxt/ui"
   ],
   vite: {
     vue: {
@@ -43,4 +44,5 @@ export default defineNuxtConfig({
     redirect: false,
   },
   buildModules: ["@pinia/nuxt"],
+  extends: ["@nuxt/ui-pro"],
 });

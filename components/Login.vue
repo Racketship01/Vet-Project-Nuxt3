@@ -1,21 +1,29 @@
 <template>
   <div class="vsheetlog">
     <v-sheet
-      elevation="12"
+      class="log_sheet mx-auto"
+      elevation="14"
+      height="auto"
+      justify-center
       max-width="600"
-      rounded="lg"
-      class="pa-4 mx-auto ma-10"
+      style="
+        background: linear-gradient(
+          to left bottom,
+          rgba(224, 247, 250, 1),
+          rgba(241, 237, 254, 1)
+        );
+      "
     >
       <div>
-        <div>
-          <img :src="logo" class="vimglog" />
+        <div class="img-logC">
+          <img class="img-logi" :src="icon" />
         </div>
-
-        <h1 class="logh1">Login</h1>
+        <div class="head_title">Login</div>
 
         <!-- Email -->
         <v-form v-model="form" @submit.prevent="loginWithEmail">
           <v-text-field
+            class="text_field"
             v-model="email"
             :readonly="loading"
             label="Your Email"
@@ -28,7 +36,7 @@
           <v-text-field
             v-model="password"
             :readonly="loading"
-            class="vfield"
+            class="text_field"
             label="Enter Password"
             variant="outlined"
             :rules="passwordLog"
@@ -38,14 +46,21 @@
           ></v-text-field>
 
           <!-- Forget -->
-          <NuxtLink class="n-link" to="/resetPassword">
-            Forgot login password?</NuxtLink
-          >
+          <div class="link1">
+            <NuxtLink
+              class="link2"
+              to="/resetPassword"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Forgot login password?</NuxtLink
+            >
+          </div>
 
           <!-- Button -->
 
           <v-row align="center" justify="center">
-            <v-col class="mx-auto mt-4" max-width="500">
+            <v-col class="mx-auto mt-4 mb-4" max-width="500">
               <v-btn
                 :disabled="!form"
                 :loading="loading"
@@ -62,31 +77,35 @@
         </v-form>
 
         <!-- Auth Icon -->
-        <h3 class="htxt">OR</h3>
+        <UDivider
+          label="OR"
+          :ui="{ label: 'text-sky-500 dark:text-primary-400' }"
+        />
 
-        <v-container class="text-center">
+        <v-container class="ccc">
           <v-row justify="center" dense>
             <v-col align="center" v-for="(shortcut, i) in shortcuts" :key="i">
-              <v-btn
+              <v-card
                 @click="shortcut.auth"
                 :loading="shortcut.load"
-                class="vcard1 pa-2"
+                class="vcard pa-2"
                 variant="tonal"
                 color="grey-darken-1"
+                target="_blank"
               >
                 <Icon size="25" :name="shortcut.icon" />
 
-                <div class="captxt" v-text="shortcut.title"></div>
-              </v-btn>
+                <div class="card_social" v-text="shortcut.title"></div>
+              </v-card>
             </v-col>
           </v-row>
         </v-container>
 
         <!-- register link -->
 
-        <div class="inktext" align="center">
+        <div class="link_text" align="center">
           <span>Not yet register?</span>
-          <NuxtLink class="n-link" to="/signUp">Signup Here</NuxtLink>
+          <NuxtLink class="page_link" to="/signUp">Signup Here</NuxtLink>
         </div>
       </div>
     </v-sheet>
@@ -94,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-import logo from "@/assets/images/vueh.png";
+import icon from "@/assets/images/Svueti.png";
 
 const form = ref(false);
 const email = ref("");

@@ -1,4 +1,10 @@
-import type { Pet, Owner, PrimaryVax } from "@prisma/client";
+import type {
+  Pet,
+  Owner,
+  PrimaryVax,
+  AnnualVax,
+  MedicalHx,
+} from "@prisma/client";
 
 export type PetWithPath = Pet & {
   path: string;
@@ -6,3 +12,5 @@ export type PetWithPath = Pet & {
 
 export type Owner = Owner;
 export type PrimaryVax = PrimaryVax;
+export type AnnualVax = AnnualVax;
+export type MedicalHx = MedicalHx;

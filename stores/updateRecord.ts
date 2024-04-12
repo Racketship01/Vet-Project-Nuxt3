@@ -11,12 +11,11 @@ export const useUpdateRecord = defineStore("updateRecord", () => {
 
   const { slugCategory, slugPet } = useRoute().params as QueryCategoryPet;
 
-  const category = reactive<Category>({
-    type: "",
-  });
+  // const category = reactive<Category>({
+  //   type: "",
+  // });
 
   const pet = reactive<Pet>({
-    petName: "",
     petAge: undefined,
     breed: "",
     birth: "",
@@ -39,7 +38,6 @@ export const useUpdateRecord = defineStore("updateRecord", () => {
           method: "PUT",
           body: {
             ...pet,
-            ...category,
             ...owner,
           },
         }
@@ -51,7 +49,7 @@ export const useUpdateRecord = defineStore("updateRecord", () => {
 
   return {
     // initialize,
-    category,
+    // category,
     pet,
     owner,
     updateRecordInfo,

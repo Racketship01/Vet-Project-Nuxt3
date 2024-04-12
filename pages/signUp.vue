@@ -1,22 +1,31 @@
 <template>
   <v-sheet
-    elevation="12"
+    style="
+      background: linear-gradient(
+        to left bottom,
+        rgba(224, 247, 250, 1),
+        rgba(241, 237, 254, 1)
+      );
+    "
+    class="log_sheet mx-auto"
+    elevation="14"
+    height="auto"
+    justify-center
     max-width="600"
-    rounded="lg"
-    class="pa-4 mx-auto ma-15"
   >
     <div>
-      <div>
-        <img :src="logo" class="vimglog" />
+      <div class="img-logC">
+        <img class="img-logi" :src="icon" />
       </div>
-
-      <h1 class="logh1">Sign Up</h1>
+      <div class="head_title">Sign Up</div>
 
       <!-- Email -->
       <v-form v-model="form" ref="resetForm" @submit.prevent="signUp">
         <v-text-field
+          class="text_field"
           :readonly="loading"
-          label="Enter Full Name"
+          label="User name"
+          color="teal-lighten-3"
           persistent-hint
           variant="outlined"
           v-model="username"
@@ -25,21 +34,22 @@
 
         <v-text-field
           :readonly="loading"
+          class="text_field"
           label="Your Email"
           persistent-hint
           variant="outlined"
-          v-model="email"
+          color="teal-lighten-3"
           :rules="emailRules"
         ></v-text-field>
 
         <!-- Password -->
         <v-text-field
           :readonly="loading"
-          class="vfield"
+          :rules="passwordSign"
           label="Enter Password"
           variant="outlined"
+          color="teal-lighten-3"
           v-model="password"
-          :rules="passwordSign"
           :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
           :type="visible ? 'text' : 'password'"
           @click:append-inner="visible = !visible"
@@ -49,7 +59,7 @@
 
         <!-- Button -->
         <v-row align="center" justify="center">
-          <v-col class="mx-auto mt-4" max-width="500">
+          <v-col class="mx-auto" max-width="500">
             <v-btn
               type="submit"
               :disabled="!form"
@@ -65,9 +75,9 @@
         </v-row>
       </v-form>
       <!-- register link -->
-      <div class="inktext" align="center">
+      <div class="link_text" align="center">
         <span>Already have an account?</span>
-        <NuxtLink class="n-link" to="/">Login Here</NuxtLink>
+        <NuxtLink class="page_link" to="/">Login Here</NuxtLink>
       </div>
     </div>
   </v-sheet>
@@ -84,7 +94,7 @@
 </template>
 
 <script setup lang="ts">
-import logo from "@/assets/images/vueh.png";
+import icon from "@/assets/images/Svueti.png";
 
 const form = ref(false);
 const username = ref("");

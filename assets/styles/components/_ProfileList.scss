@@ -1,48 +1,65 @@
 @use "../abstracts/" as *;
 
-.vcardsearch {
-  padding: 1rem !important;
-  margin-top: 10px;
+.vcard_search {
+  padding: size(16) !important;
+  margin-top: size(4);
+  text-align: left;
 }
 
-.vcardlist {
-  padding: 10px !important;
+.vcard_list {
+  padding: size(4) !important;
   height: 100%;
+  background: clr(accent, gradient1) !important;
 }
 
 .vcardivider {
-  margin-right: 50px;
+  margin-right: size(50);
   margin-top: -3px;
-  border-top-width: 2px !important;
+  border: size(0) solid clr(neutral, 400) !important;
+  border-top-width: size(1) !important;
 }
 
 .vlistem {
-  margin-bottom: 5px;
-  padding-top: 5px;
+  margin-bottom: size(7);
+  margin-top: size(4);
+  padding-top: size(7);
 }
+
+.vlist_cont {
+  margin-top: size(10);
+}
+
+// .vlistemcon {
+//   background-color: white;
+//   border-radius: 10px;
+//   padding-bottom: 25px;
+//   padding-top: 10px;
+// }
+
+// .vpagin {
+//   text-align: center !important;
+//   margin-top: size(50) !important;
+// }
 
 .listLink {
   text-decoration: none;
   color: black;
 }
 
-.item {
-  width: 350px;
-  margin: 0 auto 10px auto;
-  padding: 10px 20px;
-  color: white;
-  border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-}
-
-// .name {
-//   background-color: rgb(97, 62, 252);
-//   cursor: pointer;
+// .item {
+//   width: 350px;
+//   margin: 0 auto 10px auto;
+//   padding: 10px 20px;
+//   color: white;
+//   border-radius: 5px;
+//   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+//     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 // }
 
 .error {
-  background-color: tomato !important;
+  color: tomato !important;
+  text-align: left;
+  margin-left: size(12);
 }
 
 // PAGINATION
@@ -76,7 +93,7 @@
 
 .linkPagination {
   margin-left: 0.75rem;
-  margin-right: 0.75rem;
+  margin-right: size(10);
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 600;

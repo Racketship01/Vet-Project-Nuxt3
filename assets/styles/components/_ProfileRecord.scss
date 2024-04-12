@@ -1,33 +1,98 @@
 @use "../abstracts/" as *;
 
-.picover {
-  height: 8rem;
-  width: 100%;
+.img_card {
+  border-radius: unset !important;
+  box-shadow: unset !important;
+}
+.petname_hd {
+  font-size: size(12);
+  font-weight: $fw-7;
+  margin-left: size(4);
+  font-family: $ff-df;
 }
 
-.dpwrapper {
+.sub_txt,
+.med_Info {
+  margin-top: size(4);
+  margin-left: size(16);
+  font-size: size(6);
+  font-weight: $fw-6;
+}
+
+.btn_pdialog,
+.btn_pdialog2 {
+  display: grid;
+  margin-right: size(40);
+  margin-left: size(16);
+  margin-top: size(1);
+}
+
+.btn_pdialog2 {
+  margin-top: size(3);
+}
+
+.info_gap {
+  display: grid;
+  grid-template-columns: auto auto;
+  margin-left: size(5);
+  font-size: size(16);
+  font-family: $ff-df;
+  margin-top: size(4);
+}
+
+.p {
+  margin-bottom: size(3) !important;
+}
+
+.medialog {
+  font-size: size(10);
+  font-weight: $fw-6;
+  margin-top: size(4);
+  margin-left: size(4);
+}
+
+.remarks {
+  margin-left: size(16);
+  margin-right: size(20);
+  font-family: $ff-df;
+}
+
+.subp {
+  color: clr(link, link-2);
+}
+
+.btn_bck {
+  margin-left: size(7);
+  width: size(20%);
+}
+.btn_dlte {
+  margin-right: size(4);
+  width: size(20%);
+}
+
+.dp_wrapper {
   display: flex;
-  height: 130px;
-  width: 130px;
-  margin-left: 10px;
-  margin-top: -66px;
+  height: size(130);
+  width: size(130);
+  margin-left: size(4);
+  margin-top: size(66);
   position: relative;
 }
 
-.petdp {
-  border: 6px solid #fff;
-  border-radius: 10px;
+.pet_dp {
+  border: size(7) solid clr(neutral, 100);
+  border-radius: size(4);
   display: block;
 }
 
-.btnupload {
+.btn_upload {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: size(50%);
+  left: size(50%);
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   color: clr(link, link-2) !important;
-  size: 20% !important;
+  size: size(20%) !important;
 }
 
 .overlay {
@@ -38,123 +103,11 @@
   right: 0;
   opacity: 0;
   transition: 0.3s ease;
-  border-radius: 10px;
-  background-color: rgb(221, 221, 221);
-  background-color: rgba(221, 221, 221, 0.4);
+  border-radius: size(4);
+  background-color: clr(neutral, 200);
+  background-color: clr(neutral, 300);
 }
 
-.dpwrapper:hover .overlay {
+.dp_wrapper:hover .overlay {
   opacity: 1;
 }
-
-.headtitle {
-  display: flex;
-  justify-content: space-between;
-  margin-left: 25%;
-  margin-top: -10%;
-  height: 65px;
-}
-
-.head1 {
-  width: 65%;
-}
-
-.ptcheck {
-  margin-right: 15px;
-  width: 30%;
-
-  .vcheck1 {
-    margin-top: -10px;
-  }
-  .vcheck2 {
-    margin-top: -45px;
-  }
-}
-
-.head2 {
-  display: grid;
-  justify-content: center;
-  grid-template-columns: 1fr 1fr;
-  padding: 10px;
-  margin-top: 30px;
-  row-gap: 20px;
-}
-
-.head3 {
-  display: flex;
-  justify-content: space-between;
-  margin-right: 15px;
-}
-
-.pgap {
-  display: grid;
-  grid-template-columns: auto auto;
-}
-
-.head4 {
-  display: flex;
-  justify-content: space-between;
-  margin-right: 10px;
-  margin-top: 10px;
-  padding: 10px;
-}
-
-.head5 {
-  display: flex;
-  gap: 90px;
-}
-.actionbtn {
-  margin-top: -20px;
-}
-
-.btn {
-  display: flex;
-  justify-content: space-between;
-  margin-right: 10px;
-  margin-top: 10px;
-  padding: 10px;
-}
-
-// Table Container
-
-.tbdvder {
-  display: grid;
-  grid-template-columns: auto;
-  gap: 30px;
-}
-
-// .vBar {
-//   color: clr(primary, brown-1) !important;
-// }
-
-.tblebck {
-  background-color: clr(neutral, 500) !important;
-}
-
-// @media (max-width: 1600px) {
-//   .headtitle {
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     height: 65px;
-// }
-//  .head1 {
-//     margin-top: 10px;
-//     width: 38%;
-//     margin-left: 15px;
-//     font-size: small;
-//  }
-
-//  .ptcheck {
-//     width: auto;
-//     margin-top: 10px;
-//     display:flex;
-
-//   .vcheck1 {
-//     margin-top: 0px;
-//   }
-//   .vcheck2 {
-//     margin-top: 0px;
-//   }
-//  }
-// }

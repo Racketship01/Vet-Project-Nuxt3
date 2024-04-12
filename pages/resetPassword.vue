@@ -1,28 +1,40 @@
 <template>
   <v-sheet
-    elevation="12"
+    style="
+      background: linear-gradient(
+        to left bottom,
+        rgba(224, 247, 250, 1),
+        rgba(241, 237, 254, 1)
+      );
+    "
+    class="log_sheet mx-auto"
+    elevation="14"
+    height="auto"
+    justify-center
     max-width="600"
-    rounded="lg"
-    class="pa-4 mx-auto ma-15"
   >
     <div>
-      <v-img
-        class="mx-auto my-5"
-        max-width="125"
-        src="@/assets/images/vueti.png"
-      ></v-img>
+      <div class="logo_icon">
+        <div>
+          <img class="small_logo" cover :src="smallicon" />
+        </div>
+
+        <div class="btn_x">
+          <v-btn variant="text" icon="mdi-close"> </v-btn>
+        </div>
+      </div>
 
       <v-form v-model="form" ref="resetForm" @submit.prevent="resetPassword">
-        <h2 class="logh2">Forgot your password?</h2>
-        <p class="pagh">
-          Please enter your email address. You will receive a link to create a
-          new password via email.
+        <div class="title">Your new password</div>
+        <p class="Text">
+          Please enter email or new email address and new password.
         </p>
         <!-- Email -->
 
         <v-text-field
-          label="Enter email address"
-          persistent-hint
+          class="text_field"
+          label="Enter your email"
+          color="teal-lighten-3"
           variant="outlined"
           v-model="email"
           :rules="emailRules"
@@ -32,7 +44,7 @@
 
         <!-- Button -->
         <v-row align="center" justify="center">
-          <v-col class="mx-auto mt-3 mb-4" max-width="500">
+          <v-col class="mx-auto mb-4" max-width="500">
             <v-btn
               type="submit"
               :disabled="!form"
@@ -65,6 +77,8 @@
 </template>
 
 <script setup lang="ts">
+import smallicon from "@/assets/images/Svueti.png";
+
 const form = ref(false);
 const loading = ref(false);
 const email = ref("");

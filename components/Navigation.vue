@@ -1,18 +1,27 @@
 <template>
-  <div class="cover">
-    <v-app-bar class="nav1">
-      <template v-slot:prepend>
-        <img :src="imgLogo" class="logo" />
-      </template>
+  <div class="space_bar">
+    <v-toolbar
+      style="
+        background: linear-gradient(
+          to left bottom,
+          rgba(224, 247, 250, 1),
+          rgba(241, 237, 254, 1)
+        );
+      "
+      class="v_bar"
+      height="70"
+      prominent
+    >
+      <img :src="logo" cover class="Nicon_logo" />
 
-      <v-app-bar-title class="title">Vueti-Vet</v-app-bar-title>
+      <v-toolbar-title class="Logo_name">Vueti-Vet</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <!-- Sample user -->
 
-      <v-row class="rownav">
-        <v-menu class="temp" min-width="100px" rounded>
+      <v-btn class="avtr_icon" icon>
+        <v-menu rounded>
           <template v-slot:activator="{ props }">
             <v-btn icon v-bind="props">
               <v-avatar v-if="profile" size="large">
@@ -23,55 +32,49 @@
               </v-avatar>
             </v-btn>
           </template>
-          <v-card class="vcardnav">
+          <v-card class="v_card">
             <v-card-text>
               <div class="mx-auto text-center">
                 <v-avatar>
                   <img v-if="profile" :src="profile" />
                   <span v-else class="text-h6">{{ initials }}</span>
                 </v-avatar>
-                <h3 class="vspanav">{{ name }}</h3>
-                <p class="pnav">
+                <div class="title_text">{{ name }}</div>
+                <p class="sub_text">
                   {{ email }}
                 </p>
                 <v-divider class="my-3"></v-divider>
-                <v-btn block variant="text" @click="logout"> Logout </v-btn>
+                <v-btn
+                  block
+                  color="light-blue-lighten-1"
+                  variant="outlined"
+                  prepend-icon="i-heroicons-arrow-right-start-on-rectangle-16-solid"
+                  @click="logout"
+                >
+                  Logout
+                </v-btn>
               </div>
             </v-card-text>
           </v-card>
         </v-menu>
-      </v-row>
-    </v-app-bar>
+      </v-btn>
+    </v-toolbar>
   </div>
 </template>
 
 <script setup lang="ts">
-import logo from "@/assets/images/logo1.png";
-const imgLogo = logo;
-
-// const [firstName, lastName] = name.value.split(" ");
-// console.log(firstName, lastName);
-
-// const initials1 = () => {
-//   const combine = [
-//     firstName.slice(0, 1).toUpperCase(),
-//     lastName.slice(0, 1).toUpperCase(),
-//   ].join("");
-
-//   return combine;
-// };
+import logo from "@/assets/images/Svueti.png";
 
 const user = useSupabaseUser();
 const { auth } = useSupabaseClient();
 
 const name = computed(() => user.value?.user_metadata.full_name);
 const [firstName, lastName] = name.value.split(" ");
-//console.log(firstName, lastName);
+
 const initials = firstName.slice(0, 1) + lastName.slice(0, 1);
 
 const profile = computed(() => user.value?.user_metadata.avatar_url);
 const email = computed(() => user.value?.user_metadata.email);
-// console.log(email.value);
 
 const logout = async () => {
   const { error } = await auth.signOut();

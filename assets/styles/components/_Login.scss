@@ -1,74 +1,86 @@
-@use "../abstracts" as *;
+@use "../abstracts/" as *;
 
-.vsheetlog {
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-}
-
-.vimglog {
-  height: 100px;
-  align-items: flex-start;
+.log_sheet {
   display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  margin-top: 5% !important;
   margin: auto;
-  margin-top: -55px !important;
+  padding: size(16);
+  width: 100%;
+  border-radius: size(4) !important;
 }
 
-.logh1 {
-  font-family: unset;
-  text-align: center;
-  margin-bottom: 10px;
-  font-family: sans-serif;
-  font-size: 45px;
+.head_title {
+  font-size: size(50);
+  font-weight: $fw-7;
 }
-.htxt {
+
+.link1 {
+  justify-content: left;
+  display: grid;
+
+  .link2 {
+    margin-left: size(2);
+    text-decoration: none;
+    text-align: left !important;
+    color: clr(link, link-2);
+  }
+}
+
+.text_field {
+  margin-top: size(6);
+  margin-bottom: size(16);
+  text-align: left;
+}
+
+.high_text {
   text-align: center;
   color: clr(link, link-2);
-  font-size: 18px;
-  margin-top: 15px;
+  font-size: size(6);
+  margin-top: size(4);
+  font-weight: $fw-6;
 }
 
-.vcard1 {
-  height: 55px !important;
-  width: 155px;
+.ccc {
+  margin-top: size(16);
+  padding: 1px !important;
+  text-align: center;
+
+  .vcard {
+    height: size(17);
+    width: 100%;
+    margin-bottom: size(16);
+
+    .card_social {
+      font-size: size(5);
+      letter-spacing: size(0);
+      display: inline-block;
+      margin: size(4);
+    }
+  }
 }
 
-.captxt {
-  font-size: 15px !important;
-  font-weight: 400;
-  line-height: 1.25rem;
-  letter-spacing: 0.0333333333em !important;
-  font-family: "Roboto", sans-serif !important;
-  text-transform: none !important;
-  display: inline-block;
-  margin: 10px;
+.link_text {
+  font-size: size(16);
+  margin-bottom: size(16);
+  margin-top: size(4);
+
+  .page_link {
+    text-decoration: none;
+    color: clr(link, link-2);
+    margin-left: size(4);
+  }
 }
 
-.n-link {
-  text-decoration: none !important;
-  color: clr(link, link-1) !important;
-  margin-left: 10px;
-}
+.img-logC {
+  display: flex;
+  justify-content: center;
 
-.vfield {
-  margin-top: 15px;
-  margin-bottom: 10px;
-}
-
-.pad {
-  padding: 10px;
-}
-
-.inktext {
-  font-size: 15px;
-  margin-bottom: 15px;
-  margin-top: 10px;
-}
-
-.logtxtfld {
-  margin-bottom: 10px;
-}
-
-.vdiacard {
-  padding: 10px !important;
+  .img-logi {
+    height: size(50);
+    width: size(17);
+    margin-bottom: size(28);
+    margin-top: size(29);
+  }
 }

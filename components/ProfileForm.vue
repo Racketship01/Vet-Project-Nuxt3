@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <div class="pet">
-      <img class="formimg" :src="PetImg" />
+  <div class="card_container">
+    <div>
+      <img class="imgform_cover" cover :src="PetImg" />
     </div>
 
     <v-form v-model="form" class="form" ref="myForm">
@@ -9,6 +9,7 @@
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
+              class="text_err"
               v-model="pet.petName"
               :rules="petRule"
               label="Pet name"
@@ -21,6 +22,7 @@
 
           <v-col cols="12" md="6">
             <v-text-field
+              class="text_err"
               v-model="pet.breed"
               :rules="petRule"
               label="Breed"
@@ -33,6 +35,7 @@
 
           <v-col cols="12" md="6">
             <v-text-field
+              class="text_err"
               type="date"
               v-model="pet.birth"
               :rules="petRule"
@@ -44,6 +47,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-text-field
+              class="text_err"
               v-model.number="pet.petAge"
               :rules="petRule"
               label="Age"
@@ -53,6 +57,7 @@
           </v-col>
           <v-col cols="12" md="6">
             <v-select
+              class="text_err"
               v-model="pet.gender"
               :items="genderItems"
               :rules="[(v) => !!v || 'Item is required']"
@@ -63,6 +68,7 @@
 
           <v-col cols="12" md="6">
             <v-select
+              class="text_err"
               v-model="category.type"
               :items="categoryItems"
               :rules="[(v) => !!v || 'Item is required']"
@@ -75,13 +81,14 @@
 
       <!-- Owner----------------------------------------------------- -->
       <div class="pet">
-        <img class="formimg" :src="OwnerImg" />
+        <img class="imgform_cover" :src="OwnerImg" />
       </div>
 
       <v-container>
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field
+              class="text_err"
               v-model="owner.firstName"
               :rules="petRule"
               label="First name"
@@ -92,6 +99,7 @@
 
           <v-col cols="12" md="6">
             <v-text-field
+              class="text_err"
               v-model="owner.lastName"
               :rules="petRule"
               label="Last name"
@@ -102,6 +110,7 @@
 
           <v-col cols="12" md="6">
             <v-text-field
+              class="text_err"
               v-model.number="owner.ownerAge"
               :rules="petRule"
               label="Age"
@@ -112,6 +121,7 @@
 
           <v-col cols="12" md="6">
             <v-text-field
+              class="text_err"
               v-model.number="owner.contact"
               :rules="petRule"
               label="Contact number"
@@ -122,6 +132,7 @@
 
           <v-col>
             <v-text-field
+              class="text_err"
               v-model="owner.address"
               :rules="petRule"
               label="Address"

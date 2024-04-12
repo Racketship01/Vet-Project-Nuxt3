@@ -1,23 +1,40 @@
 <template>
   <v-sheet
-    elevation="12"
+    style="
+      background: linear-gradient(
+        to left bottom,
+        rgba(224, 247, 250, 1),
+        rgba(241, 237, 254, 1)
+      );
+    "
+    class="log_sheet mx-auto"
+    elevation="14"
+    height="auto"
+    justify-center
     max-width="600"
-    rounded="lg"
-    class="pa-4 mx-auto ma-15"
   >
     <div>
-      <v-img
-        class="mx-auto my-5"
-        max-width="125"
-        src="@/assets/images/vueti.png"
-      ></v-img>
+      <div class="logo_icon">
+        <div>
+          <img class="small_logo" cover :src="smallicon" />
+        </div>
+
+        <div class="btn_x">
+          <v-btn variant="text" icon="mdi-close"> </v-btn>
+        </div>
+      </div>
 
       <v-form v-model="form" ref="resetForm" @submit.prevent="updateUser">
-        <h2 class="logh2">Update new password</h2>
-        <p class="pagh">Please enter email address and new password.</p>
+        <div class="title">Forgot your password?</div>
+        <p class="Text">
+          Please enter your email address. You will receive a link to create a
+          new password via email.
+        </p>
         <!-- Email -->
 
         <v-text-field
+          class="text_field"
+          color="teal-lighten-3"
           label="Enter your email"
           persistent-hint
           variant="outlined"
@@ -27,7 +44,8 @@
 
         <!-- Password -->
         <v-text-field
-          class="vfield"
+          class="text_field"
+          color="teal-lighten-3"
           label="Enter your new password"
           variant="outlined"
           v-model="password"
@@ -74,6 +92,8 @@
 </template>
 
 <script setup lang="ts">
+import smallicon from "@/assets/images/Svueti.png";
+
 const form = ref(false);
 const loading = ref(false);
 const visible = ref(false);

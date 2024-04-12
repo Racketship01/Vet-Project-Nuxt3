@@ -1,9 +1,14 @@
-$gradient: linear-gradient(to right bottom, #f1ecfe, #ebfefd);
+$gradient: linear-gradient(to left bottom, #f1ecfe, #ebfefd);
+$gradient-1: linear-gradient(to left top, #f3efffd2, #ebfefddb);
+$gradient-2: linear-gradient(to top bottom, #f1ecfe, #ebfefd);
+$gradient-3: linear-gradient(to top left right, #faddff, #cce8ff);
+$gradient-4: linear-gradient(to left bottom, #e3f3fd, #f2e6f5);
 
 $colors: (
   neutral: (
     900: #212121,
     400: #5c5c5c,
+    300: rgba(221, 221, 221, 0.4),
     200: #f8f8f8,
     100: #ffffff,
     500: #f9f9f9fe,
@@ -20,12 +25,14 @@ $colors: (
     brown-2: #a68052,
     brown-3: #fff8f0,
   ),
-
   success: (
     100: #50af50,
   ),
-
   accent: (
     gradient: $gradient,
+    gradient1: $gradient-1,
+    gradient2: $gradient-2,
+    gradient3: $gradient-3,
+    gradient4: $gradient-4,
   ),
 );

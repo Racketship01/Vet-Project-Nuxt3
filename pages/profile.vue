@@ -1,13 +1,15 @@
 <template>
-  <v-sheet class="container" elevation="4" rounded>
+  <v-sheet class="container" elevation="14" rounded>
     <div class="navigation">
       <Navigation />
     </div>
 
     <div class="record">
       <div class="profileForm">
-        <!-- <ProfileForm /> -->
-        <primary-vax-table />
+        <ProfileForm />
+        <!-- <medical-hx-table /> -->
+
+        <!-- <annual-vax-table /> -->
       </div>
 
       <div class="profile">

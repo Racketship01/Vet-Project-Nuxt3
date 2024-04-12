@@ -1,32 +1,28 @@
 @use "../abstracts/" as *;
 
-.pet {
+.card_container {
   justify-content: center;
   text-align: center;
-  padding: 8px;
+  padding: size(7);
   width: 100%;
 }
 
-.formimg {
+.imgform_cover {
   text-align: center;
   width: 95%;
-  margin-top: 20px;
-  height: 80px;
-}
-.SpetInfo {
-  margin-bottom: -30px;
-  font-size: size(24);
-  font-family: monospace !important;
-  text-align: center !important;
+  margin-top: size(8);
+  height: size(22);
 }
 
 .form {
-  margin-top: 15px !important;
+  margin-top: size(16) !important;
 }
 
-.btnform {
-  margin-bottom: 10px;
+.btn_form {
+  margin-top: size(3);
+  margin-bottom: size(4);
 }
-.v-imgf {
-  margin-bottom: 10px;
+
+.text_err {
+  text-align: left;
 }

@@ -193,7 +193,7 @@ const close = () => {
   nextTick(() => {
     state.value = Object.assign({}, defaultItem.value);
     editedIndex.value = -1;
-    reloadNuxtApp();
+    // reloadNuxtApp();
   });
 };
 

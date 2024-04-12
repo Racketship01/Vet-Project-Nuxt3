@@ -1,14 +1,33 @@
 @use "../abstracts" as *;
 
-.logh2 {
-  margin-top: 3rem;
-  margin-bottom: 1.1rem;
-  text-align: center;
-  font-size: 30px;
-}
-
-.pagh {
-  margin-bottom: 2rem;
+.title {
+  margin-top: size(40);
+  margin-bottom: size(6);
   text-align: center;
   font-size: size(12);
+  font-weight: $fw-6;
+}
+
+.Text {
+  margin-bottom: size(32);
+  text-align: center;
+}
+
+.logo_icon {
+  display: flex;
+  justify-content: space-between;
+  color: clr(link, link-1);
+  width: auto;
+  height: size(20);
+
+  .small_logo {
+    width: size(40);
+    height: size(13);
+    margin-top: size(5);
+    margin-left: size(16);
+  }
+
+  .btn_x {
+    margin-top: size(4);
+  }
 }
