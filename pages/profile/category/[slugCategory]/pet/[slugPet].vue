@@ -8,15 +8,34 @@
 
     <v-col cols="12" md="3" sm="12">
       <div class="dp_wrapper">
-        <img cover class="pet_dp" :src="dp" />
+        <img cover class="pet_dp" :src="petAPI.uploadURL" />
         <div class="overlay">
           <v-btn
             :rules="rulesImage"
             accept="image/png, image/jpeg, image/bmp"
             class="btn_upload"
             icon="mdi-camera"
+            @click="state.dialogImg = true"
           >
           </v-btn>
+
+          <v-dialog v-model="state.dialogImg" max-width="290">
+            <v-card>
+              <v-card-title class="text-h5"> Choose Image </v-card-title>
+              <v-card-text>
+                <input type="file" @change="onChangeFile" />
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" @click="state.dialogImg = false">
+                  Cancel
+                </v-btn>
+                <v-btn color="green darken-1" @click="uploadImage">
+                  Upload
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
         </div>
       </div>
     </v-col>
@@ -280,7 +299,7 @@
       </div>
     </v-col>
 
-    <v-col cols="12">
+    <v-col cols="12" v-if="getPrimaryVax || getAnnualVax || getMedicalHx">
       <v-card variant="outlined" class="remarks" height="300">
         <v-card-item>
           <v-card-title> Remarks: </v-card-title>
@@ -320,6 +339,40 @@
             </v-card-text>
           </template>
         </v-virtual-scroll>
+
+        <!-- Scrolling -->
+      </v-card>
+    </v-col>
+
+    <v-col cols="12" v-else>
+      <v-card variant="outlined" class="remarks" height="300">
+        <v-card-item>
+          <v-card-title> Remarks: </v-card-title>
+          <v-card-subtitle> Medical History </v-card-subtitle>
+        </v-card-item>
+
+        <!-- Scrolling -->
+        <v-virtual-scroll :items="items" height="190">
+          <template v-slot:default="{}">
+            <v-card-text>
+              <p>Date: <span>NO DATA</span></p>
+              <p class="subp">Pet Primary Vaccination</p>
+              NO DATA
+              <p>To be Follow: <span>NO DATA</span></p>
+              <br />
+              <p>Date: <span>NO DATA</span></p>
+              <p class="subp">Annual Vaccination</p>
+              NO DATA
+              <p>To be Follow: <span>NO DATA</span></p>
+              <br />
+              <p>Date: <span>NO DATA</span></p>
+              <p class="subp">Medical Consultation</p>
+              NO DATA
+              <p>To be Follow: <span>NO DATA</span></p>
+            </v-card-text>
+          </template>
+        </v-virtual-scroll>
+
         <!-- Scrolling -->
       </v-card>
     </v-col>
@@ -386,8 +439,10 @@
 import cover from "@/assets/images/coverprof.jpg";
 import dp from "@/assets/images/corgi.jpeg";
 import type { QueryCategoryPet } from "~/types/queries";
+import type { iUpload } from "~/types/iUpload";
 import { rules } from "~/composables/rules";
 import { useUpdateRecord } from "~/stores/updateRecord";
+import { useUpdateUpload } from "~/stores/updateUpload";
 import { storeToRefs } from "pinia";
 
 definePageMeta({
@@ -398,6 +453,10 @@ definePageMeta({
 const store = useUpdateRecord();
 const { pet, owner } = storeToRefs(store);
 const { updateRecordInfo } = store;
+
+const storeImg = useUpdateUpload();
+const { uploadURL } = storeToRefs(storeImg);
+const { updateUpload } = storeImg;
 
 // REST APIs
 const route = useRoute();
@@ -427,6 +486,7 @@ onMounted(async () => {
     state.birth = petAPI.value.birth;
     state.petAge = petAPI.value.petAge;
     state.gender = petAPI.value.gender;
+    // state.imgURL = petAPI.value.uploadURL;
 
     //owner
     state.firstName = ownerAPI.value.firstName;
@@ -449,12 +509,16 @@ const state = reactive({
   dialogDelete: false,
   dialogMedical: false,
   openTable: false,
+  dialogImg: false,
 
   loadingEditInfo: false,
   loadingDel: false,
 
   password: "",
   showTable: false,
+
+  file: undefined,
+  imgURL: "",
 
   //pet
   breed: "",
@@ -550,5 +614,46 @@ const closeMedicalHistory = () => {
     state.password = "";
     reloadNuxtApp();
   });
+};
+
+const onChangeFile = (event: Event) => {
+  const file = event.target as HTMLInputElement;
+  state.file = file.files as any;
+};
+
+const uploadImage = async () => {
+  try {
+    if (!state.file) return;
+
+    const fileObj = state?.file[0];
+
+    const upload: iUpload = {
+      path: "profile",
+      name: fileObj?.name,
+      file: (await getBase64(fileObj)) as String, // <**=**
+      type: fileObj.type,
+    };
+
+    console.log("data from client", upload);
+
+    const { data, error } = await useFetch(
+      `/api/profile/category/${slugCategory}/pet/${slugPet}/uploadImage`,
+      {
+        headers: { "Content-type": "multipart/form-data" },
+        method: "POST",
+        body: upload,
+      }
+    );
+
+    console.log("data from server", data.value);
+    state.imgURL = `https://xnoymaqkppyjzdezajin.supabase.co/storage/v1/object/public/Pictures/profile/${upload.name}`;
+
+    uploadURL.value = state.imgURL;
+    updateUpload();
+    state.dialogImg = false;
+  } catch (err) {
+    console.log(err);
+    alert("error");
+  }
 };
 </script>

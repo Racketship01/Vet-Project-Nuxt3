@@ -21,6 +21,8 @@ async function seed() {
                   breed: "Aspin",
                   birth: "2023-01-07",
                   gender: "Female",
+                  uploadURL:
+                    "https://xnoymaqkppyjzdezajin.supabase.co/storage/v1/object/public/Pictures/profile/Logo-Vet.jpg",
                   owner: {
                     create: [
                       {

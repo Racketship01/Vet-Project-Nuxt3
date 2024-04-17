@@ -50,8 +50,10 @@ export default defineEventHandler(async (event) => {
         slugPet,
         petAge,
         breed,
-        birth,
+        birth: String(birth),
         gender,
+        uploadURL:
+          "https://xnoymaqkppyjzdezajin.supabase.co/storage/v1/object/public/Pictures/profile/Logo-Vet.jpg",
         Category: {
           connect: {
             id: category.id,

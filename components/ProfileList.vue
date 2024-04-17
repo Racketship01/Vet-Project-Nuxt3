@@ -31,7 +31,7 @@
               :key="index"
               :to="pet.path"
             >
-              <v-list-item :prepend-avatar="dp" :title="pet.petName">
+              <v-list-item :prepend-avatar="pet.uploadURL" :title="pet.petName">
                 <template v-slot:subtitle>
                   <span class="font-weight-bold">{{
                     category.petID + " " + "|" + pet.breed

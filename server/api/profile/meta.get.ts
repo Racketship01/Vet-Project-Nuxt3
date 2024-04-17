@@ -7,6 +7,7 @@ const petSelect = Prisma.validator<Prisma.PetArgs>()({
     petName: true,
     slugPet: true,
     breed: true,
+    uploadURL: true,
   },
 });
 

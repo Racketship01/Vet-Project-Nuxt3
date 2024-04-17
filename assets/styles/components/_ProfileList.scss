@@ -9,7 +9,8 @@
 .vcard_list {
   padding: size(4) !important;
   height: 100%;
-  background: clr(accent, gradient1) !important;
+  // background: clr(accent, gradient1) !important;
+  background: transparent !important;
 }
 
 .vcardivider {

@@ -26,7 +26,7 @@ export default defineNuxtConfig({
     "@nuxtjs/supabase",
     "nuxt-icon",
     "@pinia/nuxt",
-    "@nuxt/ui"
+    "@nuxt/ui",
   ],
   vite: {
     vue: {
