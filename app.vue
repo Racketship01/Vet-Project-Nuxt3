@@ -7,8 +7,8 @@
   </div>
 </template>
 
-<!-- <script setup lang="ts">
-definePageMeta({
-  key: (route: any) => route.fullPath,
-});
-</script> -->
+<script setup>
+// definePageMeta({
+//   key: (route: any) => route.fullPath,
+// });
+</script>

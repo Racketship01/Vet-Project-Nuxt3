@@ -186,6 +186,7 @@ const toggleComplete = (item) => {
   progress.value.id = +primaryID.value;
   progress.value.remarks = item.remarks;
   progressPrimary();
+  reloadNuxtApp();
 };
 
 const close = () => {
@@ -193,7 +194,7 @@ const close = () => {
   nextTick(() => {
     state.value = Object.assign({}, defaultItem.value);
     editedIndex.value = -1;
-    // reloadNuxtApp();
+    reloadNuxtApp();
   });
 };
 

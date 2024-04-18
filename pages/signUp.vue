@@ -34,6 +34,7 @@
 
         <v-text-field
           :readonly="loading"
+          v-model="email"
           class="text_field"
           label="Your Email"
           persistent-hint

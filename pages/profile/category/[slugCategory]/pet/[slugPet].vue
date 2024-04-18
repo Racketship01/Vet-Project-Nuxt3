@@ -651,6 +651,7 @@ const uploadImage = async () => {
     uploadURL.value = state.imgURL;
     updateUpload();
     state.dialogImg = false;
+    reloadNuxtApp();
   } catch (err) {
     console.log(err);
     alert("error");
