@@ -8,7 +8,6 @@
 
 .vcard_list {
   padding: size(4) !important;
-  height: 100%;
   // background: clr(accent, gradient1) !important;
   background: transparent !important;
 }
@@ -22,12 +21,19 @@
 
 .vlistem {
   margin-bottom: size(7);
-  margin-top: size(4);
+  margin-top: size(7);
   padding-top: size(7);
+}
+
+.v-list-item-title {
+  font-size: size(6) !important;
+  margin-bottom: size(2) !important;
+  font-weight: $fw-6 !important;
 }
 
 .vlist_cont {
   margin-top: size(10);
+  height: 690px !important;
 }
 
 // .vlistemcon {
@@ -44,7 +50,7 @@
 
 .listLink {
   text-decoration: none;
-  color: black;
+  color: clr(neutral, 900);
 }
 
 // .item {
@@ -58,18 +64,15 @@
 // }
 
 .error {
-  color: tomato !important;
+  color: clr(err, 300) !important;
   text-align: left;
   margin-left: size(12);
 }
 
 // PAGINATION
 .vpagin {
-  // text-align: center !important;
-  // margin-top: 50px !important;
-
-  margin-top: 2rem;
-  margin-left: auto;
+  margin-top: size(19);
+  margin-left: size(4);
   margin-right: auto;
 }
 

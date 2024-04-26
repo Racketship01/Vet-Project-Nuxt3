@@ -27,7 +27,8 @@
       <v-form v-model="form" ref="resetForm" @submit.prevent="resetPassword">
         <div class="title">Your new password</div>
         <p class="Text">
-          Please enter email or new email address and new password.
+          Please enter your email address. You will receive a link to create a
+          new password via email.
         </p>
         <!-- Email -->
 

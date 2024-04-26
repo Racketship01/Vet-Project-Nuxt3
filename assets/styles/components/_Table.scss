@@ -5,7 +5,7 @@
 }
 
 .headers {
-  font-weight: 300;
+  font-weight: $fw-3;
 }
 
 //CompleteButton.vue
@@ -22,4 +22,18 @@
 
 .hidden {
   visibility: hidden;
+}
+
+.newcrd_form {
+  width: size(120);
+  padding: size(10);
+}
+
+.vcard_title {
+  font-weight: $fw-5;
+  margin-top: size(4);
+
+  .span_title {
+    font-size: size(10);
+  }
 }

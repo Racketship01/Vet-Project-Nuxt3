@@ -16,9 +16,9 @@
               New Record
             </v-btn>
           </template>
-          <v-card>
-            <v-card-title>
-              <span class="text-h5">{{ formTitle }}</span>
+          <v-card class="newcrd_form">
+            <v-card-title class="vcard_title">
+              <span class="span_title">{{ formTitle }}</span>
             </v-card-title>
 
             <v-form>
@@ -194,7 +194,6 @@ const close = () => {
   nextTick(() => {
     state.value = Object.assign({}, defaultItem.value);
     editedIndex.value = -1;
-    reloadNuxtApp();
   });
 };
 

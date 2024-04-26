@@ -21,7 +21,7 @@
 
           <v-dialog v-model="state.dialogImg" max-width="290">
             <v-card>
-              <v-card-title class="text-h5"> Choose Image </v-card-title>
+              <v-card-title class="title_cardImg"> Choose Image </v-card-title>
               <v-card-text>
                 <input type="file" @change="onChangeFile" />
               </v-card-text>
@@ -75,6 +75,12 @@
 
                     <v-col cols="12" md="6">
                       <v-text-field
+                        v-model="state.petName"
+                        label="Pet name"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-text-field
                         v-model="state.breed"
                         label="Breed"
                       ></v-text-field>
@@ -98,6 +104,13 @@
                         v-model="state.gender"
                         :items="genderItems"
                         label="Gender"
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-select
+                        v-model="state.type"
+                        :items="categoryItems"
+                        label="Category"
                       ></v-select>
                     </v-col>
 
@@ -149,7 +162,7 @@
                 <v-btn
                   color="blue-darken-1"
                   variant="text"
-                  @click="state.dialogEdit = false"
+                  @click="closeEditInfo"
                 >
                   Close
                 </v-btn>
@@ -175,7 +188,7 @@
         <p class="p">Date of Birth:</p>
         <span>{{ petAPI.birth }}</span>
         <p class="p">Age:</p>
-        <span>{{ petAPI.petAge }}</span>
+        <span>{{ petAPI.petAge }} months </span>
         <p class="p">Gender:</p>
         <span>{{ petAPI.gender }}</span>
         <p class="p">Category:</p>
@@ -299,7 +312,7 @@
       </div>
     </v-col>
 
-    <v-col cols="12" v-if="getPrimaryVax || getAnnualVax || getMedicalHx">
+    <v-col cols="12">
       <v-card variant="outlined" class="remarks" height="300">
         <v-card-item>
           <v-card-title> Remarks: </v-card-title>
@@ -310,65 +323,45 @@
         <v-virtual-scroll :items="items" height="190">
           <template v-slot:default="{}">
             <v-card-text>
-              <p>
-                Date: <span>{{ getPrimaryVax.date }}</span>
-              </p>
-              <p class="subp">Pet Primary Vaccination</p>
-              {{ getPrimaryVax.description }}
-              <p>
-                To be Follow: <span>{{ getPrimaryVax.followUp }}</span>
-              </p>
-              <br />
-              <p>
-                Date: <span>{{ getAnnualVax.date }}</span>
-              </p>
-              <p class="subp">Annual Vaccination</p>
-              {{ getAnnualVax.description }}
-              <p>
-                To be Follow: <span>{{ getAnnualVax.followUp }}</span>
-              </p>
-              <br />
-              <p>
-                Date: <span>{{ getMedicalHx.date }}</span>
-              </p>
-              <p class="subp">Medical Consultation</p>
-              {{ getMedicalHx.description }}
-              <p>
-                To be Follow: <span>{{ getMedicalHx.followUp }}</span>
-              </p>
-            </v-card-text>
-          </template>
-        </v-virtual-scroll>
+              <div v-if="primary()">
+                <p class="p_text">
+                  Date: <span class="p_span">{{ getPrimaryVax.date }} </span>
+                </p>
+                <p class="subp">Pet Primary Vaccination</p>
+                {{ getPrimaryVax.description }}
+                <p class="p_text">
+                  To be Follow:
+                  <span class="p_span">{{ getPrimaryVax.followUp }}</span>
+                </p>
+              </div>
 
-        <!-- Scrolling -->
-      </v-card>
-    </v-col>
-
-    <v-col cols="12" v-else>
-      <v-card variant="outlined" class="remarks" height="300">
-        <v-card-item>
-          <v-card-title> Remarks: </v-card-title>
-          <v-card-subtitle> Medical History </v-card-subtitle>
-        </v-card-item>
-
-        <!-- Scrolling -->
-        <v-virtual-scroll :items="items" height="190">
-          <template v-slot:default="{}">
-            <v-card-text>
-              <p>Date: <span>NO DATA</span></p>
-              <p class="subp">Pet Primary Vaccination</p>
-              NO DATA
-              <p>To be Follow: <span>NO DATA</span></p>
               <br />
-              <p>Date: <span>NO DATA</span></p>
-              <p class="subp">Annual Vaccination</p>
-              NO DATA
-              <p>To be Follow: <span>NO DATA</span></p>
+
+              <div v-if="annual()">
+                <p class="p_text">
+                  Date: <span class="p_span">{{ getAnnualVax.date }} </span>
+                </p>
+                <p class="subp">Annual Vaccination</p>
+                {{ getAnnualVax.description }}
+                <p class="p_text">
+                  To be Follow:
+                  <span class="p_span">{{ getAnnualVax.followUp }}</span>
+                </p>
+              </div>
+
               <br />
-              <p>Date: <span>NO DATA</span></p>
-              <p class="subp">Medical Consultation</p>
-              NO DATA
-              <p>To be Follow: <span>NO DATA</span></p>
+
+              <div v-if="medical()">
+                <p class="p_text">
+                  Date: <span class="p_span">{{ getMedicalHx.date }} </span>
+                </p>
+                <p class="subp">Medical History</p>
+                {{ getMedicalHx.description }}
+                <p class="p_text">
+                  To be Follow:
+                  <span class="p_span">{{ getMedicalHx.followUp }}</span>
+                </p>
+              </div>
             </v-card-text>
           </template>
         </v-virtual-scroll>
@@ -392,43 +385,45 @@
 
           <v-spacer></v-spacer>
 
-          <v-dialog v-model="state.dialogDelete" max-width="500px">
-            <template v-slot:activator="{ props }">
-              <v-btn
-                class="btn_dlte"
-                size="large"
-                variant="flat"
-                color="blue-darken-1"
-                v-bind="props"
-              >
-                Delete
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title class="vcard_title">
-                Are you sure you want to delete this Profile?
-              </v-card-title>
-              <v-card-actions>
-                <v-spacer></v-spacer>
+          <v-form ref="validateDEL">
+            <v-dialog v-model="state.dialogDelete" max-width="500px">
+              <template v-slot:activator="{ props }">
                 <v-btn
+                  class="btn_dlte"
+                  size="large"
+                  variant="flat"
                   color="blue-darken-1"
-                  variant="text"
-                  @click="state.dialogDelete = false"
+                  v-bind="props"
                 >
-                  Cancel
+                  Delete
                 </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="vcard_title">
+                  Are you sure you want to delete this Profile?
+                </v-card-title>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="blue-darken-1"
+                    variant="text"
+                    @click="state.dialogDelete = false"
+                  >
+                    Cancel
+                  </v-btn>
 
-                <v-btn
-                  color="blue-darken-1"
-                  variant="text"
-                  @click="deleteRecord"
-                >
-                  Confirm
-                </v-btn>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+                  <v-btn
+                    color="blue-darken-1"
+                    variant="text"
+                    @click="deleteRecord"
+                  >
+                    Confirm
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-form>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -449,9 +444,9 @@ definePageMeta({
   middleware: ["auth"],
 });
 
-// store pinia state
+// STORE
 const store = useUpdateRecord();
-const { pet, owner } = storeToRefs(store);
+const { pet, owner, category } = storeToRefs(store);
 const { updateRecordInfo } = store;
 
 const storeImg = useUpdateUpload();
@@ -465,10 +460,10 @@ const meta = await useMeta();
 const categories = meta.value.categories;
 const petAPI = await usePet(slugCategory, slugPet);
 const ownerAPI = await useOwner(slugCategory, slugPet);
+
+const petID = route.params.slugCategory + "-" + route.params.slugPet;
 const categoryOutline = computed(() =>
-  categories.find(
-    (category: any) => category.slugCategory === route.params.slugCategory
-  )
+  categories.find((category: any) => category.petID === petID)
 );
 
 const primaryVaxAPI = await usePrimaryVax(slugCategory, slugPet);
@@ -482,11 +477,14 @@ const getMedicalHx = medicalHxAPI.value[0];
 onMounted(async () => {
   try {
     //pet
+    state.petName = petAPI.value.petName;
     state.breed = petAPI.value.breed;
     state.birth = petAPI.value.birth;
     state.petAge = petAPI.value.petAge;
     state.gender = petAPI.value.gender;
-    // state.imgURL = petAPI.value.uploadURL;
+
+    // //category
+    state.type = categoryOutline.value.type;
 
     //owner
     state.firstName = ownerAPI.value.firstName;
@@ -499,15 +497,16 @@ onMounted(async () => {
   }
 });
 
-// profile reactive state
+// LOCAL STATE
 const validate = ref();
+const validateDEL = ref();
 
 const state = reactive({
   visible: false,
   dialogEdit: false,
   dialogMed: false,
   dialogDelete: false,
-  dialogMedical: false,
+
   openTable: false,
   dialogImg: false,
 
@@ -521,10 +520,14 @@ const state = reactive({
   imgURL: "",
 
   //pet
+  petName: "",
   breed: "",
   birth: "",
   petAge: 0,
   gender: "",
+
+  //category
+  type: "",
 
   //owner
   firstName: "",
@@ -535,18 +538,22 @@ const state = reactive({
 });
 
 const genderItems = ["Female", "Male"];
-//const categoryItems = ["Avian", "Canine", "Feline", "Herd", "Piscine"];
+const categoryItems = ["Avian", "Canine", "Feline", "Herd", "Piscine"];
 const rulesImage = rules();
 const items = ref(Array.from({ length: 1 }, (k, v) => v + 1));
 
-// Method
+// METHOD
+// -------Update Pet Info
 const updateInfoSave = async () => {
   state.loadingEditInfo = true;
 
+  pet.value.petName = state.petName;
   pet.value.breed = state.breed;
   pet.value.birth = state.birth;
   pet.value.petAge = +state.petAge;
   pet.value.gender = state.gender;
+
+  category.value.type = state.type;
 
   owner.value.firstName = state.firstName;
   owner.value.lastName = state.lastName;
@@ -566,6 +573,7 @@ const updateInfoSave = async () => {
   reloadNuxtApp();
 };
 
+// -----------Delete Profile
 const deleteRecord = async () => {
   try {
     await $fetch(
@@ -575,12 +583,12 @@ const deleteRecord = async () => {
       }
     );
 
-    const { valid } = await validate.value.validate();
+    const { valid } = await validateDEL.value.validate();
     if (valid) {
-      alert("Deleting was successfull");
+      alert("Deleted successfully");
       state.loadingDel = false;
       // await refreshNuxtData();
-      navigateTo("/profile");
+      backBtn();
     }
   } catch (err) {
     console.log(err);
@@ -591,6 +599,7 @@ const backBtn = () => {
   navigateTo("/profile");
 };
 
+// --------Medical Password
 const medicalPassword = () => {
   if (state.password === "Star@1155") {
     state.openTable = true;
@@ -606,6 +615,7 @@ const cancelPassword = () => {
   });
 };
 
+// -------Close
 const closeMedicalHistory = () => {
   nextTick(() => {
     state.dialogMed = false;
@@ -616,6 +626,12 @@ const closeMedicalHistory = () => {
   });
 };
 
+const closeEditInfo = () => {
+  state.dialogEdit = false;
+  reloadNuxtApp();
+};
+
+// --------Upload Image
 const onChangeFile = (event: Event) => {
   const file = event.target as HTMLInputElement;
   state.file = file.files as any;
@@ -657,4 +673,26 @@ const uploadImage = async () => {
     alert("error");
   }
 };
+
+// -------REMARKS
+const primary = () => {
+  if (getPrimaryVax) {
+    return true;
+  } else return false;
+};
+//console.log(primary());
+
+const annual = () => {
+  if (getAnnualVax) {
+    return true;
+  } else return false;
+};
+//console.log(annual());
+
+const medical = () => {
+  if (getMedicalHx) {
+    return true;
+  } else return false;
+};
+//console.log(medical());
 </script>

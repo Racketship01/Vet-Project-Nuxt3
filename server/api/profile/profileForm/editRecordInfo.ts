@@ -13,16 +13,21 @@ export default defineEventHandler(async (event) => {
     const { slugCategory, slugPet } = event.context.params as QueryCategoryPet;
 
     const {
+      petName,
       petAge,
       breed,
       birth,
       gender,
+      type,
       firstName,
       lastName,
       ownerAge,
       contact,
       address,
     } = await readBody(event);
+
+    // const petAgeUpdate =
+    //   typeof petAge === "number" ? petAge : Number.parseInt(petAge);
 
     const pet = await prisma.pet.findFirst({
       where: {
@@ -33,18 +38,18 @@ export default defineEventHandler(async (event) => {
       },
     });
 
-    // const petIDSlug = slugCategory + "-" + slugPet;
-    // console.log(petIDSlug);
+    const petIDSlug = slugCategory + "-" + slugPet;
+    console.log(petIDSlug);
 
-    // const category = await prisma.category.findFirst({
-    //   where: {
-    //     slugCategory: slugCategory,
-    //     petID: petIDSlug,
-    //   },
-    //   include: {
-    //     pets: true,
-    //   },
-    // });
+    const category = await prisma.category.findFirst({
+      where: {
+        slugCategory: slugCategory,
+        petID: petIDSlug,
+      },
+      include: {
+        pets: true,
+      },
+    });
 
     const owner = await prisma.owner.findFirst({
       where: {
@@ -62,10 +67,21 @@ export default defineEventHandler(async (event) => {
         id: pet?.id,
       },
       data: {
+        petName,
         petAge,
         breed,
         birth,
         gender,
+        Category: {
+          update: {
+            where: {
+              id: category?.id,
+            },
+            data: {
+              type,
+            },
+          },
+        },
         owner: {
           update: {
             where: {
@@ -82,9 +98,17 @@ export default defineEventHandler(async (event) => {
         },
       },
       include: {
+        Category: true,
         owner: true,
       },
     });
+
+    if (!result) {
+      throw createError({
+        statusCode: 404,
+        message: "Record not found",
+      });
+    }
 
     return result;
   } catch (e) {

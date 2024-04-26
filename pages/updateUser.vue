@@ -27,8 +27,7 @@
       <v-form v-model="form" ref="resetForm" @submit.prevent="updateUser">
         <div class="title">Forgot your password?</div>
         <p class="Text">
-          Please enter your email address. You will receive a link to create a
-          new password via email.
+          Please enter email or new email address and new password.
         </p>
         <!-- Email -->
 
@@ -112,6 +111,7 @@ const updateUser = async () => {
   try {
     const { data, error } = await supabase.auth.updateUser({
       password: password.value,
+      // redirectTo: "http://localhost:3000",
     });
 
     if (error) throw error;
@@ -120,6 +120,7 @@ const updateUser = async () => {
       loading.value = false;
       resetForm.value.reset();
       msgShow.value = true;
+      navigateTo("http://localhost:3000/");
     }
   } catch (error) {
     console.error(error);

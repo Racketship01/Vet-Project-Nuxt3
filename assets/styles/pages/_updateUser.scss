@@ -31,3 +31,9 @@
     margin-top: size(4);
   }
 }
+
+.v-card-text {
+  font-size: size(30) !important;
+  font-weight: $fw-5 !important;
+  padding: size(6) !important;
+}

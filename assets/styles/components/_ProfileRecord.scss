@@ -57,8 +57,19 @@
   font-family: $ff-df;
 }
 
+.p_text {
+  font-size: size(5) !important;
+  color: clr(neutral, 400);
+}
+.p_span {
+  font-size: size(5) !important;
+  color: clr(neutral, 900);
+  font-weight: 600;
+}
+
 .subp {
   color: clr(link, link-2);
+  font-size: size(5);
 }
 
 .btn_bck {
@@ -93,6 +104,12 @@
   -ms-transform: translate(-50%, -50%);
   color: clr(link, link-2) !important;
   size: size(20%) !important;
+}
+
+.title_cardImg {
+  font-size: size(10);
+  font-weight: $fw-6;
+  margin-top: size(4);
 }
 
 .overlay {

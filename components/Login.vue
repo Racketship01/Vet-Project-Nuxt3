@@ -26,6 +26,7 @@
             class="text_field"
             v-model="email"
             :readonly="loading"
+            color="teal-lighten-3"
             label="Your Email"
             persistent-hint
             variant="outlined"
@@ -37,6 +38,7 @@
             v-model="password"
             :readonly="loading"
             class="text_field"
+            color="teal-lighten-3"
             label="Enter Password"
             variant="outlined"
             :rules="passwordLog"
@@ -79,7 +81,7 @@
         <!-- Auth Icon -->
         <UDivider
           label="OR"
-          :ui="{ label: 'text-sky-500 dark:text-primary-400' }"
+          :ui="{ label: 'text-sky-300 dark:text-blue-400' }"
         />
 
         <v-container class="ccc">
@@ -114,6 +116,7 @@
 
 <script setup lang="ts">
 import icon from "@/assets/images/Svueti.png";
+import auth from "~/middleware/auth";
 
 const form = ref(false);
 const email = ref("");
@@ -136,7 +139,12 @@ watchEffect(async () => {
       replace: true,
     });
   }
+  return navigateTo("/");
 });
+
+// definePageMeta({
+//   middleware: auth,
+// });
 
 // Email
 const loginWithEmail = async () => {
@@ -148,10 +156,11 @@ const loginWithEmail = async () => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email.value,
       password: password.value,
+      options: { redirectTo },
     });
     if (data) loading.value = true;
     if (error) throw error;
-    return redirectTo;
+    //return redirectTo;
   } catch (error) {
     console.error(error);
   }
@@ -163,10 +172,11 @@ const loginWithGoogle = async () => {
   try {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
+      options: { redirectTo },
     });
     if (error) throw error;
     loadingGoogle.value = true;
-    return redirectTo;
+    //return redirectTo;
   } catch (error) {
     console.error(error);
   }
@@ -178,10 +188,11 @@ const loginWithFacebook = async () => {
   try {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "facebook",
+      options: { redirectTo },
     });
     if (error) throw error;
     loadingFacebook.value = true;
-    return redirectTo;
+    // return redirectTo;
   } catch (error) {
     console.error(error);
   }

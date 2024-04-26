@@ -12,25 +12,23 @@ export default defineEventHandler(async (event) => {
     // Get the route params
     const { slugCategory, slugPet } = event.context.params as QueryCategoryPet;
 
-    const pet = await prisma.pet.findFirst({
+    const petIDSlug = slugCategory + "-" + slugPet;
+    console.log(petIDSlug);
+
+    const category = await prisma.category.findFirst({
       where: {
-        slugPet: slugPet,
-        Category: {
-          slugCategory: slugCategory,
-        },
+        slugCategory: slugCategory,
+        petID: petIDSlug,
+      },
+      include: {
+        pets: true,
       },
     });
 
-    // const result = await prisma.pet.delete({
-    //   where: {
-    //     id: pet?.id,
-    //   },
-    // });
-
     const [result] = await prisma.$transaction([
-      prisma.pet.delete({
+      prisma.category.delete({
         where: {
-          id: pet?.id,
+          id: category?.id,
         },
       }),
     ]);

@@ -1,15 +1,20 @@
 import { defineStore } from "pinia";
-import type { Pet, Owner } from "@/types/profile";
+import type { Pet, Owner, Category } from "@/types/profile";
 import type { QueryCategoryPet } from "~/types/queries";
 
 export const useUpdateRecord = defineStore("updateRecord", () => {
   const { slugCategory, slugPet } = useRoute().params as QueryCategoryPet;
 
   const pet = reactive<Pet>({
+    petName: "",
     petAge: undefined,
     breed: "",
     birth: "",
     gender: "",
+  });
+
+  const category = reactive<Category>({
+    type: "",
   });
 
   const owner = reactive<Owner>({
@@ -28,6 +33,7 @@ export const useUpdateRecord = defineStore("updateRecord", () => {
           method: "PUT",
           body: {
             ...pet,
+            ...category,
             ...owner,
           },
         }
@@ -40,6 +46,7 @@ export const useUpdateRecord = defineStore("updateRecord", () => {
   return {
     pet,
     owner,
+    category,
     updateRecordInfo,
   };
 });

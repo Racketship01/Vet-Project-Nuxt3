@@ -47,6 +47,7 @@
         <v-text-field
           :readonly="loading"
           :rules="passwordSign"
+          class="text_field"
           label="Enter Password"
           variant="outlined"
           color="teal-lighten-3"
@@ -85,6 +86,7 @@
 
   <OverlayMsg
     v-if="msgShow"
+    class="overlay_msg"
     :showMsg="msgShow"
     successMsg="Please check your email to confirm your account."
   >
